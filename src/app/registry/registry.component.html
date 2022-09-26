@@ -1,0 +1,59 @@
+<body>
+  <section class="component__registry">
+    <form
+      class="registry"
+      [formGroup]="registryForm"
+      (ngSubmit)="onSubmit(userEmail.value, userPassword.value)"
+    >
+      <h2 class="registry__title">Join us!</h2>
+      <div class="registry__insert">
+        <label for="email" class="registry__inserts__label">Email</label>
+        <input
+          type="email"
+          class="registry__inserts__input"
+          placeholder="Enter your email..."
+          id="email"
+          formControlName="useremail"
+          #userEmail
+        />
+        <span
+          *ngIf="
+            registryForm.get('useremail')?.invalid &&
+            registryForm.get('useremail')?.touched
+          "
+          class="registry__inserts__error"
+        >
+          Email not valid</span
+        >
+      </div>
+      <div class="registry__insert">
+        <label for="password" class="registry__inserts__label">Password</label>
+        <input
+          type="password"
+          class="registry__inserts__input"
+          placeholder="Enter your password..."
+          id="password"
+          formControlName="userpassword"
+          #userPassword
+        />
+        <span
+          *ngIf="
+            registryForm.get('userpassword')?.invalid &&
+            registryForm.get('userpassword')?.touched
+          "
+          class="registry__inserts__error"
+        >
+          Password not valid</span
+        >
+      </div>
+      <button
+        class="registry__btn"
+        type="submit"
+        [disabled]="registryForm.invalid"
+      >
+        Sign Up
+      </button>
+      <a class="registry__return" routerLink="../">Go back</a>
+    </form>
+  </section>
+</body>
