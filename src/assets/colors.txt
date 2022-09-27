@@ -1,0 +1,6 @@
+Blue light : #0072ff
+Blue mid : #0065e1
+Blue dark : #004dad
+Blue dark+ : #00306b
+
+White : #ebebeb

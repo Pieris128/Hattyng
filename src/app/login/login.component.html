@@ -1,11 +1,12 @@
 <body>
+  <img src="../../assets/hattyng-logo.png" alt="Hattyng logo" class="logo" />
   <section class="component-login">
     <form
       class="login"
       [formGroup]="loginForm"
       (ngSubmit)="onSubmit(emailInput.value, passwordInput.value)"
     >
-      <h2 class="login__title">Login Here</h2>
+      <h2 class="login__title">Hattyng</h2>
       <div class="login__inserts">
         <label class="login__inserts__label" for="email"> Email </label>
         <input
@@ -48,7 +49,7 @@
         Login
       </button>
       <div class="login__create">
-        <p class="login__create__text">You don't have an account?</p>
+        <p class="login__create__text">You don't have an account ?</p>
         <a class="login__create__link" routerLink="signup">Create One</a>
       </div>
     </form>
