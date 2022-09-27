@@ -17,14 +17,6 @@
           formControlName="useremail"
           #emailInput
         />
-        <span
-          class="login__inserts__error"
-          *ngIf="
-            loginForm.get('useremail')?.invalid &&
-            loginForm.get('useremail')?.touched
-          "
-          >Email not valid!</span
-        >
       </div>
       <div class="login__inserts">
         <label class="login__inserts__label" for="password"> Password </label>
@@ -36,14 +28,6 @@
           formControlName="userpassword"
           #passwordInput
         />
-        <span
-          class="login__inserts__error"
-          *ngIf="
-            loginForm.get('userpassword')?.invalid &&
-            loginForm.get('userpassword')?.touched
-          "
-          >Password not valid!</span
-        >
       </div>
       <button class="login__btn" type="submit" [disabled]="loginForm.invalid">
         Login

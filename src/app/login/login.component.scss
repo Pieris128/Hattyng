@@ -50,6 +50,7 @@ body {
     display: flex;
     justify-content: center;
     width: 100%;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.425);
   }
 
   &__inserts {
@@ -69,24 +70,26 @@ body {
       font-size: 18px;
       padding: 8px 0 8px 8px;
       border: none;
-      background-color: #ffffff6c;
+      background-color: transparent;
+      border-bottom: 1px solid #add2ff7e;
+      box-shadow: 0 2px 4px #add2ff7e;
       backdrop-filter: blur(8px);
       color: #ffffffde;
 
       &::placeholder {
-        color: #ffffffb7;
+        color: #ffffff9f;
       }
 
       &:focus {
-        border: none;
         outline: none;
+        border-bottom: 1px solid #add2ff7e;
       }
     }
 
     &__error {
       font-size: 16px;
       font-weight: normal;
-      color: #ff6262;
+      color: #ff4646;
       margin-top: 4px;
     }
   }
@@ -98,7 +101,9 @@ body {
     font-weight: bold;
     border: none;
     outline: none;
-    background-color: #004ead71;
+    letter-spacing: 1.2px;
+    background-color: #004ead;
+    box-shadow: 0 2px 4px #002c618a;
     color: #ffffffde;
     text-transform: uppercase;
     cursor: pointer;
@@ -162,18 +167,42 @@ body {
 
 @keyframes logo {
   0% {
-    transform: scale(1.8);
+    transform: scale(0);
     opacity: 0;
     filter: blur(5px);
   }
   50% {
     opacity: 0.5;
-    transform: scale(1.4);
+    transform: scale(0.5);
     filter: blur(5px);
   }
   100% {
     transform: scale(1);
     opacity: 1;
     filter: blur(0px);
+  }
+}
+
+input.ng-invalid.ng-touched {
+  border-bottom: 1px solid #e027277e;
+  box-shadow: 0 2px 4px #e027277e;
+  animation: errorInput 0.325s linear 1 forwards;
+}
+
+@keyframes errorInput {
+  0% {
+    transform: translateX(-12px);
+  }
+  25% {
+    transform: translateX(12px);
+  }
+  50% {
+    transform: translateX(-12px);
+  }
+  75% {
+    transform: translateX(12px);
+  }
+  100% {
+    transform: translateX(0px);
   }
 }

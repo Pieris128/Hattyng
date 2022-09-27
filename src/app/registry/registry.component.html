@@ -17,15 +17,6 @@
           formControlName="useremail"
           #userEmail
         />
-        <span
-          *ngIf="
-            registryForm.get('useremail')?.invalid &&
-            registryForm.get('useremail')?.touched
-          "
-          class="registry__inserts__error"
-        >
-          Email not valid</span
-        >
       </div>
       <div class="registry__inserts">
         <label for="password" class="registry__inserts__label">Password</label>
@@ -37,15 +28,6 @@
           formControlName="userpassword"
           #userPassword
         />
-        <span
-          *ngIf="
-            registryForm.get('userpassword')?.invalid &&
-            registryForm.get('userpassword')?.touched
-          "
-          class="registry__inserts__error"
-        >
-          Password not valid</span
-        >
       </div>
       <button
         class="registry__btn"
