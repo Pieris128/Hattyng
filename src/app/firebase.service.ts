@@ -6,7 +6,12 @@ import {
   createUserWithEmailAndPassword,
   Auth,
   signInWithEmailAndPassword,
+  onAuthStateChanged,
+  NextOrObserver,
+  setPersistence,
+  browserSessionPersistence,
 } from 'firebase/auth';
+import { Router } from '@angular/router';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDMqCr1TXMPGCFFTsWfi0haY6jjPLDhuY0',
@@ -23,11 +28,28 @@ export class Firebase {
   app: FirebaseApp;
   database: Database;
   auth: Auth;
+  authState: NextOrObserver<string>;
 
-  constructor() {
+  constructor(private router: Router) {
     this.app = initializeApp(firebaseConfig);
     this.database = getDatabase(this.app);
     this.auth = getAuth();
+    this.authState = onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        console.log(uid);
+        if (router.url === '') {
+          this.router.navigate(['chatroom/']);
+        }
+        // ...
+      } else {
+        // User is signed out
+        // ...
+        console.log('Is not auth!');
+      }
+    });
   }
 
   //////////////////////////////////////////////////////////////
@@ -35,19 +57,20 @@ export class Firebase {
 
   writeUserData(
     userId: string,
+    email: string,
     name: string,
-    password: string,
     imageUrl?: string
   ) {
-    set(ref(this.database, 'users/' + userId), {
+    set(ref(this.database, 'users/' + name), {
       username: name,
-      password: password,
       profile_picture: imageUrl || null,
+      email: email,
+      userId: userId,
     });
   }
 
-  readUserData(userId: string) {
-    get(child(ref(this.database), `users/${userId}`))
+  readUserData(name: string) {
+    get(child(ref(this.database), `users/${name}`))
       .then((snapshot) => {
         if (snapshot.exists()) {
           console.log(snapshot.val());
@@ -66,6 +89,9 @@ export class Firebase {
   /* AUTH STUFF */
   async createUser(email: string, password: string) {
     let state = false;
+
+    await setPersistence(this.auth, browserSessionPersistence);
+
     await createUserWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         // Signed in
@@ -84,6 +110,8 @@ export class Firebase {
 
   async logInUser(email: string, password: string) {
     let state = false;
+
+    await setPersistence(this.auth, browserSessionPersistence);
     await signInWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         // Signed in

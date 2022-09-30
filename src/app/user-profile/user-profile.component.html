@@ -1,0 +1,141 @@
+<body>
+  <section class="settings">
+    <div class="settings__left">Here goes the canvas!</div>
+    <div class="settings__right">
+      <form class="settings__right__form" [formGroup]="profileForm">
+        <h2 class="settings__right__form__header">Set up your profile</h2>
+        <div class="settings__right__form__group">
+          <label for="username" class="settings__right__form__group__label"
+            >Username</label
+          >
+          <input
+            type="text"
+            id="username"
+            placeholder="Enter your username..."
+            class="settings__right__form__group__input"
+            formControlName="username"
+            autocompleteOff
+          />
+        </div>
+        <div class="settings__right__form__group">
+          <label for="description" class="settings__right__form__group__label"
+            >Description</label
+          >
+          <textarea
+            type="text"
+            id="description"
+            placeholder="Enter your description..."
+            class="settings__right__form__group__input textareaInput"
+            formControlName="description"
+          ></textarea>
+        </div>
+        <div class="settings__right__form__radiogroup">
+          <div class="settings__right__form__radiogroup__imgs">
+            <div class="settings__right__form__radiogroup__imgs__crew">
+              <input
+                type="radio"
+                id="photo"
+                class="settings__right__form__radiogroup__imgs__crew__pick"
+                formControlName="pickOne"
+                #pickOne
+              />
+              <img
+                src="../../assets/example-profile.png"
+                alt="An expample photo"
+                class="settings__right__form__radiogroup__imgs__crew__photo"
+                #imgOne
+                (click)="listenChecks(pickOne)"
+              />
+            </div>
+            <div class="settings__right__form__radiogroup__imgs__crew">
+              <input
+                type="radio"
+                id="photo"
+                class="settings__right__form__radiogroup__imgs__crew__pick"
+                formControlName="pickTwo"
+                #pickTwo
+              />
+              <img
+                src="../../assets/example-profile.png"
+                alt="An expample photo"
+                class="settings__right__form__radiogroup__imgs__crew__photo"
+                #imgTwo
+                (click)="listenChecks(pickTwo)"
+              />
+            </div>
+            <div class="settings__right__form__radiogroup__imgs__crew">
+              <input
+                type="radio"
+                id="photo"
+                class="settings__right__form__radiogroup__imgs__crew__pick"
+                formControlName="pickThree"
+                #pickThree
+              />
+              <img
+                src="../../assets/example-profile.png"
+                alt="An expample photo"
+                class="settings__right__form__radiogroup__imgs__crew__photo"
+                #imgThree
+                (click)="listenChecks(pickThree)"
+              />
+            </div>
+
+            <div class="settings__right__form__radiogroup__imgs__crew">
+              <input
+                type="radio"
+                id="photo"
+                class="settings__right__form__radiogroup__imgs__crew__pick"
+                formControlName="pickFour"
+                #pickFour
+              />
+              <img
+                src="../../assets/example-profile.png"
+                alt="An expample photo"
+                class="settings__right__form__radiogroup__imgs__crew__photo"
+                #imgFour
+                (click)="listenChecks(pickFour)"
+              />
+            </div>
+
+            <div class="settings__right__form__radiogroup__imgs__crew">
+              <input
+                type="radio"
+                id="photo"
+                class="settings__right__form__radiogroup__imgs__crew__pick"
+                formControlName="pickFive"
+                #pickFive
+              />
+              <img
+                src="../../assets/example-profile.png"
+                alt="An expample photo"
+                class="settings__right__form__radiogroup__imgs__crew__photo"
+                #imgFive
+                (click)="listenChecks(pickFive)"
+              />
+            </div>
+
+            <div class="settings__right__form__radiogroup__imgs__crew">
+              <input
+                type="radio"
+                id="photo"
+                class="settings__right__form__radiogroup__imgs__crew__pick"
+                formControlName="pickSix"
+                #pickSix
+              />
+              <img
+                src="../../assets/example-profile.png"
+                alt="An expample photo"
+                class="settings__right__form__radiogroup__imgs__crew__photo"
+                #imgSix
+                (click)="listenChecks(pickSix)"
+              />
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="settings__right__form__button">
+          Submit
+        </button>
+      </form>
+    </div>
+  </section>
+</body>

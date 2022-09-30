@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     if (!this.logged) {
       return;
     } else {
-      this.router.navigate(['roomlist/:nickname']);
+      this.router.navigate(['chatroom/']);
     }
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Firebase } from '../firebase.service';
 
@@ -13,7 +13,11 @@ export class RegistryComponent implements OnInit {
   registryForm!: FormGroup;
   logged: boolean = false;
 
-  constructor(private firebase: Firebase, private router: Router) {}
+  constructor(
+    private firebase: Firebase,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.registryForm = new FormGroup({
@@ -37,7 +41,7 @@ export class RegistryComponent implements OnInit {
     if (!this.logged) {
       return;
     } else {
-      this.router.navigate(['roomlist/:nickname']);
+      this.router.navigate(['set-profile'], { relativeTo: this.route });
     }
   }
 }
