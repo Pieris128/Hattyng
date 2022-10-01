@@ -10,6 +10,7 @@ import {
   NextOrObserver,
   setPersistence,
   browserSessionPersistence,
+  updateProfile,
 } from 'firebase/auth';
 import { Router } from '@angular/router';
 
@@ -29,6 +30,7 @@ export class Firebase {
   database: Database;
   auth: Auth;
   authState: NextOrObserver<string>;
+  static setProfileAuth: any;
 
   constructor(private router: Router) {
     this.app = initializeApp(firebaseConfig);
@@ -54,39 +56,38 @@ export class Firebase {
 
   //////////////////////////////////////////////////////////////
   /* DATABASE STUFF */
-
-  writeUserData(
-    userId: string,
-    email: string,
-    name: string,
-    imageUrl?: string
-  ) {
-    set(ref(this.database, 'users/' + name), {
-      username: name,
+  //Write functionallity
+  writeUserData(username: string, description: string, imageUrl?: string) {
+    set(ref(this.database, 'users/' + username), {
+      username: username,
       profile_picture: imageUrl || null,
-      email: email,
-      userId: userId,
+      description: description,
     });
   }
+  //Check if another username exists in Set Profile.
+  async readUserData(name: string) {
+    let canUse: boolean = false;
 
-  readUserData(name: string) {
-    get(child(ref(this.database), `users/${name}`))
+    await get(child(ref(this.database), `users/${name}`))
       .then((snapshot) => {
         if (snapshot.exists()) {
-          console.log(snapshot.val());
+          canUse = true;
           return true;
         } else {
-          console.log('No data available');
+          canUse = false;
           return false;
         }
       })
       .catch((error) => {
         console.error(error);
       });
+
+    return canUse;
   }
 
   /////////////////////////////////////////////////
   /* AUTH STUFF */
+  //Sign Up Functionality
   async createUser(email: string, password: string) {
     let state = false;
 
@@ -107,7 +108,7 @@ export class Firebase {
       });
     return state;
   }
-
+  //Login Functionality
   async logInUser(email: string, password: string) {
     let state = false;
 
@@ -124,5 +125,18 @@ export class Firebase {
         const errorMessage = error.message;
       });
     return state;
+  }
+
+  //Set User Auth Properties Functionality
+  setProfileAuth(username: string) {
+    if (!this.auth.currentUser) {
+      return;
+    }
+
+    updateProfile(this.auth.currentUser, {
+      displayName: username,
+    }).catch((error) => {
+      console.error(error.message);
+    });
   }
 }

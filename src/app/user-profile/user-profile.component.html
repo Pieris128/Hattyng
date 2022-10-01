@@ -2,7 +2,11 @@
   <section class="settings">
     <div class="settings__left">Here goes the canvas!</div>
     <div class="settings__right">
-      <form class="settings__right__form" [formGroup]="profileForm">
+      <form
+        class="settings__right__form"
+        [formGroup]="profileForm"
+        (ngSubmit)="onSubmit(username.value, description.value)"
+      >
         <h2 class="settings__right__form__header">Set up your profile</h2>
         <div class="settings__right__form__group">
           <label for="username" class="settings__right__form__group__label"
@@ -15,7 +19,11 @@
             class="settings__right__form__group__input"
             formControlName="username"
             autocompleteOff
+            #username
           />
+          <span *ngIf="userExists" class="settings__right__form__group__error"
+            >Username already exists!</span
+          >
         </div>
         <div class="settings__right__form__group">
           <label for="description" class="settings__right__form__group__label"
@@ -27,6 +35,7 @@
             placeholder="Enter your description..."
             class="settings__right__form__group__input textareaInput"
             formControlName="description"
+            #description
           ></textarea>
         </div>
         <div class="settings__right__form__radiogroup">
@@ -34,13 +43,13 @@
             <div class="settings__right__form__radiogroup__imgs__crew">
               <input
                 type="radio"
-                id="photo"
+                id="One"
                 class="settings__right__form__radiogroup__imgs__crew__pick"
                 formControlName="pickOne"
                 #pickOne
               />
               <img
-                src="../../assets/example-profile.png"
+                src="../../assets/profile-imgs/profileOne.png"
                 alt="An expample photo"
                 class="settings__right__form__radiogroup__imgs__crew__photo"
                 #imgOne
@@ -50,13 +59,13 @@
             <div class="settings__right__form__radiogroup__imgs__crew">
               <input
                 type="radio"
-                id="photo"
+                id="Two"
                 class="settings__right__form__radiogroup__imgs__crew__pick"
                 formControlName="pickTwo"
                 #pickTwo
               />
               <img
-                src="../../assets/example-profile.png"
+                src="../../assets/profile-imgs/profileTwo.png"
                 alt="An expample photo"
                 class="settings__right__form__radiogroup__imgs__crew__photo"
                 #imgTwo
@@ -66,13 +75,13 @@
             <div class="settings__right__form__radiogroup__imgs__crew">
               <input
                 type="radio"
-                id="photo"
+                id="Three"
                 class="settings__right__form__radiogroup__imgs__crew__pick"
                 formControlName="pickThree"
                 #pickThree
               />
               <img
-                src="../../assets/example-profile.png"
+                src="../../assets/profile-imgs/profileThree.png"
                 alt="An expample photo"
                 class="settings__right__form__radiogroup__imgs__crew__photo"
                 #imgThree
@@ -83,13 +92,13 @@
             <div class="settings__right__form__radiogroup__imgs__crew">
               <input
                 type="radio"
-                id="photo"
+                id="Four"
                 class="settings__right__form__radiogroup__imgs__crew__pick"
                 formControlName="pickFour"
                 #pickFour
               />
               <img
-                src="../../assets/example-profile.png"
+                src="../../assets/profile-imgs/profileFour.png"
                 alt="An expample photo"
                 class="settings__right__form__radiogroup__imgs__crew__photo"
                 #imgFour
@@ -100,13 +109,13 @@
             <div class="settings__right__form__radiogroup__imgs__crew">
               <input
                 type="radio"
-                id="photo"
+                id="Five"
                 class="settings__right__form__radiogroup__imgs__crew__pick"
                 formControlName="pickFive"
                 #pickFive
               />
               <img
-                src="../../assets/example-profile.png"
+                src="../../assets/profile-imgs/profileFive.png"
                 alt="An expample photo"
                 class="settings__right__form__radiogroup__imgs__crew__photo"
                 #imgFive
@@ -117,13 +126,13 @@
             <div class="settings__right__form__radiogroup__imgs__crew">
               <input
                 type="radio"
-                id="photo"
+                id="Six"
                 class="settings__right__form__radiogroup__imgs__crew__pick"
                 formControlName="pickSix"
                 #pickSix
               />
               <img
-                src="../../assets/example-profile.png"
+                src="../../assets/profile-imgs/profileSix.png"
                 alt="An expample photo"
                 class="settings__right__form__radiogroup__imgs__crew__photo"
                 #imgSix
@@ -132,7 +141,11 @@
             </div>
           </div>
         </div>
-        <button type="submit" class="settings__right__form__button">
+        <button
+          type="submit"
+          class="settings__right__form__button"
+          [disabled]="profileForm.invalid"
+        >
           Submit
         </button>
       </form>

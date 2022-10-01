@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Firebase } from '../firebase.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -11,7 +13,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
 
   checkBoxes!: NodeList;
 
-  constructor() {}
+  imgSelected: string = 'ONE';
+
+  userExists = false;
+
+  constructor(private firebase: Firebase, private router: Router) {}
 
   ngOnInit(): void {
     this.profileForm = new FormGroup({
@@ -42,9 +48,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   }
 
   listenChecks(whichCheck: HTMLInputElement) {
-    console.log('Called');
     whichCheck.checked = true;
-    console.log(whichCheck.checked);
     this.checkBoxes.forEach((input) => {
       let box = input as HTMLInputElement;
 
@@ -52,5 +56,19 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
         box.checked = false;
       }
     });
+    let selection = whichCheck.id.toUpperCase();
+    this.imgSelected = selection;
+  }
+
+  async onSubmit(username: string, description: string) {
+    let canUse = await this.firebase.readUserData(username);
+    if (canUse) {
+      this.userExists = true;
+      return;
+    } else {
+      this.firebase.setProfileAuth(username);
+      this.firebase.writeUserData(username, description, this.imgSelected);
+      this.router.navigate(['home']);
+    }
   }
 }
