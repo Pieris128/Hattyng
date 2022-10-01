@@ -7,10 +7,46 @@
         class="home__nav__logo"
       />
       <div class="home__nav__links">
-        <h2 class="home__nav__links__home">Home</h2>
-        <h2 class="home__nav__links__chats">Chatrooms</h2>
-        <h2 class="home__nav__links__profile">Profile</h2>
+        <h2
+          class="home__nav__links__home active-link"
+          (click)="linkClicked(homeLink.innerHTML)"
+          #homeLink
+        >
+          Home
+        </h2>
+        <h2
+          class="home__nav__links__chats"
+          (click)="linkClicked(roomLink.innerHTML)"
+          #roomLink
+        >
+          Rooms
+        </h2>
+        <h2
+          class="home__nav__links__profile"
+          (click)="linkClicked(profileLink.innerHTML)"
+          #profileLink
+        >
+          Profile
+        </h2>
       </div>
     </nav>
+
+    <section class="home__main" *ngIf="displayHome">Home</section>
+
+    <section class="home__rooms" *ngIf="displayRooms">Rooms</section>
+
+    <section class="home__profile" *ngIf="displayProfile">
+      <div class="home__profile__main">
+        <img
+          src="../../assets/profile-imgs/profileOne.png"
+          alt="Profile photo"
+          class="home__profile__main__photo"
+        />
+        <div class="home__profile__main__text">
+          <h2 class="home__profile__main__text__name">Username</h2>
+          <p class="home__profile__main__text__description">Description</p>
+        </div>
+      </div>
+    </section>
   </section>
 </body>

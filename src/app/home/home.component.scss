@@ -17,7 +17,10 @@ body {
   backdrop-filter: blur(8px);
   border-radius: 12px;
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 200px 1fr;
+  justify-items: center;
+  align-items: center;
+  overflow: hidden;
 
   &__nav {
     grid-column: 1 / 2;
@@ -27,9 +30,81 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.05);
 
     &__logo {
-      width: 64px;
+      width: 96px;
+      padding: 24px 0 0 0;
     }
+
+    &__links {
+      height: 200px;
+      width: 100%;
+      text-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      font-size: 12px;
+
+      &__home,
+      &__chats,
+      &__profile {
+        cursor: pointer;
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &__profile {
+    grid-column: 2 / 3;
+    height: 70%;
+    width: 80%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-top: 1px solid #add2ff7e;
+    border-bottom: 1px solid #add2ff7e;
+    border-radius: 12px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+
+    &__main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+
+      &__photo {
+        width: 64px;
+        margin-right: 8px;
+      }
+
+      &__text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 8px;
+      }
+    }
+  }
+}
+
+.active-link {
+  opacity: 1;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }

@@ -61,7 +61,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   }
 
   async onSubmit(username: string, description: string) {
-    let canUse = await this.firebase.readUserData(username);
+    let canUse = await this.firebase.checkUserData(username);
     if (canUse) {
       this.userExists = true;
       return;
