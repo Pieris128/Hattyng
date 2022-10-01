@@ -85,7 +85,11 @@ export class Firebase {
   }
   //Display user data in profile section!
   async readUserData(name: string | null) {
-    let userData = {};
+    let userData = {
+      username: '',
+      description: '',
+      profile_picture: '',
+    };
 
     await get(child(ref(this.database), `users/${name}`))
       .then((snapshot) => {
@@ -163,7 +167,6 @@ export class Firebase {
       let name = currentUser.displayName;
       return name;
     } else {
-      this.router.navigate(['login']);
       return null;
     }
   }

@@ -38,15 +38,15 @@
     <section class="home__profile" *ngIf="displayProfile">
       <div class="home__profile__main">
         <img
-          src="../../assets/profile-imgs/profileOne.png"
+          src="../../assets/profile-imgs/{{ userImgSrc }}.png"
           alt="Profile photo"
           class="home__profile__main__photo"
         />
-        <div class="home__profile__main__text">
-          <h2 class="home__profile__main__text__name">Username</h2>
-          <p class="home__profile__main__text__description">Description</p>
-        </div>
+        <h2 class="home__profile__main__name">{{ userName }}</h2>
       </div>
+      <p class="home__profile__description">
+        {{ userDesc }}
+      </p>
     </section>
   </section>
 </body>

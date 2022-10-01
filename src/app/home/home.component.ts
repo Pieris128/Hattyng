@@ -16,7 +16,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
   displayProfile: boolean = false;
 
   dBUser!: string | null;
-  userData: {} = {};
+
+  userData!: {
+    username: string;
+    description: string;
+    profile_picture: string;
+  };
+  userName: string = '';
+  userDesc: string = '';
+  userImgNum: string = '';
+  userImgSrc!: string;
 
   constructor(private firebase: Firebase) {}
 
@@ -26,7 +35,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.linkHome = document.querySelector('.home__nav__links__home')!;
     this.linkRoom = document.querySelector('.home__nav__links__chats')!;
     this.linkProfile = document.querySelector('.home__nav__links__profile')!;
-    this.dBUser = this.firebase.getUser();
     this.setUserData();
   }
 
@@ -56,8 +64,40 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   }
 
+  //Profile functionality!
   async setUserData() {
+    await this.getUserName();
     this.userData = await this.firebase.readUserData(this.dBUser);
-    //console.log(this.userData);
+    console.log(this.userData);
+    this.userName = this.userData.username;
+    this.userDesc = this.userData.description;
+    this.userImgNum = this.userData.profile_picture;
+
+    switch (this.userImgNum) {
+      case 'ONE':
+        this.userImgSrc = 'profileOne';
+        break;
+      case 'TWO':
+        this.userImgSrc = 'profileTwo';
+        break;
+      case 'THREE':
+        this.userImgSrc = 'profileThree';
+        break;
+      case 'FOUR':
+        this.userImgSrc = 'profileFour';
+        break;
+      case 'FIVE':
+        this.userImgSrc = 'profileFive';
+        break;
+      case 'SIX':
+        this.userImgSrc = 'profileSix';
+        break;
+      default:
+        this.userImgSrc = 'profileOne';
+    }
+  }
+
+  async getUserName() {
+    this.dBUser = this.firebase.getUser();
   }
 }
