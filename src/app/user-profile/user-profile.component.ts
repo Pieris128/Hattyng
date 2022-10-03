@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Firebase } from '../firebase.service';
 import * as THREE from 'three';
+import { onAuthStateChanged } from 'firebase/auth';
 
 @Component({
   selector: 'app-user-profile',
@@ -34,6 +35,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   constructor(private firebase: Firebase, private router: Router) {}
 
   ngOnInit(): void {
+    onAuthStateChanged(this.firebase.auth, (user) => {
+      if (user?.displayName) {
+        this.router.navigate(['home']);
+      } else {
+        return;
+      }
+    });
+
     this.profileForm = new FormGroup({
       username: new FormControl(null, [
         Validators.required,

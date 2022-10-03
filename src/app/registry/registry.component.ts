@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { onAuthStateChanged } from 'firebase/auth';
 
 import { Firebase } from '../firebase.service';
 
@@ -13,13 +14,17 @@ export class RegistryComponent implements OnInit {
   registryForm!: FormGroup;
   logged: boolean = false;
 
-  constructor(
-    private firebase: Firebase,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private firebase: Firebase, private router: Router) {}
 
   ngOnInit(): void {
+    onAuthStateChanged(this.firebase.auth, (user) => {
+      if (user) {
+        this.router.navigate(['set-profile']);
+      } else {
+        return;
+      }
+    });
+
     this.registryForm = new FormGroup({
       useremail: new FormControl(null, [Validators.required, Validators.email]),
       userpassword: new FormControl(null, [
@@ -41,7 +46,7 @@ export class RegistryComponent implements OnInit {
     if (!this.logged) {
       return;
     } else {
-      this.router.navigate(['set-profile'], { relativeTo: this.route });
+      this.router.navigate(['set-profile']);
     }
   }
 }

@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Firebase } from '../firebase.service';
+import { onAuthStateChanged } from 'firebase/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +20,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   displayProfile: boolean = false;
   displaySettings: boolean = false;
 
-  dBUser!: string | null;
-
   userData!: {
     username: string;
     description: string;
@@ -33,9 +33,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
   searchForm!: FormGroup;
   inputError: boolean = false;
 
-  constructor(private firebase: Firebase) {}
+  constructor(private firebase: Firebase, private router: Router) {}
   //Builds form for searching other users!
   ngOnInit(): void {
+    onAuthStateChanged(this.firebase.auth, (user) => {
+      if (user) {
+        return;
+      } else {
+        this.router.navigate(['login']);
+      }
+    });
+
+    this.firebase.onPersistence();
     this.searchForm = new FormGroup({
       searchInput: new FormControl(null, [
         Validators.required,
@@ -97,40 +106,42 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   //Profile functionality!
   async setUserData() {
-    await this.getUserName();
-    this.userData = await this.firebase.readUserData(this.dBUser);
-    console.log(this.userData);
-    this.userName = this.userData.username;
-    this.userDesc = this.userData.description;
-    this.userImgNum = this.userData.profile_picture;
+    onAuthStateChanged(this.firebase.auth, async (user) => {
+      if (user) {
+        this.userData = await this.firebase.readUserData(user.displayName);
+        this.userName = this.userData.username;
+        this.userDesc = this.userData.description;
+        this.userImgNum = this.userData.profile_picture;
 
-    switch (this.userImgNum) {
-      case 'ONE':
-        this.userImgSrc = 'profileOne';
-        break;
-      case 'TWO':
-        this.userImgSrc = 'profileTwo';
-        break;
-      case 'THREE':
-        this.userImgSrc = 'profileThree';
-        break;
-      case 'FOUR':
-        this.userImgSrc = 'profileFour';
-        break;
-      case 'FIVE':
-        this.userImgSrc = 'profileFive';
-        break;
-      case 'SIX':
-        this.userImgSrc = 'profileSix';
-        break;
-      default:
-        this.userImgSrc = 'profileOne';
-    }
+        switch (this.userImgNum) {
+          case 'ONE':
+            this.userImgSrc = 'profileOne';
+            break;
+          case 'TWO':
+            this.userImgSrc = 'profileTwo';
+            break;
+          case 'THREE':
+            this.userImgSrc = 'profileThree';
+            break;
+          case 'FOUR':
+            this.userImgSrc = 'profileFour';
+            break;
+          case 'FIVE':
+            this.userImgSrc = 'profileFive';
+            break;
+          case 'SIX':
+            this.userImgSrc = 'profileSix';
+            break;
+          default:
+            this.userImgSrc = 'profileOne';
+        }
+      } else {
+        console.log('No user');
+      }
+    });
   }
 
-  async getUserName() {
-    this.dBUser = this.firebase.getUser();
-  }
+  getUserName() {}
   //Profile search others users functionality!
   async searchUser(username: string, element: HTMLInputElement) {
     //Looks in the database for a user that match the input value
@@ -142,34 +153,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       element.classList.add('ng-invalid');
       element.classList.add('ng-touched');
 
-      await this.getUserName();
-      this.userData = await this.firebase.readUserData(this.dBUser);
-      this.userName = this.userData.username;
-      this.userDesc = this.userData.description;
-      this.userImgNum = this.userData.profile_picture;
-
-      switch (this.userImgNum) {
-        case 'ONE':
-          this.userImgSrc = 'profileOne';
-          break;
-        case 'TWO':
-          this.userImgSrc = 'profileTwo';
-          break;
-        case 'THREE':
-          this.userImgSrc = 'profileThree';
-          break;
-        case 'FOUR':
-          this.userImgSrc = 'profileFour';
-          break;
-        case 'FIVE':
-          this.userImgSrc = 'profileFive';
-          break;
-        case 'SIX':
-          this.userImgSrc = 'profileSix';
-          break;
-        default:
-          this.userImgSrc = 'profileOne';
-      }
+      this.setUserData();
 
       return;
     }

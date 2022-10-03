@@ -136,6 +136,7 @@ body {
       padding: 2px;
       border-bottom: solid 1px transparent;
       transition: all 0.2s;
+      cursor: pointer;
 
       &:hover {
         border-bottom: solid 1px #fff;
@@ -184,6 +185,12 @@ body {
 }
 
 input.ng-invalid.ng-touched {
+  border-bottom: 1px solid #e027277e;
+  box-shadow: 0 0.5px 2px #e027277e;
+  animation: errorInput 0.325s linear 1 forwards;
+}
+
+.credentials-error {
   border-bottom: 1px solid #e027277e;
   box-shadow: 0 0.5px 2px #e027277e;
   animation: errorInput 0.325s linear 1 forwards;

@@ -40,11 +40,6 @@ export class Firebase {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid;
-        console.log(uid);
-        if (router.url === '') {
-          this.router.navigate(['chatroom/']);
-        }
         // ...
       } else {
         // User is signed out
@@ -132,6 +127,7 @@ export class Firebase {
   }
   //Login Functionality
   async logInUser(email: string, password: string) {
+    console.log(this.auth);
     let state = false;
 
     await setPersistence(this.auth, browserSessionPersistence);
@@ -162,13 +158,17 @@ export class Firebase {
     });
   }
 
-  getUser(): string | null {
-    if (this.auth.currentUser) {
-      let currentUser = this.auth.currentUser;
-      let name = currentUser.displayName;
-      return name;
-    } else {
-      return null;
-    }
+  // getUser(): string | null {
+  //   // if (this.auth.currentUser) {
+  //   //   let currentUser = this.auth.currentUser.displayName;
+  //   //   return currentUser;
+  //   // } else {
+  //   //   return null;
+  //   // }
+  // }
+
+  ///////////////////////////////////
+  onPersistence() {
+    setPersistence(this.auth, browserSessionPersistence);
   }
 }
