@@ -28,6 +28,13 @@
         >
           Profile
         </h2>
+        <h2
+          class="home__nav__links__settings"
+          (click)="linkClicked(settingsLink.innerHTML)"
+          #settingsLink
+        >
+          Settings
+        </h2>
       </div>
     </nav>
 
@@ -43,10 +50,35 @@
           class="home__profile__main__photo"
         />
         <h2 class="home__profile__main__name">{{ userName }}</h2>
+        <p class="home__profile__main__description">
+          {{ userDesc }}
+        </p>
+        <form
+          class="home__profile__main__form"
+          [formGroup]="searchForm"
+          (ngSubmit)="searchUser(input.value, input)"
+        >
+          <input
+            type="text"
+            class="home__profile__main__form__input"
+            formControlName="searchInput"
+            placeholder="Search other user..."
+            #input
+          />
+          <button type="submit" class="home__profile__main__form__btn">
+            <img
+              src="../../assets/search-icon.png"
+              alt="A search icon"
+              class="home__profile__main__form__btn__icon"
+            />
+          </button>
+          <span class="home__profile__main__form__error" *ngIf="inputError"
+            >That user doesn't exist!</span
+          >
+        </form>
       </div>
-      <p class="home__profile__description">
-        {{ userDesc }}
-      </p>
     </section>
+
+    <section class="home__settings" *ngIf="displaySettings">Settings</section>
   </section>
 </body>
