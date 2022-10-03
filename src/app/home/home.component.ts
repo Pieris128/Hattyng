@@ -104,9 +104,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   //Profile functionality!
-  async setUserData() {
+  setUserData() {
     onAuthStateChanged(this.firebase.auth, async (user) => {
-      console.log(user);
       if (user) {
         this.userData = await this.firebase.readUserData(user.displayName);
         this.userName = this.userData.username;

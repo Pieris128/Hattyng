@@ -52,8 +52,12 @@ export class Firebase {
   //////////////////////////////////////////////////////////////
   /* DATABASE STUFF */
   //Write functionallity
-  writeUserData(username: string, description: string, imageUrl?: string) {
-    set(ref(this.database, 'users/' + username), {
+  async writeUserData(
+    username: string,
+    description: string,
+    imageUrl?: string
+  ) {
+    await set(ref(this.database, 'users/' + username), {
       username: username,
       profile_picture: imageUrl || null,
       description: description,
@@ -146,12 +150,12 @@ export class Firebase {
   }
 
   //Set User Auth Properties Functionality
-  setProfileAuth(username: string) {
+  async setProfileAuth(username: string) {
     if (!this.auth.currentUser) {
       return;
     }
 
-    updateProfile(this.auth.currentUser, {
+    await updateProfile(this.auth.currentUser, {
       displayName: username,
     }).catch((error) => {
       console.error(error.message);

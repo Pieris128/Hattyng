@@ -163,8 +163,12 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
       this.userExists = true;
       return;
     } else {
-      this.firebase.setProfileAuth(username);
-      this.firebase.writeUserData(username, description, this.imgSelected);
+      await this.firebase.setProfileAuth(username);
+      await this.firebase.writeUserData(
+        username,
+        description,
+        this.imgSelected
+      );
       this.router.navigate(['home']);
     }
   }
