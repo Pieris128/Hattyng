@@ -52,6 +52,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         Validators.pattern('^[A-Za-z0-9]+$'),
       ]),
     });
+
     this.setUserData();
   }
   //Refer to DOM Elements
@@ -91,6 +92,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.displayHome = false;
       this.displayRooms = false;
       this.displaySettings = false;
+      console.log(this.userData);
     } else if (selected === 'SETTINGS') {
       this.linkSettings.classList.add('active-link');
       this.linkHome.classList.remove('active-link');
@@ -104,15 +106,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   //Profile functionality!
-  async setUserData() {
+  setUserData() {
     onAuthStateChanged(this.firebase.auth, async (user) => {
-      console.log(user);
       if (user) {
         this.userData = await this.firebase.readUserData(user.displayName);
         this.userName = this.userData.username;
         this.userDesc = this.userData.description;
         this.userImgNum = this.userData.profile_picture;
-
+        console.log(this.userData);
         switch (this.userImgNum) {
           case 'ONE':
             this.userImgSrc = 'profileOne';
