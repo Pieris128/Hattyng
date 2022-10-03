@@ -90,7 +90,7 @@ export class Firebase {
       description: '',
       profile_picture: '',
     };
-
+    console.log(name);
     await get(child(ref(this.database), `users/${name}`))
       .then((snapshot) => {
         if (snapshot.exists()) {
@@ -118,7 +118,6 @@ export class Firebase {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(userCredential, user);
         // ...
         state = true;
       })
