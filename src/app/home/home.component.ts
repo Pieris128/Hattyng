@@ -44,7 +44,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.firebase.onPersistence();
     this.searchForm = new FormGroup({
       searchInput: new FormControl(null, [
         Validators.required,
@@ -53,6 +52,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         Validators.pattern('^[A-Za-z0-9]+$'),
       ]),
     });
+    this.setUserData();
   }
   //Refer to DOM Elements
   ngAfterViewInit(): void {
@@ -60,7 +60,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.linkRoom = document.querySelector('.home__nav__links__chats')!;
     this.linkProfile = document.querySelector('.home__nav__links__profile')!;
     this.linkSettings = document.querySelector('.home__nav__links__settings')!;
-    this.setUserData();
   }
   //Move between sections!
   linkClicked(clicked: string) {
@@ -107,6 +106,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   //Profile functionality!
   async setUserData() {
     onAuthStateChanged(this.firebase.auth, async (user) => {
+      console.log(user);
       if (user) {
         this.userData = await this.firebase.readUserData(user.displayName);
         this.userName = this.userData.username;
@@ -141,7 +141,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getUserName() {}
   //Profile search others users functionality!
   async searchUser(username: string, element: HTMLInputElement) {
     //Looks in the database for a user that match the input value

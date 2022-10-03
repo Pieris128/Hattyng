@@ -157,18 +157,4 @@ export class Firebase {
       console.error(error.message);
     });
   }
-
-  // getUser(): string | null {
-  //   // if (this.auth.currentUser) {
-  //   //   let currentUser = this.auth.currentUser.displayName;
-  //   //   return currentUser;
-  //   // } else {
-  //   //   return null;
-  //   // }
-  // }
-
-  ///////////////////////////////////
-  onPersistence() {
-    setPersistence(this.auth, browserSessionPersistence);
-  }
 }
