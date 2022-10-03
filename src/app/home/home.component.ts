@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.linkRoom = document.querySelector('.home__nav__links__chats')!;
     this.linkProfile = document.querySelector('.home__nav__links__profile')!;
     this.dBUser = this.firebase.getUser();
-    this.setUserData();
+    //  this.setUserData();
   }
 
   linkClicked(clicked: string) {
