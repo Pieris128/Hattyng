@@ -65,7 +65,7 @@ export class Firebase {
     });
   }
   //Check if another username exists in Set Profile.
-  async readUserData(name: string) {
+  async checkUserData(name: string) {
     let canUse: boolean = false;
 
     await get(child(ref(this.database), `users/${name}`))
@@ -83,6 +83,28 @@ export class Firebase {
       });
 
     return canUse;
+  }
+  //Display user data in profile section!
+  async readUserData(name: string | null) {
+    let userData = {
+      username: '',
+      description: '',
+      profile_picture: '',
+    };
+
+    await get(child(ref(this.database), `users/${name}`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          userData = snapshot.val();
+        } else {
+          console.log('No data available');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    return userData;
   }
 
   /////////////////////////////////////////////////
@@ -138,5 +160,15 @@ export class Firebase {
     }).catch((error) => {
       console.error(error.message);
     });
+  }
+
+  getUser(): string | null {
+    if (this.auth.currentUser) {
+      let currentUser = this.auth.currentUser;
+      let name = currentUser.displayName;
+      return name;
+    } else {
+      return null;
+    }
   }
 }

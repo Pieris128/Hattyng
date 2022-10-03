@@ -54,7 +54,8 @@ body {
 
       &__home,
       &__chats,
-      &__profile {
+      &__profile,
+      &__settings {
         cursor: pointer;
         opacity: 0.5;
       }
@@ -70,24 +71,100 @@ body {
     border-bottom: 1px solid #add2ff7e;
     border-radius: 12px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     &__main {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      justify-content: space-evenly;
       align-items: center;
-      padding: 24px;
+      width: 100%;
+      height: 100%;
 
       &__photo {
         width: 64px;
-        margin-right: 8px;
       }
 
-      &__text {
+      &__name {
+        font-weight: bold;
+        color: #ffffff;
+        letter-spacing: 0.75px;
+        font-size: 32px;
+        text-align: center;
+      }
+
+      &__description {
+        font-weight: normal;
+        color: #ffffffa6;
+        font-size: 16px;
+        text-align: center;
+      }
+
+      &__form {
+        position: relative;
+        width: 30%;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin-left: 8px;
+        &__input {
+          font-size: 16px;
+          padding: 6px 0 6px 6px;
+          border: none;
+          background-color: rgba(255, 255, 255, 0.15);
+          border-bottom: 1px solid #add2ff7e;
+          box-shadow: 0 0.5px 2px #add2ff7e;
+          color: #ffffffde;
+          width: 100%;
+
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.62);
+          }
+
+          &:focus {
+            outline: none;
+            border-bottom: 1px solid #add2ff7e;
+          }
+        }
+
+        &__btn {
+          position: absolute;
+          top: 6px;
+          right: 6px;
+          background-color: transparent;
+          cursor: pointer;
+          padding: 0;
+          border: none;
+          outline: none;
+          transition: all 0.1s;
+
+          &:active {
+            transform: scale(0.9);
+          }
+
+          &__icon {
+            width: 20px;
+            transform: rotateY(180deg);
+            opacity: 0.62;
+            transition: all 0.1s;
+
+            &:hover {
+              opacity: 1;
+            }
+          }
+        }
+
+        &__error {
+          font-size: 16px;
+          font-weight: normal;
+          color: #e02727b4;
+          width: 100%;
+          margin-top: 3px;
+        }
       }
     }
   }
@@ -107,4 +184,9 @@ body {
   100% {
     background-position: 0% 50%;
   }
+}
+
+input.ng-invalid.ng-touched {
+  border-bottom: 1px solid #e027277e;
+  box-shadow: 0 0.5px 2px #e027277e;
 }
