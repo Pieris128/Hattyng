@@ -11,6 +11,7 @@ import {
   setPersistence,
   browserSessionPersistence,
   updateProfile,
+  signOut,
 } from 'firebase/auth';
 import { Router } from '@angular/router';
 
@@ -165,5 +166,16 @@ export class Firebase {
     }).catch((error) => {
       console.error(error.message);
     });
+  }
+
+  //Logout functionality
+  signOut() {
+    signOut(this.auth)
+      .then(() => {
+        console.log('Signed out!');
+      })
+      .catch((e) => {
+        console.log('Error', e);
+      });
   }
 }

@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   userImgSrc!: string;
   userNacion: string = '';
   userAge: string = '';
+  userJoined: string = '';
 
   searchForm!: FormGroup;
   inputError: boolean = false;
@@ -118,6 +119,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.userNacion = this.userData.nacionality;
         this.userAge = this.userData.age;
         this.userImgNum = this.userData.profile_picture;
+        let firstSlice = user.metadata.creationTime!;
+
         switch (this.userImgNum) {
           case 'ONE':
             this.userImgSrc = 'profileOne';
@@ -140,8 +143,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
           default:
             this.userImgSrc = 'profileOne';
         }
+
+        this.userJoined = firstSlice.slice(5, 17);
       } else {
-        console.log('No user');
+        return;
       }
     });
   }
@@ -192,5 +197,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
 
     this.inputError = false;
+  }
+
+  //Sign Out Functionality!
+  signOut() {
+    this.firebase.signOut();
   }
 }
