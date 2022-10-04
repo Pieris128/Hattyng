@@ -66,22 +66,22 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.setUserData();
 
     this.settingForm = new FormGroup({
-      username: new FormControl(this.userData.username, [
+      username: new FormControl(null, [
         Validators.minLength(4),
         Validators.maxLength(12),
         Validators.pattern('^[A-Za-z0-9]+$'),
       ]),
       password: new FormControl(null, Validators.minLength(6)),
-      age: new FormControl(this.userData.age, [
+      age: new FormControl(null, [
         Validators.minLength(2),
         Validators.maxLength(2),
         Validators.pattern('^[0-9]*$'),
       ]),
-      nacionality: new FormControl(this.userData.nacionality, [
+      nacionality: new FormControl(null, [
         Validators.minLength(1),
         Validators.maxLength(58),
       ]),
-      description: new FormControl(this.userData.description, [
+      description: new FormControl(null, [
         Validators.minLength(12),
         Validators.maxLength(72),
       ]),
@@ -99,9 +99,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.linkRoom = document.querySelector('.home__nav__links__chats')!;
     this.linkProfile = document.querySelector('.home__nav__links__profile')!;
     this.linkSettings = document.querySelector('.home__nav__links__settings')!;
-    this.checkBoxes = document.querySelectorAll(
-      '.home__settings__form__radiogroup__imgs__crew__pick'
-    );
   }
   //Move between sections!
   linkClicked(clicked: string) {
@@ -181,6 +178,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
 
         this.userJoined = firstSlice.slice(5, 17);
+
+        this.setFormValues();
       } else {
         return;
       }
@@ -241,15 +240,111 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   listenChecks(whichCheck: HTMLInputElement) {
+    this.checkBoxes = document.querySelectorAll(
+      '.home__settings__form__radiogroup__imgs__crew__pick'
+    );
     whichCheck.checked = true;
     this.checkBoxes.forEach((input) => {
       let box = input as HTMLInputElement;
-
+      console.log(whichCheck, box);
       if (whichCheck !== box) {
         box.checked = false;
       }
     });
     let selection = whichCheck.id.toUpperCase();
     this.imgSelected = selection;
+  }
+
+  setFormValues() {
+    console.log(this.settingForm.controls);
+    this.settingForm.controls['username'].setValue(this.userData.username);
+    this.settingForm.controls['age'].setValue(this.userData.age);
+    this.settingForm.controls['nacionality'].setValue(
+      this.userData.nacionality
+    );
+    this.settingForm.controls['description'].setValue(
+      this.userData.description
+    );
+
+    this.settingForm.controls['username'].disable();
+    this.settingForm.controls['password'].disable();
+    this.settingForm.controls['age'].disable();
+    this.settingForm.controls['nacionality'].disable();
+    this.settingForm.controls['description'].disable();
+  }
+
+  modifyInput(id: string, element: HTMLInputElement | HTMLTextAreaElement) {
+    console.log(id);
+    if (id === 'username') {
+      if (!element.classList.contains('modifying')) {
+        this.settingForm.controls['username'].enable();
+        this.settingForm.controls['username'].setValidators(
+          Validators.required
+        );
+        element.classList.add('modifying');
+      } else {
+        this.settingForm.controls['username'].disable();
+        this.settingForm.controls['username'].removeValidators(
+          Validators.required
+        );
+        element.classList.remove('modifying');
+      }
+    }
+    if (id === 'password') {
+      if (!element.classList.contains('modifying')) {
+        this.settingForm.controls['password'].enable();
+        this.settingForm.controls['password'].setValidators(
+          Validators.required
+        );
+        element.classList.add('modifying');
+      } else {
+        this.settingForm.controls['password'].disable();
+        this.settingForm.controls['password'].removeValidators(
+          Validators.required
+        );
+        element.classList.remove('modifying');
+      }
+    }
+    if (id === 'age') {
+      if (!element.classList.contains('modifying')) {
+        this.settingForm.controls['age'].enable();
+        this.settingForm.controls['age'].setValidators(Validators.required);
+        element.classList.add('modifying');
+      } else {
+        this.settingForm.controls['age'].disable();
+        this.settingForm.controls['age'].removeValidators(Validators.required);
+        element.classList.remove('modifying');
+      }
+    }
+    if (id === 'nacionality') {
+      if (!element.classList.contains('modifying')) {
+        this.settingForm.controls['nacionality'].enable();
+        this.settingForm.controls['nacionality'].setValidators(
+          Validators.required
+        );
+        element.classList.add('modifying');
+      } else {
+        this.settingForm.controls['nacionality'].disable();
+        this.settingForm.controls['nacionality'].removeValidators(
+          Validators.required
+        );
+        element.classList.remove('modifying');
+      }
+    }
+    if (id === 'description') {
+      if (!element.classList.contains('modifying')) {
+        this.settingForm.controls['description'].enable();
+        this.settingForm.controls['description'].setValidators(
+          Validators.required
+        );
+        element.classList.add('modifying');
+      } else {
+        this.settingForm.controls['description'].disable();
+        this.settingForm.controls['description'].removeValidators(
+          Validators.required
+        );
+        element.classList.remove('modifying');
+      }
+    }
   }
 }
