@@ -55,12 +55,16 @@ export class Firebase {
   async writeUserData(
     username: string,
     description: string,
+    nacionality: string,
+    age: string,
     imageUrl?: string
   ) {
     await set(ref(this.database, 'users/' + username), {
       username: username,
       profile_picture: imageUrl || null,
       description: description,
+      nacionality: nacionality,
+      age: age,
     });
   }
   //Check if another username exists in Set Profile.
@@ -88,6 +92,8 @@ export class Firebase {
     let userData = {
       username: '',
       description: '',
+      nacionality: '',
+      age: '',
       profile_picture: '',
     };
     console.log(name);

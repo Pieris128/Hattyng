@@ -21,6 +21,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   displaySettings: boolean = false;
 
   userData!: {
+    age: string;
+    nacionality: string;
     username: string;
     description: string;
     profile_picture: string;
@@ -29,6 +31,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   userDesc: string = '';
   userImgNum: string = '';
   userImgSrc!: string;
+  userNacion: string = '';
+  userAge: string = '';
 
   searchForm!: FormGroup;
   inputError: boolean = false;
@@ -92,7 +96,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.displayHome = false;
       this.displayRooms = false;
       this.displaySettings = false;
-      console.log(this.userData);
     } else if (selected === 'SETTINGS') {
       this.linkSettings.classList.add('active-link');
       this.linkHome.classList.remove('active-link');
@@ -112,8 +115,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.userData = await this.firebase.readUserData(user.displayName);
         this.userName = this.userData.username;
         this.userDesc = this.userData.description;
+        this.userNacion = this.userData.nacionality;
+        this.userAge = this.userData.age;
         this.userImgNum = this.userData.profile_picture;
-        console.log(this.userData);
         switch (this.userImgNum) {
           case 'ONE':
             this.userImgSrc = 'profileOne';
@@ -160,6 +164,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     //If found some match!
     this.userName = this.userData.username;
     this.userDesc = this.userData.description;
+    this.userNacion = this.userData.nacionality;
+    this.userAge = this.userData.age;
     this.userImgNum = this.userData.profile_picture;
 
     switch (this.userImgNum) {

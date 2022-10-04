@@ -71,7 +71,7 @@ body {
     border-bottom: 1px solid #add2ff7e;
     border-radius: 12px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 24px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -86,7 +86,7 @@ body {
       height: 100%;
 
       &__photo {
-        width: 64px;
+        width: 116px;
       }
 
       &__name {
@@ -106,7 +106,7 @@ body {
 
       &__form {
         position: relative;
-        width: 30%;
+        width: 40%;
         display: flex;
         flex-direction: column;
         justify-content: center;

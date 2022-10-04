@@ -3,10 +3,12 @@
     <form
       class="settings__form"
       [formGroup]="profileForm"
-      (ngSubmit)="onSubmit(username.value, description.value)"
+      (ngSubmit)="
+        onSubmit(username.value, description.value, nacion.value, age.value)
+      "
     >
       <h2 class="settings__form__header">Set up your profile</h2>
-      <div class="settings__form__group">
+      <div class="settings__form__group" id="inputOne">
         <label for="username" class="settings__form__group__label"
           >Username</label
         >
@@ -23,15 +25,15 @@
           >Username already exists!</span
         >
       </div>
-      <div class="settings__form__group--two">
-        <label for="description" class="settings__form__group--two__label"
+      <div class="settings__form__group" id="inputTwo">
+        <label for="description" class="settings__form__group__label"
           >Description</label
         >
         <textarea
           type="text"
           id="description"
           placeholder="Enter your description..."
-          class="settings__form__group--two__input textareaInput"
+          class="settings__form__group__input textareaInput"
           formControlName="description"
           #description
         ></textarea>
@@ -138,6 +140,32 @@
             />
           </div>
         </div>
+      </div>
+      <div class="settings__form__group" id="inputThree">
+        <label for="nacion" class="settings__form__group__label"
+          >Nacionality</label
+        >
+        <input
+          type="text"
+          id="nacion"
+          placeholder="Enter your nacionality..."
+          class="settings__form__group__input"
+          formControlName="nacion"
+          autocompleteOff
+          #nacion
+        />
+      </div>
+      <div class="settings__form__group" id="inputFour">
+        <label for="age" class="settings__form__group__label">Age</label>
+        <input
+          type="text"
+          id="age"
+          placeholder="Enter your age..."
+          class="settings__form__group__input"
+          formControlName="age"
+          autocompleteOff
+          #age
+        />
       </div>
       <button
         type="submit"

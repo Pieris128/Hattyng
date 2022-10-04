@@ -17,7 +17,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   imgSelected: string = 'ONE';
 
   userExists = false;
-
+  birthInvalid = false;
   constructor(private firebase: Firebase, private router: Router) {}
 
   ngOnInit(): void {
@@ -47,12 +47,23 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
       pickFour: new FormControl(null),
       pickFive: new FormControl(null),
       pickSix: new FormControl(null),
+      nacion: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(58),
+      ]),
+      age: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(2),
+        Validators.pattern('^[0-9]*$'),
+      ]),
     });
   }
 
   ngAfterViewInit(): void {
     this.checkBoxes = document.querySelectorAll(
-      '.settings__right__form__radiogroup__imgs__crew__pick'
+      '.settings__form__radiogroup__imgs__crew__pick'
     );
   }
 
@@ -69,7 +80,12 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
     this.imgSelected = selection;
   }
 
-  async onSubmit(username: string, description: string) {
+  async onSubmit(
+    username: string,
+    description: string,
+    nacionality: string,
+    age: string
+  ) {
     let canUse = await this.firebase.checkUserData(username);
     if (canUse) {
       this.userExists = true;
@@ -79,6 +95,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
       await this.firebase.writeUserData(
         username,
         description,
+        nacionality,
+        age,
         this.imgSelected
       );
       this.router.navigate(['home']);
