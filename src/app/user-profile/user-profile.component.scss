@@ -198,7 +198,8 @@ textarea.ng-invalid.ng-touched {
   }
 }
 
-.settings__form__radiogroup__imgs__crew__pick:checked ~ img {
+.settings__form__radiogroup__imgs__crew__pick:checked ~ img,
+.settings__form__radiogroup__imgs__crew__pick:focus ~ img {
   animation: switchOp 0.2s linear 1 forwards;
 }
 

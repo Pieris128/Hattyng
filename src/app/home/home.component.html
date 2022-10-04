@@ -83,8 +83,8 @@
         </div>
         <p class="home__profile__main__description">
           {{ userDesc }} <br />
-          The country in which I reside is {{ userNacion }}. <br />
-          I've got {{ userAge }} years old.
+          {{ userNacion }}<br />
+          {{ userAge }}
         </p>
         <p class="home__profile__main__join">
           Joined on the date of {{ userJoined }}
@@ -115,6 +115,201 @@
       </div>
     </section>
 
-    <section class="home__settings" *ngIf="displaySettings">Settings</section>
+    <section class="home__settings" *ngIf="displaySettings">
+      <form class="home__settings__form" [formGroup]="settingForm">
+        <h2 class="home__settings__form__head">Modify profile</h2>
+
+        <div class="home__settings__form__group" id="inputOne">
+          <label for="username" class="home__settings__form__group__label"
+            >Username</label
+          >
+          <input
+            type="text"
+            class="home__settings__form__group__input"
+            autocompleteOff
+            id="username"
+            formControlName="username"
+          />
+          <span *ngIf="userExists" class="home__settings__form__group__error"
+            >Username already exists!</span
+          >
+        </div>
+
+        <div class="home__settings__form__group" id="inputTwo">
+          <label for="password" class="home__settings__form__group__label"
+            >Password</label
+          >
+          <input
+            type="password"
+            class="home__settings__form__group__input"
+            autocompleteOff
+            id="password"
+            formControlName="password"
+          />
+        </div>
+
+        <div class="home__settings__form__group" id="inputThree">
+          <label for="age" class="home__settings__form__group__label"
+            >Age</label
+          >
+          <input
+            type="text"
+            id="age"
+            class="home__settings__form__group__input"
+            autocompleteOff
+            formControlName="age"
+          />
+        </div>
+
+        <div class="home__settings__form__group" id="inputFour">
+          <label for="nacionality" class="home__settings__form__group__label"
+            >Nacionality</label
+          >
+          <input
+            type="text"
+            id="nacionality"
+            class="home__settings__form__group__input"
+            autocompleteOff
+            formControlName="nacionality"
+          />
+        </div>
+
+        <div class="home__settings__form__group" id="inputFive">
+          <label for="description" class="home__settings__form__group__label"
+            >Description</label
+          >
+          <textarea
+            type="text"
+            id="description"
+            class="home__settings__form__group__input textareaInput"
+            formControlName="description"
+          ></textarea>
+        </div>
+
+        <div class="home__settings__form__radiogroup" id="inputSix">
+          <div class="home__settings__form__radiogroup__imgs">
+            <div class="home__settings__form__radiogroup__imgs__crew">
+              <input
+                type="radio"
+                id="One"
+                class="home__settings__form__radiogroup__imgs__crew__pick"
+                formControlName="pickOne"
+                #pickOne
+                tabindex="5"
+                alt="Profile icon of a fox"
+              />
+              <img
+                src="../../assets/profile-imgs/profileOne.png"
+                alt="An expample photo"
+                class="home__settings__form__radiogroup__imgs__crew__photo"
+                #imgOne
+                (click)="listenChecks(pickOne)"
+              />
+            </div>
+            <div class="home__settings__form__radiogroup__imgs__crew">
+              <input
+                type="radio"
+                id="Two"
+                class="home__settings__form__radiogroup__imgs__crew__pick"
+                formControlName="pickTwo"
+                #pickTwo
+                tabindex="6"
+                alt="Profile icon of a gorilla"
+              />
+              <img
+                src="../../assets/profile-imgs/profileTwo.png"
+                alt="An expample photo"
+                class="home__settings__form__radiogroup__imgs__crew__photo"
+                #imgTwo
+                (click)="listenChecks(pickTwo)"
+              />
+            </div>
+            <div class="home__settings__form__radiogroup__imgs__crew">
+              <input
+                type="radio"
+                id="Three"
+                class="home__settings__form__radiogroup__imgs__crew__pick"
+                formControlName="pickThree"
+                #pickThree
+                tabindex="7"
+                alt="Profile icon of a dog"
+              />
+              <img
+                src="../../assets/profile-imgs/profileThree.png"
+                alt="An expample photo"
+                class="home__settings__form__radiogroup__imgs__crew__photo"
+                #imgThree
+                (click)="listenChecks(pickThree)"
+              />
+            </div>
+
+            <div class="home__settings__form__radiogroup__imgs__crew">
+              <input
+                type="radio"
+                id="Four"
+                class="home__settings__form__radiogroup__imgs__crew__pick"
+                formControlName="pickFour"
+                #pickFour
+                tabindex="8"
+                alt="Profile icon of a horse"
+              />
+              <img
+                src="../../assets/profile-imgs/profileFour.png"
+                alt="An expample photo"
+                class="home__settings__form__radiogroup__imgs__crew__photo"
+                #imgFour
+                (click)="listenChecks(pickFour)"
+              />
+            </div>
+
+            <div class="home__settings__form__radiogroup__imgs__crew">
+              <input
+                type="radio"
+                id="Five"
+                class="home__settings__form__radiogroup__imgs__crew__pick"
+                formControlName="pickFive"
+                #pickFive
+                tabindex="9"
+                alt="Profile icon of a wolf"
+              />
+              <img
+                src="../../assets/profile-imgs/profileFive.png"
+                alt="An expample photo"
+                class="home__settings__form__radiogroup__imgs__crew__photo"
+                #imgFive
+                (click)="listenChecks(pickFive)"
+              />
+            </div>
+
+            <div class="home__settings__form__radiogroup__imgs__crew">
+              <input
+                type="radio"
+                id="Six"
+                class="home__settings__form__radiogroup__imgs__crew__pick"
+                formControlName="pickSix"
+                #pickSix
+                tabindex="10"
+                alt="Profile icon of a tiger"
+              />
+              <img
+                src="../../assets/profile-imgs/profileSix.png"
+                alt="An expample photo"
+                class="home__settings__form__radiogroup__imgs__crew__photo"
+                #imgSix
+                (click)="listenChecks(pickSix)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="home__settings__form__btn"
+          [disabled]="settingForm.invalid"
+        >
+          submit
+        </button>
+      </form>
+    </section>
   </section>
 </body>

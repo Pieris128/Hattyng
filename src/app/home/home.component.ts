@@ -14,12 +14,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
   linkRoom!: HTMLHeadingElement;
   linkProfile!: HTMLHeadingElement;
   linkSettings!: HTMLHeadElement;
-
+  //Display of each section
   displayHome: boolean = true;
   displayRooms: boolean = false;
   displayProfile: boolean = false;
   displaySettings: boolean = false;
-
+  //User data
   userData!: {
     age: string;
     nacionality: string;
@@ -34,9 +34,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
   userNacion: string = '';
   userAge: string = '';
   userJoined: string = '';
-
+  //Search another users
   searchForm!: FormGroup;
   inputError: boolean = false;
+  //Settings features
+  checkBoxes!: NodeList;
+  imgSelected: string = 'ONE';
+  userExists: boolean = false;
+  settingForm!: FormGroup;
 
   constructor(private firebase: Firebase, private router: Router) {}
   //Builds form for searching other users!
@@ -59,6 +64,34 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
 
     this.setUserData();
+
+    this.settingForm = new FormGroup({
+      username: new FormControl(this.userData.username, [
+        Validators.minLength(4),
+        Validators.maxLength(12),
+        Validators.pattern('^[A-Za-z0-9]+$'),
+      ]),
+      password: new FormControl(null, Validators.minLength(6)),
+      age: new FormControl(this.userData.age, [
+        Validators.minLength(2),
+        Validators.maxLength(2),
+        Validators.pattern('^[0-9]*$'),
+      ]),
+      nacionality: new FormControl(this.userData.nacionality, [
+        Validators.minLength(1),
+        Validators.maxLength(58),
+      ]),
+      description: new FormControl(this.userData.description, [
+        Validators.minLength(12),
+        Validators.maxLength(72),
+      ]),
+      pickOne: new FormControl(null),
+      pickTwo: new FormControl(null),
+      pickThree: new FormControl(null),
+      pickFour: new FormControl(null),
+      pickFive: new FormControl(null),
+      pickSix: new FormControl(null),
+    });
   }
   //Refer to DOM Elements
   ngAfterViewInit(): void {
@@ -66,6 +99,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.linkRoom = document.querySelector('.home__nav__links__chats')!;
     this.linkProfile = document.querySelector('.home__nav__links__profile')!;
     this.linkSettings = document.querySelector('.home__nav__links__settings')!;
+    this.checkBoxes = document.querySelectorAll(
+      '.home__settings__form__radiogroup__imgs__crew__pick'
+    );
   }
   //Move between sections!
   linkClicked(clicked: string) {
@@ -202,5 +238,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
   //Sign Out Functionality!
   signOut() {
     this.firebase.signOut();
+  }
+
+  listenChecks(whichCheck: HTMLInputElement) {
+    whichCheck.checked = true;
+    this.checkBoxes.forEach((input) => {
+      let box = input as HTMLInputElement;
+
+      if (whichCheck !== box) {
+        box.checked = false;
+      }
+    });
+    let selection = whichCheck.id.toUpperCase();
+    this.imgSelected = selection;
   }
 }

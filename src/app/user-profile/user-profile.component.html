@@ -20,6 +20,7 @@
           formControlName="username"
           autocompleteOff
           #username
+          tabindex="1"
         />
         <span *ngIf="userExists" class="settings__form__group__error"
           >Username already exists!</span
@@ -36,6 +37,7 @@
           class="settings__form__group__input textareaInput"
           formControlName="description"
           #description
+          tabindex="4"
         ></textarea>
       </div>
       <div class="settings__form__radiogroup">
@@ -47,6 +49,8 @@
               class="settings__form__radiogroup__imgs__crew__pick"
               formControlName="pickOne"
               #pickOne
+              tabindex="5"
+              alt="Profile icon of a fox"
             />
             <img
               src="../../assets/profile-imgs/profileOne.png"
@@ -63,6 +67,8 @@
               class="settings__form__radiogroup__imgs__crew__pick"
               formControlName="pickTwo"
               #pickTwo
+              tabindex="6"
+              alt="Profile icon of a gorilla"
             />
             <img
               src="../../assets/profile-imgs/profileTwo.png"
@@ -79,6 +85,8 @@
               class="settings__form__radiogroup__imgs__crew__pick"
               formControlName="pickThree"
               #pickThree
+              tabindex="7"
+              alt="Profile icon of a dog"
             />
             <img
               src="../../assets/profile-imgs/profileThree.png"
@@ -96,6 +104,8 @@
               class="settings__form__radiogroup__imgs__crew__pick"
               formControlName="pickFour"
               #pickFour
+              tabindex="8"
+              alt="Profile icon of a horse"
             />
             <img
               src="../../assets/profile-imgs/profileFour.png"
@@ -113,6 +123,8 @@
               class="settings__form__radiogroup__imgs__crew__pick"
               formControlName="pickFive"
               #pickFive
+              tabindex="9"
+              alt="Profile icon of a wolf"
             />
             <img
               src="../../assets/profile-imgs/profileFive.png"
@@ -130,6 +142,8 @@
               class="settings__form__radiogroup__imgs__crew__pick"
               formControlName="pickSix"
               #pickSix
+              tabindex="10"
+              alt="Profile icon of a tiger"
             />
             <img
               src="../../assets/profile-imgs/profileSix.png"
@@ -153,6 +167,7 @@
           formControlName="nacion"
           autocompleteOff
           #nacion
+          tabindex="3"
         />
       </div>
       <div class="settings__form__group" id="inputFour">
@@ -165,12 +180,14 @@
           formControlName="age"
           autocompleteOff
           #age
+          tabindex="2"
         />
       </div>
       <button
         type="submit"
         class="settings__form__button"
         [disabled]="profileForm.invalid"
+        tabindex="11"
       >
         Submit
       </button>
