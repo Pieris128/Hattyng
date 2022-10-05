@@ -270,6 +270,109 @@ body {
     }
   }
 
+  &__rooms {
+    grid-column: 2 / 3;
+    height: 90%;
+    width: 95%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-top: 1px solid #add2ff7e;
+    border-bottom: 1px solid #add2ff7e;
+    border-radius: 12px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+    &__selection {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+
+      &__card {
+        position: relative;
+        background-size: cover;
+        background-position: 200% 200%;
+        background-color: rgba(255, 255, 255, 0.05);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        border-radius: 12px;
+        height: 60%;
+        width: 25%;
+        box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 160%;
+          height: 100%;
+          background-size: cover;
+          background: linear-gradient(
+            to left,
+            rgba(40, 40, 40, 1),
+            rgba(30, 30, 30, 1)
+          );
+          transform: skewX(45deg) translateX(0);
+          transition: all 0.5s;
+        }
+        &:hover::before {
+          transform: skewX(45deg) translateX(100%);
+        }
+
+        &__img {
+          width: 20%;
+          opacity: 1;
+          z-index: 100;
+          transition: all 0.2s;
+        }
+        &__header {
+          font-size: 20px;
+          font-weight: bold;
+          color: #fff;
+          text-transform: uppercase;
+          cursor: default;
+          opacity: 1;
+          z-index: 100;
+          transition: all 0.2s;
+        }
+        &__btn {
+          width: 50%;
+          padding: 8px 0;
+          font-size: 16px;
+          font-weight: bold;
+          z-index: 100;
+          border: none;
+          outline: none;
+          letter-spacing: 0.8px;
+          background-color: #004ead;
+          box-shadow: 0 2px 4px #002c618a;
+          opacity: 1;
+          color: #fff;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: all 0.2s;
+
+          &:hover {
+            letter-spacing: 1.6px;
+          }
+
+          &:active {
+            transform: scale(0.95);
+          }
+        }
+      }
+    }
+  }
+
   &__profile {
     grid-column: 2 / 3;
     height: 70%;
@@ -296,18 +399,32 @@ body {
       &__user {
         width: 40%;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: center;
         align-items: center;
         &__photo {
           width: 100px;
+          margin-right: 3px;
         }
 
-        &__name {
-          font-weight: bold;
-          color: #ffffff;
-          letter-spacing: 0.75px;
-          font-size: 32px;
-          text-align: center;
+        &__text {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          margin-left: 3px;
+
+          &__name {
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 0.75px;
+            font-size: 32px;
+          }
+          &__nac {
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 0.25px;
+            font-size: 16px;
+          }
         }
       }
 

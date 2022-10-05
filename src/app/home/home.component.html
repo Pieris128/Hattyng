@@ -87,7 +87,28 @@
       />
     </section>
 
-    <section class="home__rooms" *ngIf="displayRooms">Rooms</section>
+    <section class="home__rooms" *ngIf="displayRooms">
+      <div class="home__rooms__selection">
+        <div class="home__rooms__selection__card">
+          <img
+            src="../../assets/geek-icon.png"
+            alt="An icon that means this card is the geek room"
+            class="home__rooms__selection__card__img"
+          />
+          <h2 class="home__rooms__selection__card__header">Geek Room</h2>
+          <button class="home__rooms__selection__card__btn">Enter</button>
+        </div>
+        <div class="home__rooms__selection__card">
+          <img
+            src="../../assets/global-icon.png"
+            alt="An icon that means this card is the global room"
+            class="home__rooms__selection__card__img"
+          />
+          <h2 class="home__rooms__selection__card__header">Global Room</h2>
+          <button class="home__rooms__selection__card__btn">Enter</button>
+        </div>
+      </div>
+    </section>
 
     <section class="home__profile" *ngIf="displayProfile">
       <div class="home__profile__main">
@@ -97,12 +118,18 @@
             alt="Profile photo"
             class="home__profile__main__user__photo"
           />
-          <h2 class="home__profile__main__user__name">{{ userName }}</h2>
+          <div class="home__profile__main__user__text">
+            <h2 class="home__profile__main__user__text__name">
+              {{ userName }}
+            </h2>
+            <h2 class="home__profile__main__user__text__nac">
+              ~ {{ userAge }} Years ~
+            </h2>
+          </div>
         </div>
         <p class="home__profile__main__description">
           {{ userDesc }} <br />
-          {{ userNacion }}<br />
-          {{ userAge }}
+          &rarr; &nbsp; {{ userNacion }}&nbsp; &larr;
         </p>
         <p class="home__profile__main__join">
           Joined on the date of {{ userJoined }}
