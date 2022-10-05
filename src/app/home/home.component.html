@@ -1,4 +1,22 @@
 <body>
+  <div class="password__modal" *ngIf="showModal">
+    <form
+      class="password__modal__form"
+      (ngSubmit)="onSubmitModal(modalPassword.value)"
+    >
+      <input
+        type="password"
+        class="password__modal__form__input passwordModalInput"
+        autocompleteOff
+        id="modalPassword"
+        placeholder="Enter your actual password"
+        #modalPassword
+      />
+      <span class="password__modal__form__error">Wrong password!</span>
+
+      <button class="password__modal__form__submit">submit</button>
+    </form>
+  </div>
   <section class="home">
     <nav class="home__nav">
       <img
@@ -116,7 +134,19 @@
     </section>
 
     <section class="home__settings" *ngIf="displaySettings">
-      <form class="home__settings__form" [formGroup]="settingForm">
+      <form
+        class="home__settings__form"
+        [formGroup]="settingForm"
+        (ngSubmit)="
+          updateProfileData(
+            inputName.value,
+            inputPwd.value,
+            inputAge.value,
+            inputNac.value,
+            inputDesc.value
+          )
+        "
+      >
         <h2 class="home__settings__form__head">Modify profile</h2>
 
         <div class="home__settings__form__group" id="inputOne">
@@ -151,10 +181,11 @@
           <div class="home__settings__form__group__icon">
             <input
               type="password"
-              class="home__settings__form__group__input"
+              class="home__settings__form__group__input passwordInput"
               autocompleteOff
               id="password"
               formControlName="password"
+              placeholder="Password"
               #inputPwd
             />
             <img
@@ -347,13 +378,18 @@
           </div>
         </div>
 
-        <button
-          type="submit"
-          class="home__settings__form__btn"
-          [disabled]="settingForm.invalid"
-        >
-          submit
-        </button>
+        <div class="home__settings__form__bottom">
+          <button
+            type="submit"
+            class="home__settings__form__bottom__btn"
+            [disabled]="settingForm.invalid"
+          >
+            save
+          </button>
+          <span class="home__settings__form__bottom__save">
+            changes has been saved
+          </span>
+        </div>
       </form>
     </section>
   </section>

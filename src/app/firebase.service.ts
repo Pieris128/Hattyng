@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 import { initializeApp, FirebaseApp } from 'firebase/app';
-import { getDatabase, Database, ref, set, get, child } from 'firebase/database';
+import {
+  getDatabase,
+  Database,
+  ref,
+  set,
+  get,
+  child,
+  update,
+} from 'firebase/database';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -12,8 +20,13 @@ import {
   browserSessionPersistence,
   updateProfile,
   signOut,
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  UserCredential,
 } from 'firebase/auth';
 import { Router } from '@angular/router';
+import { flattenJSON } from 'three/src/animation/AnimationUtils';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDMqCr1TXMPGCFFTsWfi0haY6jjPLDhuY0',
@@ -97,7 +110,6 @@ export class Firebase {
       age: '',
       profile_picture: '',
     };
-    console.log(name);
     await get(child(ref(this.database), `users/${name}`))
       .then((snapshot) => {
         if (snapshot.exists()) {
@@ -112,7 +124,47 @@ export class Firebase {
 
     return userData;
   }
+  // Update user data
+  async updateUserData(
+    username: string,
+    name?: string | null,
+    password?: string | null,
+    age?: string | null,
+    nacionality?: string | null,
+    description?: string | null,
+    profile_picture?: string | null
+  ) {
+    // Format data
+    let postData: {
+      username?: string;
+      age?: string;
+      nacionality?: string;
+      description?: string;
+      profile_picture?: string;
+    } = {};
 
+    if (name && name !== '') {
+      postData.username = name;
+    }
+    if (age && age !== '') {
+      postData.age = age;
+    }
+    if (nacionality && nacionality !== '') {
+      postData.nacionality = nacionality;
+    }
+    if (description && description !== '') {
+      postData.description = description;
+    }
+    if (profile_picture && profile_picture !== '') {
+      postData.profile_picture = profile_picture;
+    } else {
+      postData.profile_picture = 'ONE';
+    }
+
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+
+    return update(ref(this.database, `users/${username}`), postData);
+  }
   /////////////////////////////////////////////////
   /* AUTH STUFF */
   //Sign Up Functionality
@@ -166,6 +218,32 @@ export class Firebase {
     }).catch((error) => {
       console.error(error.message);
     });
+  }
+
+  // Change Password Functionality
+  reAuthenticate(actualPassword: string) {
+    if (this.auth.currentUser?.email && this.auth.currentUser) {
+      let credentials = EmailAuthProvider.credential(
+        this.auth.currentUser?.email,
+        actualPassword
+      );
+      let state = reauthenticateWithCredential(
+        this.auth.currentUser,
+        credentials
+      )
+        .then(() => {
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+      return state;
+    }
+    return false;
+  }
+
+  changePassword(password: string) {
+    if (this.auth.currentUser) updatePassword(this.auth.currentUser, password);
   }
 
   //Logout functionality

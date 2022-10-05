@@ -42,8 +42,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   imgSelected: string = 'ONE';
   userExists: boolean = false;
   settingForm!: FormGroup;
+  showModal: boolean = false;
 
   constructor(private firebase: Firebase, private router: Router) {}
+
   //Builds form for searching other users!
   ngOnInit(): void {
     onAuthStateChanged(this.firebase.auth, (user) => {
@@ -65,6 +67,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     this.setUserData();
 
+    ////////////////////////////////////////////
+    // Form for SETTINGS section
     this.settingForm = new FormGroup({
       username: new FormControl(null, [
         Validators.minLength(4),
@@ -93,6 +97,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       pickSix: new FormControl(null),
     });
   }
+
   //Refer to DOM Elements
   ngAfterViewInit(): void {
     this.linkHome = document.querySelector('.home__nav__links__home')!;
@@ -100,6 +105,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.linkProfile = document.querySelector('.home__nav__links__profile')!;
     this.linkSettings = document.querySelector('.home__nav__links__settings')!;
   }
+  /////////////////////////////////////
   //Move between sections!
   linkClicked(clicked: string) {
     let selected = clicked.toUpperCase().trim();
@@ -142,6 +148,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /////////////////////////////////////////
   //Profile functionality!
   setUserData() {
     onAuthStateChanged(this.firebase.auth, async (user) => {
@@ -234,11 +241,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.inputError = false;
   }
 
+  ///////////////////////////////////////////
   //Sign Out Functionality!
   signOut() {
     this.firebase.signOut();
   }
 
+  ////////////////////////////////////////////////////
+  // Profile Image selection functionality for Settings section
   listenChecks(whichCheck: HTMLInputElement) {
     this.checkBoxes = document.querySelectorAll(
       '.home__settings__form__radiogroup__imgs__crew__pick'
@@ -246,7 +256,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     whichCheck.checked = true;
     this.checkBoxes.forEach((input) => {
       let box = input as HTMLInputElement;
-      console.log(whichCheck, box);
       if (whichCheck !== box) {
         box.checked = false;
       }
@@ -255,8 +264,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.imgSelected = selection;
   }
 
+  // Default values of Settings formulary
   setFormValues() {
-    console.log(this.settingForm.controls);
     this.settingForm.controls['username'].setValue(this.userData.username);
     this.settingForm.controls['age'].setValue(this.userData.age);
     this.settingForm.controls['nacionality'].setValue(
@@ -273,8 +282,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.settingForm.controls['description'].disable();
   }
 
+  // Activate Settings Inputs for change personal data on db
   modifyInput(id: string, element: HTMLInputElement | HTMLTextAreaElement) {
-    console.log(id);
+    //Settings icon set active state
+    element.nextElementSibling?.classList.add('inputActiveState');
     if (id === 'username') {
       if (!element.classList.contains('modifying')) {
         this.settingForm.controls['username'].enable();
@@ -288,6 +299,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
           Validators.required
         );
         element.classList.remove('modifying');
+        //Settings icon remove active state
+        element.nextElementSibling?.classList.remove('inputActiveState');
       }
     }
     if (id === 'password') {
@@ -297,12 +310,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
           Validators.required
         );
         element.classList.add('modifying');
+        this.showModal = true;
       } else {
         this.settingForm.controls['password'].disable();
         this.settingForm.controls['password'].removeValidators(
           Validators.required
         );
         element.classList.remove('modifying');
+        element.nextElementSibling?.classList.remove('inputActiveState');
       }
     }
     if (id === 'age') {
@@ -314,6 +329,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.settingForm.controls['age'].disable();
         this.settingForm.controls['age'].removeValidators(Validators.required);
         element.classList.remove('modifying');
+        element.nextElementSibling?.classList.remove('inputActiveState');
       }
     }
     if (id === 'nacionality') {
@@ -329,6 +345,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           Validators.required
         );
         element.classList.remove('modifying');
+        element.nextElementSibling?.classList.remove('inputActiveState');
       }
     }
     if (id === 'description') {
@@ -344,7 +361,76 @@ export class HomeComponent implements OnInit, AfterViewInit {
           Validators.required
         );
         element.classList.remove('modifying');
+        element.nextElementSibling?.classList.remove('inputActiveState');
       }
+    }
+  }
+
+  //////////////////////////////////////
+  // Update Profile data on submit Functionality
+  async updateProfileData(
+    name?: string | null,
+    password?: string | null,
+    age?: string | null,
+    nacionality?: string | null,
+    description?: string | null
+  ) {
+    let image = this.imgSelected;
+
+    await this.firebase.updateUserData(
+      this.userData.username,
+      name,
+      password,
+      age,
+      nacionality,
+      description,
+      image
+    );
+
+    // Change Password
+    if (password && password !== '') {
+      this.firebase.changePassword(password);
+    }
+
+    // Remove visual classes from settings form active state
+    document
+      .querySelectorAll('.home__settings__form__group__input')
+      .forEach((el) => {
+        el.nextElementSibling?.classList.remove('inputActiveState');
+        el.classList.remove('modifying');
+      });
+
+    // Empty password input on submit
+    let passwordInput = document.querySelector(
+      '.passwordInput'
+    ) as HTMLInputElement;
+    passwordInput.value = '';
+
+    // Deselect img icon
+    if (this.checkBoxes)
+      this.checkBoxes.forEach((el) => {
+        let radioButton = el as HTMLInputElement;
+        radioButton.checked = false;
+      });
+
+    // Show saved status span
+    let span = document.querySelector('.home__settings__form__bottom__save');
+    span?.classList.add('showSpan');
+    setTimeout(() => {
+      span?.classList.remove('showSpan');
+    }, 4000);
+
+    this.setUserData();
+  }
+
+  async onSubmitModal(actualPassword: string) {
+    let errorSpan = document.querySelector('.password__modal__form__error');
+    let worked = await this.firebase.reAuthenticate(actualPassword);
+    if (worked) {
+      this.showModal = false;
+      errorSpan?.classList.remove('showSpan');
+    } else {
+      errorSpan?.classList.add('showSpan');
     }
   }
 }
