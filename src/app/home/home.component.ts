@@ -66,22 +66,22 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.setUserData();
 
     this.settingForm = new FormGroup({
-      username: new FormControl(this.userData.username, [
+      username: new FormControl(null, [
         Validators.minLength(4),
         Validators.maxLength(12),
         Validators.pattern('^[A-Za-z0-9]+$'),
       ]),
       password: new FormControl(null, Validators.minLength(6)),
-      age: new FormControl(this.userData.age, [
+      age: new FormControl(null, [
         Validators.minLength(2),
         Validators.maxLength(2),
         Validators.pattern('^[0-9]*$'),
       ]),
-      nacionality: new FormControl(this.userData.nacionality, [
+      nacionality: new FormControl(null, [
         Validators.minLength(1),
         Validators.maxLength(58),
       ]),
-      description: new FormControl(this.userData.description, [
+      description: new FormControl(null, [
         Validators.minLength(12),
         Validators.maxLength(72),
       ]),
@@ -244,7 +244,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     whichCheck.checked = true;
     this.checkBoxes.forEach((input) => {
       let box = input as HTMLInputElement;
-
       if (whichCheck !== box) {
         box.checked = false;
       }
