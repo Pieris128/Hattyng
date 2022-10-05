@@ -53,14 +53,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(private firebase: Firebase, private router: Router) {}
 
-  @HostListener('body: click', ['$event.path']) onClickModal(
-    e: Array<HTMLElement>
-  ) {
-    if (e[0].classList.contains('password__modal')) {
-      this.showModal = !this.showModal;
-    }
-  }
-
   //Builds form for searching other users!
   ngOnInit(): void {
     onAuthStateChanged(this.firebase.auth, (user) => {
@@ -446,6 +438,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
       errorSpan?.classList.remove('showSpan');
     } else {
       errorSpan?.classList.add('showSpan');
+    }
+  }
+
+  onModalOpen(e: Event) {
+    if (
+      (e.composedPath()[0] as HTMLElement).classList.contains('password__modal')
+    ) {
+      this.showModal = !this.showModal;
+      this.settingForm.controls['password'].disable();
+      document
+        .getElementById('settingsPasswordIcon')
+        ?.classList.remove('inputActiveState');
+      document.getElementById('password')?.classList.remove('modifying');
     }
   }
 }
