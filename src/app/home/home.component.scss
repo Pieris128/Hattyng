@@ -386,6 +386,40 @@ body {
           }
         }
 
+        &__icon {
+          position: relative;
+          width: 100%;
+          display: flex;
+          align-items: center;
+
+          &__img {
+            position: absolute;
+            width: 20px;
+            right: 8px;
+            opacity: 0.4;
+            transition: all 0.2s;
+            cursor: pointer;
+
+            &:hover {
+              opacity: 0.9;
+            }
+          }
+
+          &__imgta {
+            position: absolute;
+            width: 20px;
+            top: 8px;
+            right: 8px;
+            opacity: 0.4;
+            transition: all 0.2s;
+            cursor: pointer;
+
+            &:hover {
+              opacity: 0.9;
+            }
+          }
+        }
+
         &__error {
           font-size: 16px;
           font-weight: normal;

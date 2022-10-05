@@ -123,13 +123,22 @@
           <label for="username" class="home__settings__form__group__label"
             >Username</label
           >
-          <input
-            type="text"
-            class="home__settings__form__group__input"
-            autocompleteOff
-            id="username"
-            formControlName="username"
-          />
+          <div class="home__settings__form__group__icon">
+            <input
+              type="text"
+              class="home__settings__form__group__input"
+              autocompleteOff
+              id="username"
+              formControlName="username"
+              #inputName
+            />
+            <img
+              src="../../assets/gear-icon.png"
+              alt="A settings icon"
+              class="home__settings__form__group__icon__img"
+              (click)="modifyInput(inputName.id, inputName)"
+            />
+          </div>
           <span *ngIf="userExists" class="home__settings__form__group__error"
             >Username already exists!</span
           >
@@ -139,51 +148,87 @@
           <label for="password" class="home__settings__form__group__label"
             >Password</label
           >
-          <input
-            type="password"
-            class="home__settings__form__group__input"
-            autocompleteOff
-            id="password"
-            formControlName="password"
-          />
+          <div class="home__settings__form__group__icon">
+            <input
+              type="password"
+              class="home__settings__form__group__input"
+              autocompleteOff
+              id="password"
+              formControlName="password"
+              #inputPwd
+            />
+            <img
+              src="../../assets/gear-icon.png"
+              alt="A settings icon"
+              class="home__settings__form__group__icon__img"
+              (click)="modifyInput(inputPwd.id, inputPwd)"
+            />
+          </div>
         </div>
 
         <div class="home__settings__form__group" id="inputThree">
           <label for="age" class="home__settings__form__group__label"
             >Age</label
           >
-          <input
-            type="text"
-            id="age"
-            class="home__settings__form__group__input"
-            autocompleteOff
-            formControlName="age"
-          />
+          <div class="home__settings__form__group__icon">
+            <input
+              type="text"
+              id="age"
+              class="home__settings__form__group__input"
+              autocompleteOff
+              formControlName="age"
+              #inputAge
+            />
+            <img
+              src="../../assets/gear-icon.png"
+              alt="A settings icon"
+              class="home__settings__form__group__icon__img"
+              (click)="modifyInput(inputAge.id, inputAge)"
+            />
+          </div>
         </div>
 
         <div class="home__settings__form__group" id="inputFour">
           <label for="nacionality" class="home__settings__form__group__label"
             >Nacionality</label
           >
-          <input
-            type="text"
-            id="nacionality"
-            class="home__settings__form__group__input"
-            autocompleteOff
-            formControlName="nacionality"
-          />
+          <div class="home__settings__form__group__icon">
+            <input
+              type="text"
+              id="nacionality"
+              class="home__settings__form__group__input"
+              autocompleteOff
+              formControlName="nacionality"
+              #inputNac
+            />
+            <img
+              src="../../assets/gear-icon.png"
+              alt="A settings icon"
+              class="home__settings__form__group__icon__img"
+              (click)="modifyInput(inputNac.id, inputNac)"
+            />
+          </div>
         </div>
 
         <div class="home__settings__form__group" id="inputFive">
           <label for="description" class="home__settings__form__group__label"
             >Description</label
           >
-          <textarea
-            type="text"
-            id="description"
-            class="home__settings__form__group__input textareaInput"
-            formControlName="description"
-          ></textarea>
+          <div class="home__settings__form__group__icon">
+            <textarea
+              type="text"
+              id="description"
+              class="home__settings__form__group__input textareaInput"
+              formControlName="description"
+              #inputDesc
+            ></textarea>
+            <img
+              src="../../assets/gear-icon.png"
+              alt="A settings icon"
+              class="home__settings__form__group__icon__imgta"
+              (click)="modifyInput(inputDesc.id, inputDesc)"
+            />
+          </div>
         </div>
 
         <div class="home__settings__form__radiogroup" id="inputSix">
