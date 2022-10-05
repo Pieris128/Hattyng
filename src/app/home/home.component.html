@@ -1,5 +1,5 @@
 <body>
-  <div class="password__modal" *ngIf="showModal">
+  <div class="password__modal" *ngIf="showModal" (click)="onModalOpen($event)">
     <form
       class="password__modal__form"
       (ngSubmit)="onSubmitModal(modalPassword.value)"
@@ -220,6 +220,7 @@
               alt="A settings icon"
               class="home__settings__form__group__icon__img"
               (click)="modifyInput(inputPwd.id, inputPwd)"
+              id="settingsPasswordIcon"
             />
           </div>
         </div>

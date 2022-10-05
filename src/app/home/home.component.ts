@@ -1,8 +1,15 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Firebase } from '../firebase.service';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Router } from '@angular/router';
+import { every } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -431,6 +438,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
       errorSpan?.classList.remove('showSpan');
     } else {
       errorSpan?.classList.add('showSpan');
+    }
+  }
+
+  onModalOpen(e: Event) {
+    if (
+      (e.composedPath()[0] as HTMLElement).classList.contains('password__modal')
+    ) {
+      this.showModal = !this.showModal;
+      this.settingForm.controls['password'].disable();
+      document
+        .getElementById('settingsPasswordIcon')
+        ?.classList.remove('inputActiveState');
+      document.getElementById('password')?.classList.remove('modifying');
     }
   }
 }
