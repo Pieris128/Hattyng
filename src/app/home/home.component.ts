@@ -4,8 +4,14 @@ import {
   ElementRef,
   HostListener,
   OnInit,
+  Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Firebase } from '../firebase.service';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Router } from '@angular/router';
@@ -46,10 +52,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
   inputError: boolean = false;
   //Settings features
   checkBoxes!: NodeList;
-  imgSelected: string = 'ONE';
+  imgSelected!: string;
   userExists: boolean = false;
   settingForm!: FormGroup;
   showModal: boolean = false;
+  settingFormInputs!: NodeListOf<Element>;
+  settingsInputsTouched: boolean = false;
 
   constructor(private firebase: Firebase, private router: Router) {}
 
@@ -116,6 +124,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
   //Move between sections!
   linkClicked(clicked: string) {
     let selected = clicked.toUpperCase().trim();
+
+    if (selected !== 'SETTINGS') {
+      this.imgSelected = '';
+    }
+
     if (selected === 'HOME') {
       this.linkHome.classList.add('active-link');
       this.linkRoom.classList.remove('active-link');
@@ -293,6 +306,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   modifyInput(id: string, element: HTMLInputElement | HTMLTextAreaElement) {
     //Settings icon set active state
     element.nextElementSibling?.classList.add('inputActiveState');
+    //
     if (id === 'username') {
       if (!element.classList.contains('modifying')) {
         this.settingForm.controls['username'].enable();
@@ -382,6 +396,26 @@ export class HomeComponent implements OnInit, AfterViewInit {
     nacionality?: string | null,
     description?: string | null
   ) {
+    ///////////////////////////////////////
+    // DISABLE FORM PRIMITIVE FUNCTIONALITY
+    this.settingFormInputs = document.querySelectorAll(
+      '.home__settings__form__group__input'
+    );
+    this.settingsInputsTouched = false;
+    this.settingFormInputs.forEach((input) => {
+      let inputElement = input as HTMLInputElement;
+      if (inputElement.classList.contains('ng-touched')) {
+        this.settingsInputsTouched = true;
+      }
+    });
+    if (!this.settingsInputsTouched) {
+      return;
+    }
+    ////////////////////////////////////////
+
+    if (this.imgSelected === '') {
+      this.imgSelected = this.userData.profile_picture;
+    }
     let image = this.imgSelected;
 
     await this.firebase.updateUserData(
