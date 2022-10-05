@@ -1,8 +1,15 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Firebase } from '../firebase.service';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Router } from '@angular/router';
+import { every } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -45,6 +52,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
   showModal: boolean = false;
 
   constructor(private firebase: Firebase, private router: Router) {}
+
+  @HostListener('body: click', ['$event.path']) onClickModal(
+    e: Array<HTMLElement>
+  ) {
+    if (e[0].classList.contains('password__modal')) {
+      this.showModal = !this.showModal;
+    }
+  }
 
   //Builds form for searching other users!
   ngOnInit(): void {
