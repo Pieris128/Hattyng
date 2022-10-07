@@ -11,6 +11,8 @@ import { RegistryComponent } from './registry/registry.component';
 import { AutocompleteOffDirective } from './autocomplete-off.directive';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HomeComponent } from './home/home.component';
+import { GeekRoomComponent } from './geek-room/geek-room.component';
+import { GlobalRoomComponent } from './global-room/global-room.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { HomeComponent } from './home/home.component';
     AutocompleteOffDirective,
     UserProfileComponent,
     HomeComponent,
+    GeekRoomComponent,
+    GlobalRoomComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [DatePipe],
