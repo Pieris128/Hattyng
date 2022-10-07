@@ -4,17 +4,30 @@
       class="password__modal__form"
       (ngSubmit)="onSubmitModal(modalPassword.value)"
     >
-      <input
-        type="password"
-        class="password__modal__form__input passwordModalInput"
-        autocompleteOff
-        id="modalPassword"
-        placeholder="Enter your actual password"
-        #modalPassword
-      />
+      <div class="password__modal__form__group__icon">
+        <input
+          type="password"
+          class="password__modal__form__group__input passwordModalInput"
+          autocompleteOff
+          id="modalPassword"
+          placeholder="Enter your actual password"
+          #modalPassword
+        />
+        <img
+          src="../../assets/eye-slash.png"
+          alt="A password visibility toggle icon"
+          class="password__modal__form__group__img"
+          (click)="onPasswordView('modal')"
+        />
+      </div>
       <span class="password__modal__form__error">Wrong password!</span>
 
-      <button class="password__modal__form__submit">submit</button>
+      <button
+        class="password__modal__form__submit"
+        (click)="onPasswordView('settings')"
+      >
+        submit
+      </button>
     </form>
   </div>
   <section class="home">
@@ -391,6 +404,7 @@
             type="submit"
             class="home__settings__form__bottom__btn"
             [disabled]="settingForm.invalid"
+            (click)="onPasswordView('onFinishedChanges')"
           >
             save
           </button>

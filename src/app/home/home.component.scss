@@ -34,23 +34,46 @@ body {
     border-top: 1px solid #add2ff7e;
     padding: 22px 0;
 
-    &__input {
-      font-size: 16px;
-      padding: 6px 0 6px 6px;
-      border: none;
-      background-color: rgba(255, 255, 255, 0.15);
-      border-bottom: 1px solid #add2ff7e;
-      box-shadow: 0 0.5px 2px #add2ff7e;
-      color: #ffffffde;
-      width: 80%;
-
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.62);
+    &__group {
+      &__icon {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      &:focus {
-        outline: none;
+      &__input {
+        font-size: 18px;
+        padding: 8px 0 8px 8px;
+        width: 90%;
+        border: none;
+        background-color: transparent;
         border-bottom: 1px solid #add2ff7e;
+        box-shadow: 0 0.5px 2px #add2ff7e;
+        backdrop-filter: blur(8px);
+        color: #ffffffde;
+
+        &::placeholder {
+          color: #ffffff9f;
+        }
+
+        &:focus {
+          outline: none;
+          border-bottom: 1px solid #add2ff7e;
+        }
+      }
+      &__img {
+        position: absolute;
+        width: 20px;
+        right: 37px;
+        opacity: 0.4;
+        transition: all 0.2s;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.7;
+        }
       }
     }
 

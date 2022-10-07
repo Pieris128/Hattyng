@@ -304,6 +304,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   // Activate Settings Inputs for change personal data on db
   modifyInput(id: string, element: HTMLInputElement | HTMLTextAreaElement) {
+    /////////////////////////////////////
+    // Settings Password View State Logic
+    let gearIcon = document.getElementById('settingsPasswordIcon');
+
+    if (gearIcon?.classList.contains('onActivePasswordInputToVisible')) {
+      this.onPasswordView('main');
+      return;
+    } else if (gearIcon?.classList.contains('onActivePasswordInputToHidden')) {
+      this.onPasswordView('mainAndHidden');
+      return;
+    }
+
+    /////////////////////////////////////
     //Settings icon set active state
     element.nextElementSibling?.classList.add('inputActiveState');
     //
@@ -485,6 +498,55 @@ export class HomeComponent implements OnInit, AfterViewInit {
         .getElementById('settingsPasswordIcon')
         ?.classList.remove('inputActiveState');
       document.getElementById('password')?.classList.remove('modifying');
+    }
+  }
+
+  // Password Viewing logic on Settings section
+  onPasswordView(calledFrom: string) {
+    let gearIcon = document.getElementById('settingsPasswordIcon');
+    let mainInput = document.querySelector('.passwordInput');
+
+    if (calledFrom === 'modal') {
+      let input = document.querySelector(
+        '.password__modal__form__group__input'
+      );
+      let icon = document.querySelector('.password__modal__form__group__img');
+      if (input && icon) {
+        if (input.attributes.getNamedItem('type')?.value === 'password') {
+          icon.attributes.getNamedItem('src')!.value = '../../assets/eye.png';
+          input.attributes.getNamedItem('type')!.value = 'text';
+        } else {
+          icon.attributes.getNamedItem('src')!.value =
+            '../../assets/eye-slash.png';
+          input.attributes.getNamedItem('type')!.value = 'password';
+        }
+      }
+    }
+    if (calledFrom === 'settings') {
+      if (gearIcon) {
+        gearIcon.classList.add('onActivePasswordInputToVisible');
+        gearIcon.attributes.getNamedItem('src')!.value =
+          '../../assets/eye-slash.png';
+      }
+    }
+    if (calledFrom === 'main') {
+      gearIcon!.attributes.getNamedItem('src')!.value = '../../assets/eye.png';
+      mainInput!.attributes.getNamedItem('type')!.value = 'text';
+      gearIcon!.classList.remove('onActivePasswordInputToVisible');
+      gearIcon!.classList.add('onActivePasswordInputToHidden');
+    }
+    if (calledFrom === 'mainAndHidden') {
+      gearIcon!.attributes.getNamedItem('src')!.value =
+        '../../assets/eye-slash.png';
+      mainInput!.attributes.getNamedItem('type')!.value = 'password';
+      gearIcon!.classList.remove('onActivePasswordInputToHidden');
+      gearIcon!.classList.add('onActivePasswordInputToVisible');
+    }
+    if (calledFrom === 'onFinishedChanges') {
+      gearIcon!.classList.remove('onActivePasswordInputToHidden');
+      gearIcon!.classList.remove('onActivePasswordInputToVisible');
+      gearIcon!.attributes.getNamedItem('src')!.value =
+        '../../assets/gear-icon.png';
     }
   }
 }
