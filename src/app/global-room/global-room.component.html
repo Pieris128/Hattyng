@@ -1,0 +1,47 @@
+<body>
+  <section class="room">
+    <nav class="room__nav">
+      <img
+        src="../../assets/hattyng-logo.png"
+        alt="Hattyng logo"
+        class="room__nav__logo"
+      />
+      <div class="room__nav__users">
+        <h2 class="room__nav__users__title">Users</h2>
+        <hr class="room__nav__users__line" />
+        <div class="room__nav__users__item">
+          <img
+            src="../../assets/profile-imgs/profileFour.png"
+            alt="Profile Img"
+            class="room__nav__users__item__img"
+          />
+          <h2 class="room__nav__users__item__name">Rodolfo</h2>
+        </div>
+      </div>
+      <h2 class="room__nav__exit" routerLink="../">Exit room</h2>
+    </nav>
+    <div class="room__chat">
+      <div class="room__chat__msgs">
+        <img
+          src="../../assets/global-icon.png"
+          alt="Geek room icon"
+          class="room__chat__msgs__icon"
+        />
+      </div>
+      <form class="room__chat__enter">
+        <input
+          type="text"
+          class="room__chat__enter__input"
+          placeholder="Enter here your message..."
+        />
+        <button class="room__chat__enter__button" type="submit">
+          <img
+            src="../../assets/send-icon.png"
+            alt="A paper plane icon"
+            class="room__chat__enter__button__icon"
+          />
+        </button>
+      </form>
+    </div>
+  </section>
+</body>
