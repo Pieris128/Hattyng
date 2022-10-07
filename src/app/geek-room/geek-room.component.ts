@@ -36,10 +36,14 @@ export class GeekRoomComponent implements OnInit, OnDestroy {
         this.user.name = this.userData.username;
         this.user.img = this.userData.profile_picture;
 
-        this.firebase.writeRoomUsersList('geek', this.user.name, this.user.img);
+        await this.firebase.writeRoomUsersList(
+          'geek',
+          this.user.name,
+          this.user.img
+        );
+        this.getRoomList();
       }
     });
-    this.getRoomList();
   }
 
   ngOnDestroy(): void {

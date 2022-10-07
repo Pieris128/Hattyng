@@ -10,6 +10,7 @@ import {
   update,
   push,
   remove,
+  onChildAdded,
 } from 'firebase/database';
 import {
   getAuth,
@@ -218,18 +219,8 @@ export class Firebase {
 
     return update(ref(this.database, `users/${username}`), postData);
   }
-  /*Create room
-  pushUpdatesRooms(
-    update: string,
-    user?: { name: string; img: string },
-    msj?: string
-  ) {
-    if (update === 'user') {
-      set(push(ref(this.database, 'rooms/users')), () => {
-        user;
-      });
-    }
-  }*/
+  //Listen to new childs
+
   /////////////////////////////////////////////////
   /* AUTH STUFF */
   //Sign Up Functionality
