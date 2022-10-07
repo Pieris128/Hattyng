@@ -9,13 +9,15 @@
       <div class="room__nav__users">
         <h2 class="room__nav__users__title">Users</h2>
         <hr class="room__nav__users__line" />
-        <div class="room__nav__users__item">
+        <div class="room__nav__users__item" *ngFor="let e of usersNames">
           <img
-            src="../../assets/profile-imgs/profileFour.png"
+            src="../../assets/profile-imgs/profileFive.png"
             alt="Profile Img"
             class="room__nav__users__item__img"
           />
-          <h2 class="room__nav__users__item__name">Rodolfo</h2>
+          <h2 class="room__nav__users__item__name">
+            {{ totalUsers[e].name }}
+          </h2>
         </div>
       </div>
       <h2 class="room__nav__exit" routerLink="../">Exit room</h2>

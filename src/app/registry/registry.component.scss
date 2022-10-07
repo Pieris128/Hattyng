@@ -55,16 +55,10 @@ body {
 
   &__inserts {
     display: flex;
+    position: relative;
     flex-direction: column;
     justify-content: flex-start;
     width: 75%;
-
-    &__label {
-      font-size: 16px;
-      font-weight: normal;
-      color: #ffffff;
-      margin-bottom: 4px;
-    }
 
     &__input {
       font-size: 18px;
@@ -83,6 +77,21 @@ body {
       &:focus {
         border-bottom: 1px solid #add2ff7e;
         outline: none;
+      }
+    }
+
+    &__icon {
+      position: absolute;
+      top: 50%;
+      translate: 0 -50%;
+      right: 8px;
+      width: 20px;
+      opacity: 0.6;
+      transition: all 0.2s;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 1;
       }
     }
 
@@ -171,6 +180,10 @@ body {
 input.ng-invalid.ng-touched {
   border-bottom: 1px solid #e027277e;
   box-shadow: 0 0.5px 2px #e027277e;
+  animation: errorInput 0.325s linear 1 forwards;
+}
+
+input.ng-invalid.ng-touched + img {
   animation: errorInput 0.325s linear 1 forwards;
 }
 

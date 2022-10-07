@@ -8,7 +8,6 @@
     >
       <h2 class="registry__title">Join us!</h2>
       <div class="registry__inserts">
-        <label for="email" class="registry__inserts__label">Email</label>
         <input
           type="email"
           class="registry__inserts__input"
@@ -20,14 +19,19 @@
         />
       </div>
       <div class="registry__inserts">
-        <label for="password" class="registry__inserts__label">Password</label>
         <input
           type="password"
-          class="registry__inserts__input"
+          class="registry__inserts__input pwdInput"
           placeholder="Enter your password..."
           id="password"
           formControlName="userpassword"
           #userPassword
+        />
+        <img
+          src="../../assets/eye-slash.png"
+          alt="A password visibility toggle icon"
+          class="registry__inserts__icon pwdIcon"
+          (click)="switchVisibility()"
         />
       </div>
       <button

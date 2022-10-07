@@ -54,6 +54,7 @@ body {
   }
 
   &__inserts {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -83,6 +84,21 @@ body {
       &:focus {
         outline: none;
         border-bottom: 1px solid #add2ff7e;
+      }
+    }
+
+    &__icon {
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      width: 20px;
+      translate: 0 -50%;
+      opacity: 0.6;
+      transition: all 0.2s;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 1;
       }
     }
 
@@ -187,6 +203,10 @@ body {
 input.ng-invalid.ng-touched {
   border-bottom: 1px solid #e027277e;
   box-shadow: 0 0.5px 2px #e027277e;
+  animation: errorInput 0.325s linear 1 forwards;
+}
+
+input.ng-invalid.ng-touched + img {
   animation: errorInput 0.325s linear 1 forwards;
 }
 

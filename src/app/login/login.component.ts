@@ -63,4 +63,19 @@ export class LoginComponent implements OnInit, AfterViewInit {
   createAcc() {
     this.router.navigate(['signup']);
   }
+
+  switchVisibility() {
+    let input = document.querySelector('.pwdInput');
+    let icon = document.querySelector('.pwdIcon');
+    if (input && icon) {
+      if (input.attributes.getNamedItem('type')?.value === 'password') {
+        icon.attributes.getNamedItem('src')!.value = '../../assets/eye.png';
+        input.attributes.getNamedItem('type')!.value = 'text';
+      } else {
+        icon.attributes.getNamedItem('src')!.value =
+          '../../assets/eye-slash.png';
+        input.attributes.getNamedItem('type')!.value = 'password';
+      }
+    }
+  }
 }

@@ -8,6 +8,8 @@ import {
   get,
   child,
   update,
+  push,
+  remove,
 } from 'firebase/database';
 import {
   getAuth,
@@ -81,6 +83,40 @@ export class Firebase {
       age: age,
     });
   }
+  //Write rooms users list
+  async writeRoomUsersList(room: string, username: string, userimg: string) {
+    switch (userimg) {
+      case 'ONE':
+        userimg = 'profileOne';
+        break;
+      case 'TWO':
+        userimg = 'profileTwo';
+        break;
+      case 'THREE':
+        userimg = 'profileThree';
+        break;
+      case 'FOUR':
+        userimg = 'profileFour';
+        break;
+      case 'FIVE':
+        userimg = 'profileFive';
+        break;
+      case 'SIX':
+        userimg = 'profileSix';
+        break;
+      default:
+        userimg = 'profileOne';
+    }
+
+    await set(ref(this.database, `rooms/${room}/users/${username}`), {
+      name: username,
+      img: userimg,
+    });
+  }
+  //Remove rooms user list
+  async removeRoomUsersList(room: string, username: string) {
+    await remove(ref(this.database, `rooms/${room}/users/${username}`));
+  }
   //Check if another username exists in Set Profile.
   async checkUserData(name: string) {
     let canUse: boolean = false;
@@ -124,6 +160,23 @@ export class Firebase {
 
     return userData;
   }
+  //Get users list for rooms
+  async getRoomUsersList(room: string) {
+    let userList: {} = {};
+
+    await get(child(ref(this.database), `rooms/${room}/users`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          userList = snapshot.val();
+        } else {
+          console.log('No data available');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    return userList;
+  }
   // Update user data
   async updateUserData(
     username: string,
@@ -165,6 +218,18 @@ export class Firebase {
 
     return update(ref(this.database, `users/${username}`), postData);
   }
+  /*Create room
+  pushUpdatesRooms(
+    update: string,
+    user?: { name: string; img: string },
+    msj?: string
+  ) {
+    if (update === 'user') {
+      set(push(ref(this.database, 'rooms/users')), () => {
+        user;
+      });
+    }
+  }*/
   /////////////////////////////////////////////////
   /* AUTH STUFF */
   //Sign Up Functionality

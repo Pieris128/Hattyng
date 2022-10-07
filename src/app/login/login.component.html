@@ -21,18 +21,18 @@
       <div class="login__inserts">
         <input
           type="password"
-          class="login__inserts__input"
+          class="login__inserts__input pwdInput"
           id="password"
           placeholder="Password"
           formControlName="userpassword"
           #passwordInput
         />
-        <!-- <img
-        src="../../assets/eye-slash.png"
-        alt="A password visibility toggle icon"
-        class="password__modal__form__group__img"
-        (click)="onPasswordView('modal')"
-      /> -->
+        <img
+          src="../../assets/eye-slash.png"
+          alt="A password visibility toggle icon"
+          class="login__inserts__icon pwdIcon"
+          (click)="switchVisibility()"
+        />
       </div>
       <button class="login__btn" type="submit" [disabled]="loginForm.invalid">
         Login
