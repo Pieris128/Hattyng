@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   displaySettings: boolean = false;
   //User data
   userData!: {
+    displayName: string;
     age: string;
     nacionality: string;
     username: string;
@@ -56,6 +57,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   userExists: boolean = false;
   settingForm!: FormGroup;
   showModal: boolean = false;
+  showModalUserDelete: boolean = false;
   settingFormInputs!: NodeListOf<Element>;
   settingsInputsTouched: boolean = false;
 
@@ -174,7 +176,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     onAuthStateChanged(this.firebase.auth, async (user) => {
       if (user) {
         this.userData = await this.firebase.readUserData(user.displayName);
-        this.userName = this.userData.username;
+        this.userName = this.userData.displayName;
         this.userDesc = this.userData.description;
         this.userNacion = this.userData.nacionality;
         this.userAge = this.userData.age;
@@ -286,7 +288,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   // Default values of Settings formulary
   setFormValues() {
-    this.settingForm.controls['username'].setValue(this.userData.username);
+    this.settingForm.controls['username'].setValue(this.userData.displayName);
     this.settingForm.controls['age'].setValue(this.userData.age);
     this.settingForm.controls['nacionality'].setValue(
       this.userData.nacionality
@@ -548,5 +550,30 @@ export class HomeComponent implements OnInit, AfterViewInit {
       gearIcon!.attributes.getNamedItem('src')!.value =
         '../../assets/gear-icon.png';
     }
+  }
+
+  //Open user delete modal window
+  async onSubmitDelete(actualPassword: string) {
+    let errorSpan = document.querySelector('.deleteError');
+    let worked = await this.firebase.reAuthenticate(actualPassword);
+    if (worked) {
+      this.showModalUserDelete = false;
+      errorSpan?.classList.remove('showSpan');
+      this.firebase.deleteUser(this.userData.username);
+    } else {
+      errorSpan?.classList.add('showSpan');
+    }
+  }
+
+  onDelteOpen(e: Event) {
+    if (
+      (e.composedPath()[0] as HTMLElement).classList.contains('password__modal')
+    ) {
+      this.showModalUserDelete = !this.showModalUserDelete;
+    }
+  }
+
+  onOpenDelete() {
+    this.showModalUserDelete = true;
   }
 }

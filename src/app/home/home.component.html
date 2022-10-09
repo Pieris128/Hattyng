@@ -30,6 +30,37 @@
       </button>
     </form>
   </div>
+  <div
+    class="password__modal deleteModal"
+    *ngIf="showModalUserDelete"
+    (click)="onDelteOpen($event)"
+  >
+    <form
+      class="password__modal__form deleteForm"
+      (ngSubmit)="onSubmitDelete(modalPassword.value)"
+    >
+      <div class="password__modal__form__group__icon">
+        <input
+          type="password"
+          class="password__modal__form__group__input passwordModalInput"
+          autocompleteOff
+          id="modalPassword"
+          placeholder="Enter your actual password"
+          #modalPassword
+        />
+      </div>
+      <span class="password__modal__form__error deleteError"
+        >Wrong password!</span
+      >
+
+      <button
+        class="password__modal__form__submit"
+        (click)="onPasswordView('settings')"
+      >
+        submit
+      </button>
+    </form>
+  </div>
   <section class="home">
     <nav class="home__nav">
       <img
@@ -420,6 +451,12 @@
           </button>
           <span class="home__settings__form__bottom__save">
             changes has been saved
+          </span>
+          <span
+            class="home__settings__form__bottom__delete"
+            (click)="onOpenDelete()"
+          >
+            Delete Account
           </span>
         </div>
       </form>

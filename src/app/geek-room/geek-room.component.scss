@@ -62,9 +62,9 @@ body {
       }
 
       &__item {
-        width: 100%;
+        width: 75%;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
 
         &__img {

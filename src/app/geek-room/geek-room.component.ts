@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Firebase } from '../firebase.service';
+import { onChildAdded, onChildRemoved, ref } from 'firebase/database';
 
 @Component({
   selector: 'app-geek-room',
@@ -9,6 +10,7 @@ import { Firebase } from '../firebase.service';
 })
 export class GeekRoomComponent implements OnInit, OnDestroy {
   userData!: {
+    displayName: string;
     username: string;
     description: string;
     nacionality: string;
@@ -27,23 +29,17 @@ export class GeekRoomComponent implements OnInit, OnDestroy {
   };
   usersNames!: string[];
 
-  constructor(private firebase: Firebase) {}
+  constructor(private firebase: Firebase) {
+    onChildAdded(ref(this.firebase.database, 'rooms/geek/users'), () => {
+      this.getRoomList();
+    });
+    onChildRemoved(ref(this.firebase.database, 'rooms/geek/users'), () => {
+      this.getRoomList();
+    });
+  }
 
   ngOnInit(): void {
-    onAuthStateChanged(this.firebase.auth, async (user) => {
-      if (user) {
-        this.userData = await this.firebase.readUserData(user.displayName);
-        this.user.name = this.userData.username;
-        this.user.img = this.userData.profile_picture;
-
-        await this.firebase.writeRoomUsersList(
-          'geek',
-          this.user.name,
-          this.user.img
-        );
-        this.getRoomList();
-      }
-    });
+    this.setUsersList();
   }
 
   ngOnDestroy(): void {
@@ -54,5 +50,22 @@ export class GeekRoomComponent implements OnInit, OnDestroy {
     this.totalUsers = await this.firebase.getRoomUsersList('geek');
 
     this.usersNames = Object.keys(this.totalUsers);
+  }
+
+  setUsersList() {
+    onAuthStateChanged(this.firebase.auth, async (user) => {
+      if (user) {
+        this.userData = await this.firebase.readUserData(user.displayName);
+        this.user.name = this.userData.displayName;
+        this.user.img = this.userData.profile_picture;
+
+        await this.firebase.writeRoomUsersList(
+          'geek',
+          this.user.name,
+          this.user.img
+        );
+        this.getRoomList();
+      }
+    });
   }
 }

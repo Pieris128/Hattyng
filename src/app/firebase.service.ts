@@ -27,6 +27,7 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
   UserCredential,
+  deleteUser,
 } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { flattenJSON } from 'three/src/animation/AnimationUtils';
@@ -48,6 +49,8 @@ export class Firebase {
   auth: Auth;
   authState: NextOrObserver<string>;
   static setProfileAuth: any;
+
+  userOriginalName!: string;
 
   constructor(private router: Router) {
     this.app = initializeApp(firebaseConfig);
@@ -78,6 +81,7 @@ export class Firebase {
   ) {
     await set(ref(this.database, 'users/' + username), {
       username: username,
+      displayName: username,
       profile_picture: imageUrl || null,
       description: description,
       nacionality: nacionality,
@@ -142,6 +146,7 @@ export class Firebase {
   async readUserData(name: string | null) {
     let userData = {
       username: '',
+      displayName: '',
       description: '',
       nacionality: '',
       age: '',
@@ -190,7 +195,7 @@ export class Firebase {
   ) {
     // Format data
     let postData: {
-      username?: string;
+      displayName?: string;
       age?: string;
       nacionality?: string;
       description?: string;
@@ -198,7 +203,7 @@ export class Firebase {
     } = {};
 
     if (name && name !== '') {
-      postData.username = name;
+      postData.displayName = name;
     }
     if (age && age !== '') {
       postData.age = age;
@@ -219,8 +224,6 @@ export class Firebase {
 
     return update(ref(this.database, `users/${username}`), postData);
   }
-  //Listen to new childs
-
   /////////////////////////////////////////////////
   /* AUTH STUFF */
   //Sign Up Functionality
@@ -310,6 +313,19 @@ export class Firebase {
       })
       .catch((e) => {
         console.log('Error', e);
+      });
+  }
+
+  ////////////////////////////////////////////////
+  //DATABASE && AUTH
+  async deleteUser(username: string) {
+    await remove(ref(this.database, `users/${username}`));
+    await deleteUser(this.auth.currentUser!)
+      .then(() => {
+        console.log('Deleted!');
+      })
+      .catch((e) => {
+        console.log(e.message);
       });
   }
 }
