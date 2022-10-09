@@ -118,6 +118,16 @@ export class Firebase {
       img: userimg,
     });
   }
+
+  // Write room Messages on DB
+  async writeRoomMsgs(room: string, username: string, msg: string) {
+    // una variable ++
+    await set(ref(this.database, `rooms/${room}/chat/msgs`), {
+      name: username,
+      msg: msg,
+    });
+  }
+
   //Remove rooms user list
   async removeRoomUsersList(room: string, username: string) {
     await remove(ref(this.database, `rooms/${room}/users/${username}`));

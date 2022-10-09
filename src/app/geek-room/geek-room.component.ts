@@ -66,6 +66,7 @@ export class GeekRoomComponent implements OnInit, OnDestroy {
         );
         this.getRoomList();
       }
+      console.log('auth changed');
     });
   }
 }
