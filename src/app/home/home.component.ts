@@ -428,7 +428,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
     ////////////////////////////////////////
 
-    if (this.imgSelected === '') {
+    if (this.imgSelected === '' || this.imgSelected === null) {
       this.imgSelected = this.userData.profile_picture;
     }
     let image = this.imgSelected;
