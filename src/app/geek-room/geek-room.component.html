@@ -27,6 +27,8 @@
         <div
           class="room__chat__msgs__message"
           *ngFor="let id of msgsIDs"
+          tabindex="1"
+          #msgDiv
           [class.right]="msgs[id].side === 'right'"
           [class.left]="msgs[id].side === 'left'"
         >

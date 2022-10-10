@@ -1,9 +1,12 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   HostListener,
   OnDestroy,
   OnInit,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Firebase } from '../firebase.service';
@@ -18,6 +21,7 @@ import {
   startAt,
   QueryConstraint,
 } from 'firebase/database';
+import { retryWhen, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-geek-room',
@@ -25,6 +29,8 @@ import {
   styleUrls: ['./geek-room.component.scss'],
 })
 export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChildren('msgDiv') msgDiv!: QueryList<ElementRef>;
+  focusSub!: Subscription;
   // GENERAL USER DATA RETRIEVED FROM DB
   userData!: {
     displayName: string;
@@ -57,7 +63,7 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     };
   };
   msgsIDs!: string[];
-
+  msgsNum: number = 0;
   //TextArea El
   textArea!: HTMLTextAreaElement;
 
@@ -72,6 +78,9 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   async submitMsg(msg: string, msgField: HTMLTextAreaElement) {
+    if (msg === '') {
+      return;
+    }
     let newMsg = await this.firebase.pushMsg(
       'geek',
       this.userData.displayName,
@@ -87,11 +96,17 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.textArea = document.querySelector('.room__chat__enter__input')!;
+    this.focusSub = this.msgDiv.changes.subscribe(() => {
+      if (this.msgDiv && this.msgDiv.last) {
+        this.msgDiv.last.nativeElement.focus();
+        this.textArea.focus();
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.firebase.removeRoomUsersList('geek', this.user.name);
-
+    this.focusSub.unsubscribe();
     if (this.usersNames.length === 1) {
       this.firebase.removeRoomMsgs('geek');
     }
@@ -139,6 +154,8 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
       if (msgObject.name === this.userData.displayName) {
         msgObject.side = 'right';
+      } else {
+        msgObject.side = 'left';
       }
 
       if (this.msgs) {
@@ -148,7 +165,11 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       this.msgsIDs = Object.keys(this.msgs);
-      this.msgsIDs.shift();
+      if (this.msgsIDs.length > 0 && this.msgsIDs.length < 2) {
+        return;
+      } else {
+        this.msgsIDs.shift();
+      }
     });
   }
 
