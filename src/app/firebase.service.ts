@@ -120,11 +120,10 @@ export class Firebase {
   }
 
   // Write room Messages on DB
-  async writeRoomMsgs(room: string, username: string, msg: string) {
-    // una variable ++
-    await set(ref(this.database, `rooms/${room}/chat/msgs`), {
-      name: username,
-      msg: msg,
+  async writeRoomWelcomeMsg(room: string) {
+    await set(ref(this.database, `rooms/${room}/chat/msgs/`), {
+      name: 'Hattyng',
+      msg: 'Welcome to the geek room. Start hattyng now!',
     });
   }
 
