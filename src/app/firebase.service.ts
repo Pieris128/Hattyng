@@ -127,6 +127,18 @@ export class Firebase {
     });
   }
 
+  //////////////////////////////////
+  // WRITE USING FIREBASE LISTS WITH PUSH
+  async pushMsg(room: string, username: string, msg: string) {
+    const postListRef = ref(this.database, `rooms/${room}/msgs`);
+    const newPostRef = push(postListRef);
+    await set(newPostRef, {
+      name: username,
+      msg: msg,
+    });
+    return newPostRef.key;
+  }
+
   //Remove rooms user list
   async removeRoomUsersList(room: string, username: string) {
     await remove(ref(this.database, `rooms/${room}/users/${username}`));

@@ -24,18 +24,22 @@
     </nav>
     <div class="room__chat">
       <div class="room__chat__msgs">
-        <div class="room__chat__msgs__message--left">
-          <p class="room__chat__msgs__message--left__name">Hattyng</p>
-          <p class="room__chat__msgs__message--left__text">
+        <div class="room__chat__msgs__message">
+          <p class="room__chat__msgs__message__name">Hattyng</p>
+          <p class="room__chat__msgs__message__text">
             Welcome to Hattyng motherfockas
           </p>
         </div>
       </div>
-      <form class="room__chat__enter">
+      <form
+        class="room__chat__enter"
+        (ngSubmit)="submitMsg(msgInput.value, msgInput)"
+      >
         <input
           type="text"
           class="room__chat__enter__input"
           placeholder="Enter here your message..."
+          #msgInput
         />
         <button class="room__chat__enter__button" type="submit">
           <img
