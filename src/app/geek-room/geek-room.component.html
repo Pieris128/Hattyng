@@ -24,10 +24,20 @@
     </nav>
     <div class="room__chat">
       <div class="room__chat__msgs">
-        <div class="room__chat__msgs__message">
-          <p class="room__chat__msgs__message__name">Hattyng</p>
+        <div
+          class="room__chat__msgs__message"
+          *ngFor="let id of msgsIDs"
+          [class.right]="msgs[id].side === 'right'"
+          [class.left]="msgs[id].side === 'left'"
+        >
+          <p
+            class="room__chat__msgs__message__name"
+            *ngIf="msgs[id].side === 'left'"
+          >
+            {{ msgs[id].name }}
+          </p>
           <p class="room__chat__msgs__message__text">
-            Welcome to Hattyng motherfockas
+            {{ msgs[id].msg }}
           </p>
         </div>
       </div>
@@ -35,12 +45,13 @@
         class="room__chat__enter"
         (ngSubmit)="submitMsg(msgInput.value, msgInput)"
       >
-        <input
+        <textarea
           type="text"
           class="room__chat__enter__input"
           placeholder="Enter here your message..."
           #msgInput
-        />
+        ></textarea>
+
         <button class="room__chat__enter__button" type="submit">
           <img
             src="../../assets/send-icon.png"

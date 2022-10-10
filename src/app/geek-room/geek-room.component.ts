@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Firebase } from '../firebase.service';
 import {
@@ -52,6 +58,9 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   msgsIDs!: string[];
 
+  //TextArea El
+  textArea!: HTMLTextAreaElement;
+
   constructor(private firebase: Firebase) {
     // USERS ON ROOM READING
     onChildAdded(ref(this.firebase.database, 'rooms/geek/users'), () => {
@@ -62,7 +71,7 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  async submitMsg(msg: string, msgField: HTMLInputElement) {
+  async submitMsg(msg: string, msgField: HTMLTextAreaElement) {
     let newMsg = await this.firebase.pushMsg(
       'geek',
       this.userData.displayName,
@@ -76,10 +85,16 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.setUsersList();
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.textArea = document.querySelector('.room__chat__enter__input')!;
+  }
 
   ngOnDestroy(): void {
     this.firebase.removeRoomUsersList('geek', this.user.name);
+
+    if (this.usersNames.length === 1) {
+      this.firebase.removeRoomMsgs('geek');
+    }
   }
 
   async getRoomList() {
@@ -135,5 +150,17 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       this.msgsIDs = Object.keys(this.msgs);
       this.msgsIDs.shift();
     });
+  }
+
+  @HostListener('keypress', ['$event'])
+  onEnterPress($event: KeyboardEvent) {
+    console.log($event);
+    if ($event.composedPath()[0] === this.textArea) {
+      if ($event.key === 'Enter' && !$event.shiftKey) {
+        $event.preventDefault();
+        let form = this.textArea.closest('form');
+        this.textArea.closest('form')?.requestSubmit();
+      }
+    }
   }
 }

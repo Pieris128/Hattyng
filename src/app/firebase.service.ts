@@ -143,6 +143,10 @@ export class Firebase {
   async removeRoomUsersList(room: string, username: string) {
     await remove(ref(this.database, `rooms/${room}/users/${username}`));
   }
+  //Remove all msgs if you exit room and are the only user
+  async removeRoomMsgs(room: string) {
+    await remove(ref(this.database, `rooms/${room}/msgs`));
+  }
   //Check if another username exists in Set Profile.
   async checkUserData(name: string) {
     let canUse: boolean = false;

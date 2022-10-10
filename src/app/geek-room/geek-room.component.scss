@@ -145,9 +145,10 @@ body {
         height: max-content;
         max-width: 32vw;
         padding: 12px 18px;
-        background-color: aqua;
+        background-color: transparent;
         margin-top: 16px;
         position: relative;
+        color: rgb(40, 40, 40);
 
         &:first-of-type {
           margin-top: 0;
@@ -155,7 +156,7 @@ body {
 
         &::before {
           content: "";
-          background-color: aqua;
+          background-color: rgb(235, 235, 235);
           clip-path: polygon(100% 30%, 0 50%, 100% 70%);
           width: 50px;
           height: 100px;
@@ -173,7 +174,7 @@ body {
           top: 0;
           left: 0;
           z-index: 1000;
-          background-color: aqua;
+          background-color: rgb(235, 235, 235);
         }
 
         &__name {
@@ -182,50 +183,6 @@ body {
           font-weight: bold;
           font-size: 14px;
           padding: 0 0 4px 0;
-        }
-
-        &__text {
-          position: relative;
-          z-index: 2000;
-        }
-      }
-
-      &__message--right {
-        grid-column: 2 / 3;
-        justify-self: end;
-        width: max-content;
-        height: max-content;
-        max-width: 32vw;
-        padding: 12px 18px;
-        background-color: aqua;
-        margin-top: 16px;
-        position: relative;
-
-        &:first-of-type {
-          margin-top: 0;
-        }
-
-        &::before {
-          content: "";
-          background-color: aqua;
-          clip-path: polygon(0 30%, 100% 50%, 0 70%);
-          width: 50px;
-          height: 100px;
-          position: absolute;
-          top: 50%;
-          left: 100%;
-          transform: translate(-65%, -50%);
-        }
-
-        &::after {
-          content: "";
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          z-index: 1000;
-          background-color: aqua;
         }
 
         &__text {
@@ -257,6 +214,8 @@ body {
         font-size: 20px;
         color: rgb(40, 40, 40);
         font-weight: bold;
+        resize: none;
+        scrollbar-width: 0px;
 
         &:focus {
           outline: none;
@@ -297,15 +256,38 @@ body {
 
 .left {
   grid-column: 1 / 3;
+
+  &::before {
+    content: "";
+    clip-path: polygon(100% 30%, 0 50%, 100% 70%);
+    width: 50px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 1.75%;
+    transform: translate(-50%, -50%);
+  }
+
+  &::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    border-radius: 12px;
+  }
 }
 
 .right {
   grid-column: 2 / 3;
   justify-self: end;
+  color: rgb(235, 235, 235);
 
   &::before {
     content: "";
-    background-color: aqua;
+    background-color: rgb(40, 40, 40);
     clip-path: polygon(0 30%, 100% 50%, 0 70%);
     width: 50px;
     height: 100px;
@@ -313,5 +295,17 @@ body {
     top: 50%;
     left: 100%;
     transform: translate(-65%, -50%);
+  }
+
+  &::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: rgb(40, 40, 40);
+    border-radius: 12px;
   }
 }
