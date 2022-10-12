@@ -132,6 +132,7 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         );
         this.getRoomList();
         this.initChatRoom();
+        this.firebase.writeStatus('online-geek', this.userData.username);
       }
     });
   }
@@ -193,5 +194,8 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('window:beforeunload')
   onCloseWindow() {
     this.firebase.writeStatus('offline', this.userData.displayName);
+    if (this.usersNames.length === 1) {
+      this.firebase.removeRoomMsgs('geek');
+    }
   }
 }
