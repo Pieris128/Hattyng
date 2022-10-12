@@ -191,4 +191,9 @@ export class GlobalRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
+
+  @HostListener('window:beforeunload')
+  onCloseWindow() {
+    this.firebase.writeStatus('offline', this.userData.displayName);
+  }
 }

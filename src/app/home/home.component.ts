@@ -208,6 +208,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.userJoined = firstSlice.slice(5, 17);
 
         this.setFormValues();
+
+        this.firebase.writeStatus('online', this.userData.username);
       } else {
         return;
       }
@@ -574,5 +576,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   onOpenDelete() {
     this.showModalUserDelete = true;
+  }
+
+  @HostListener('window:beforeunload')
+  onCloseWindow() {
+    this.firebase.writeStatus('offline', this.userData.displayName);
   }
 }

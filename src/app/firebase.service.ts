@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { HostListener, Injectable } from '@angular/core';
 import { initializeApp, FirebaseApp } from 'firebase/app';
 import {
   getDatabase,
@@ -24,6 +24,7 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
   deleteUser,
+  onAuthStateChanged,
 } from 'firebase/auth';
 import { Router } from '@angular/router';
 
@@ -43,13 +44,17 @@ export class Firebase {
   database: Database;
   auth: Auth;
   static setProfileAuth: any;
-
-  userOriginalName!: string;
+  currentUsername!: string | null;
 
   constructor(private router: Router) {
     this.app = initializeApp(firebaseConfig);
     this.database = getDatabase(this.app);
     this.auth = getAuth();
+    onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        this.currentUsername = user.displayName;
+      }
+    });
   }
 
   //////////////////////////////////////////////////////////////
@@ -109,7 +114,12 @@ export class Firebase {
       msg: 'Welcome to the geek room. Start hattyng now!',
     });
   }
-
+  //Write user status
+  writeStatus(status: string, username: string) {
+    update(ref(this.database, 'users/' + username), {
+      status: status,
+    });
+  }
   //////////////////////////////////
   // WRITE USING FIREBASE LISTS WITH PUSH
   async pushMsg(room: string, username: string, msg: string) {
@@ -310,15 +320,16 @@ export class Firebase {
 
   //Logout functionality
   signOut() {
+    console.log(this.currentUsername);
+    this.writeStatus('offline', this.currentUsername!);
+
     signOut(this.auth);
     // .then(() => {
-    //   console.log('Signed out!');
     // })
     // .catch((e) => {
     //   console.log('Error', e);
     // });
   }
-
   ////////////////////////////////////////////////
   //DATABASE && AUTH
   async deleteUser(username: string) {
