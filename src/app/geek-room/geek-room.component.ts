@@ -12,8 +12,10 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { Firebase } from '../firebase.service';
 import {
   limitToLast,
+  off,
   onChildAdded,
   onChildRemoved,
+  onValue,
   query,
   ref,
 } from 'firebase/database';
@@ -106,6 +108,10 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.usersNames.length === 1) {
       this.firebase.removeRoomMsgs('geek');
     }
+
+    //A BORRAR ANTES DE PUSHER
+    off(query(ref(this.firebase.database, 'rooms/geek/msgs'), limitToLast(1)));
+    off(ref(this.firebase.database, 'rooms/geek/users'));
   }
 
   async getRoomList() {
@@ -135,9 +141,16 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   // INIT LOGIC FOR SETTING CHAT OBJS ON REALTIME
   initChatRoom() {
     let doShift = true;
-    if (this.usersNames.length < 2) {
-      doShift = false;
-    }
+    onValue(
+      query(ref(this.firebase.database, 'rooms/geek/msgs')),
+      (snapshot) => {
+        console.log(snapshot.val());
+        if (!snapshot.val()) {
+          doShift = false;
+        }
+      },
+      { onlyOnce: true }
+    );
 
     onChildAdded(
       query(ref(this.firebase.database, 'rooms/geek/msgs'), limitToLast(1)),
@@ -154,7 +167,6 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           msgObject.side = 'left';
         }
-
         if (this.msgs) {
           this.msgs[snapshot.key!] = msgObject;
         } else {
@@ -175,7 +187,6 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     if ($event.composedPath()[0] === this.textArea) {
       if ($event.key === 'Enter' && !$event.shiftKey) {
         $event.preventDefault();
-        let form = this.textArea.closest('form');
         this.textArea.closest('form')?.requestSubmit();
       }
     }

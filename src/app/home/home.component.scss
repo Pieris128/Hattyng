@@ -510,23 +510,21 @@ body {
       height: 100%;
 
       &__delete {
-        font-size: 12px;
+        font-size: 14px;
         position: absolute;
+        font-weight: bold;
         top: 6px;
         right: 6px;
         text-transform: uppercase;
-        color: #8f0000;
+        color: #c50000;
         background-color: rgb(40, 40, 40);
-        padding: 4px 8px;
+        padding: 4px 12px;
         border-radius: 12px;
-        opacity: 0.5;
+
         text-align: center;
         cursor: pointer;
         transition: all 0.2s;
 
-        &:hover {
-          opacity: 1;
-        }
         &:active {
           transform: scale(0.95);
         }
