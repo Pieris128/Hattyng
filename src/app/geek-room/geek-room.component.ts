@@ -165,11 +165,6 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       this.msgsIDs = Object.keys(this.msgs);
-      if (this.msgsIDs.length > 0 && this.msgsIDs.length < 2) {
-        return;
-      } else {
-        this.msgsIDs.shift();
-      }
     });
   }
 
