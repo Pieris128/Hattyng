@@ -11,17 +11,13 @@ import {
 import { onAuthStateChanged } from 'firebase/auth';
 import { Firebase } from '../firebase.service';
 import {
-  endAt,
   limitToLast,
   onChildAdded,
   onChildRemoved,
   query,
   ref,
-  onValue,
-  startAt,
-  QueryConstraint,
 } from 'firebase/database';
-import { retryWhen, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-geek-room',
@@ -63,7 +59,7 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     };
   };
   msgsIDs!: string[];
-  msgsNum: number = 0;
+
   //TextArea El
   textArea!: HTMLTextAreaElement;
 
@@ -138,39 +134,44 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // INIT LOGIC FOR SETTING CHAT OBJS ON REALTIME
   initChatRoom() {
-    // MSG FROM DB READING LOGIC
-    let newMsgsQuery = query(
-      ref(this.firebase.database, 'rooms/geek/msgs'),
-      limitToLast(1)
+    let doShift = true;
+    if (this.usersNames.length < 2) {
+      doShift = false;
+    }
+
+    onChildAdded(
+      query(ref(this.firebase.database, 'rooms/geek/msgs'), limitToLast(1)),
+      (snapshot) => {
+        let msgObject: { name: string; msg: string; side: string } =
+          snapshot.toJSON() as {
+            name: string;
+            msg: string;
+            side: 'left';
+          };
+
+        if (msgObject.name === this.userData.displayName) {
+          msgObject.side = 'right';
+        } else {
+          msgObject.side = 'left';
+        }
+
+        if (this.msgs) {
+          this.msgs[snapshot.key!] = msgObject;
+        } else {
+          this.msgs = { [snapshot.key!]: msgObject };
+        }
+
+        this.msgsIDs = Object.keys(this.msgs);
+
+        if (doShift) {
+          this.msgsIDs.shift();
+        }
+      }
     );
-
-    onChildAdded(newMsgsQuery, (snapshot) => {
-      let msgObject: { name: string; msg: string; side: string } =
-        snapshot.toJSON() as {
-          name: string;
-          msg: string;
-          side: 'left';
-        };
-
-      if (msgObject.name === this.userData.displayName) {
-        msgObject.side = 'right';
-      } else {
-        msgObject.side = 'left';
-      }
-
-      if (this.msgs) {
-        this.msgs[snapshot.key!] = msgObject;
-      } else {
-        this.msgs = { [snapshot.key!]: msgObject };
-      }
-
-      this.msgsIDs = Object.keys(this.msgs);
-    });
   }
 
   @HostListener('keypress', ['$event'])
   onEnterPress($event: KeyboardEvent) {
-    console.log($event);
     if ($event.composedPath()[0] === this.textArea) {
       if ($event.key === 'Enter' && !$event.shiftKey) {
         $event.preventDefault();
