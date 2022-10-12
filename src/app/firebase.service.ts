@@ -10,15 +10,12 @@ import {
   update,
   push,
   remove,
-  onChildAdded,
 } from 'firebase/database';
 import {
   getAuth,
   createUserWithEmailAndPassword,
   Auth,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
-  NextOrObserver,
   setPersistence,
   browserSessionPersistence,
   updateProfile,
@@ -26,11 +23,9 @@ import {
   updatePassword,
   reauthenticateWithCredential,
   EmailAuthProvider,
-  UserCredential,
   deleteUser,
 } from 'firebase/auth';
 import { Router } from '@angular/router';
-import { flattenJSON } from 'three/src/animation/AnimationUtils';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDMqCr1TXMPGCFFTsWfi0haY6jjPLDhuY0',
@@ -47,7 +42,6 @@ export class Firebase {
   app: FirebaseApp;
   database: Database;
   auth: Auth;
-  authState: NextOrObserver<string>;
   static setProfileAuth: any;
 
   userOriginalName!: string;
@@ -56,17 +50,6 @@ export class Firebase {
     this.app = initializeApp(firebaseConfig);
     this.database = getDatabase(this.app);
     this.auth = getAuth();
-    this.authState = onAuthStateChanged(this.auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        // ...
-      } else {
-        // User is signed out
-        // ...
-        console.log('Is not auth!');
-      }
-    });
   }
 
   //////////////////////////////////////////////////////////////
@@ -120,8 +103,8 @@ export class Firebase {
   }
 
   // Write room Messages on DB
-  async writeRoomWelcomeMsg(room: string) {
-    await set(ref(this.database, `rooms/${room}/chat/msgs/`), {
+  writeRoomWelcomeMsg(room: string) {
+    set(ref(this.database, `rooms/${room}/chat/msgs/`), {
       name: 'Hattyng',
       msg: 'Welcome to the geek room. Start hattyng now!',
     });
@@ -181,8 +164,6 @@ export class Firebase {
       .then((snapshot) => {
         if (snapshot.exists()) {
           userData = snapshot.val();
-        } else {
-          console.log('No data available');
         }
       })
       .catch((error) => {
@@ -199,8 +180,6 @@ export class Firebase {
       .then((snapshot) => {
         if (snapshot.exists()) {
           userList = snapshot.val();
-        } else {
-          console.log('No data available');
         }
       })
       .catch((error) => {
@@ -273,7 +252,6 @@ export class Firebase {
   }
   //Login Functionality
   async logInUser(email: string, password: string) {
-    console.log(this.auth);
     let state = false;
 
     await setPersistence(this.auth, browserSessionPersistence);
@@ -332,25 +310,25 @@ export class Firebase {
 
   //Logout functionality
   signOut() {
-    signOut(this.auth)
-      .then(() => {
-        console.log('Signed out!');
-      })
-      .catch((e) => {
-        console.log('Error', e);
-      });
+    signOut(this.auth);
+    // .then(() => {
+    //   console.log('Signed out!');
+    // })
+    // .catch((e) => {
+    //   console.log('Error', e);
+    // });
   }
 
   ////////////////////////////////////////////////
   //DATABASE && AUTH
   async deleteUser(username: string) {
     await remove(ref(this.database, `users/${username}`));
-    await deleteUser(this.auth.currentUser!)
-      .then(() => {
-        console.log('Deleted!');
-      })
-      .catch((e) => {
-        console.log(e.message);
-      });
+    await deleteUser(this.auth.currentUser!);
+    // .then(() => {
+    //   console.log('Deleted!');
+    // })
+    // .catch((e) => {
+    //   console.log(e.message);
+    // });
   }
 }

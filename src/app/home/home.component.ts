@@ -130,7 +130,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     if (selected !== 'SETTINGS') {
       this.imgSelected = '';
     }
-
     if (selected === 'HOME') {
       this.linkHome.classList.add('active-link');
       this.linkRoom.classList.remove('active-link');
@@ -419,7 +418,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.settingsInputsTouched = false;
     this.settingFormInputs.forEach((input) => {
       let inputElement = input as HTMLInputElement;
-      if (inputElement.classList.contains('ng-touched')) {
+      if (inputElement.classList.contains('ng-touched') || this.imgSelected) {
         this.settingsInputsTouched = true;
       }
     });

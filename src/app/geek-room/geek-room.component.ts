@@ -108,8 +108,6 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.usersNames.length === 1) {
       this.firebase.removeRoomMsgs('geek');
     }
-
-    //A BORRAR ANTES DE PUSHER
     off(query(ref(this.firebase.database, 'rooms/geek/msgs'), limitToLast(1)));
     off(ref(this.firebase.database, 'rooms/geek/users'));
   }
@@ -144,7 +142,6 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     onValue(
       query(ref(this.firebase.database, 'rooms/geek/msgs')),
       (snapshot) => {
-        console.log(snapshot.val());
         if (!snapshot.val()) {
           doShift = false;
         }
@@ -187,7 +184,8 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     if ($event.composedPath()[0] === this.textArea) {
       if ($event.key === 'Enter' && !$event.shiftKey) {
         $event.preventDefault();
-        this.textArea.closest('form')?.requestSubmit();
+        let form = this.textArea.closest('form');
+        form?.requestSubmit();
       }
     }
   }
