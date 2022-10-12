@@ -9,31 +9,51 @@
       <div class="room__nav__users">
         <h2 class="room__nav__users__title">Users</h2>
         <hr class="room__nav__users__line" />
-        <div class="room__nav__users__item">
+        <div class="room__nav__users__item" *ngFor="let e of usersNames">
           <img
-            src="../../assets/profile-imgs/profileFour.png"
+            src="../../assets/profile-imgs/{{ totalUsers[e].img }}.png"
             alt="Profile Img"
             class="room__nav__users__item__img"
           />
-          <h2 class="room__nav__users__item__name">Rodolfo</h2>
+          <h2 class="room__nav__users__item__name">
+            {{ totalUsers[e].name }}
+          </h2>
         </div>
       </div>
       <h2 class="room__nav__exit" routerLink="../">Exit room</h2>
     </nav>
     <div class="room__chat">
       <div class="room__chat__msgs">
-        <img
-          src="../../assets/global-icon.png"
-          alt="Geek room icon"
-          class="room__chat__msgs__icon"
-        />
+        <div
+          class="room__chat__msgs__message"
+          *ngFor="let id of msgsIDs"
+          tabindex="1"
+          #msgDiv
+          [class.right]="msgs[id].side === 'right'"
+          [class.left]="msgs[id].side === 'left'"
+        >
+          <p
+            class="room__chat__msgs__message__name"
+            *ngIf="msgs[id].side === 'left'"
+          >
+            {{ msgs[id].name }}
+          </p>
+          <p class="room__chat__msgs__message__text">
+            {{ msgs[id].msg }}
+          </p>
+        </div>
       </div>
-      <form class="room__chat__enter">
-        <input
+      <form
+        class="room__chat__enter"
+        (ngSubmit)="submitMsg(msgInput.value, msgInput)"
+      >
+        <textarea
           type="text"
           class="room__chat__enter__input"
           placeholder="Enter here your message..."
-        />
+          #msgInput
+        ></textarea>
+
         <button class="room__chat__enter__button" type="submit">
           <img
             src="../../assets/send-icon.png"
