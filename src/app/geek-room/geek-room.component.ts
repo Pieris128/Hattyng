@@ -64,6 +64,11 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   //TextArea El
   textArea!: HTMLTextAreaElement;
+  nameRed: boolean = false;
+  nameBlue: boolean = false;
+  namePurple: boolean = false;
+  nameGreen: boolean = false;
+  nameOrange: boolean = false;
 
   constructor(private firebase: Firebase) {
     // USERS ON ROOM READING
@@ -133,6 +138,18 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         this.getRoomList();
         this.initChatRoom();
         this.firebase.writeStatus('online-geek', this.userData.username);
+
+        if (this.userData.displayName === this.usersNames[0]) {
+          this.nameRed = true;
+        } else if (this.userData.displayName === this.usersNames[1]) {
+          this.nameBlue = true;
+        } else if (this.userData.displayName === this.usersNames[2]) {
+          this.namePurple = true;
+        } else if (this.userData.displayName === this.usersNames[3]) {
+          this.nameGreen = true;
+        } else if (this.userData.displayName === this.usersNames[4]) {
+          this.nameOrange = true;
+        }
       }
     });
   }
