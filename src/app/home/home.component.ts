@@ -16,6 +16,12 @@ import { Firebase } from '../firebase.service';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { every } from 'rxjs';
+import {
+  onChildAdded,
+  onChildChanged,
+  onChildRemoved,
+  ref,
+} from 'firebase/database';
 
 @Component({
   selector: 'app-home',
@@ -26,11 +32,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
   linkHome!: HTMLHeadingElement;
   linkRoom!: HTMLHeadingElement;
   linkProfile!: HTMLHeadingElement;
+  linkFriends!: HTMLHeadingElement;
   linkSettings!: HTMLHeadElement;
   //Display of each section
   displayHome: boolean = true;
   displayRooms: boolean = false;
   displayProfile: boolean = false;
+  displayFriends: boolean = false;
   displaySettings: boolean = false;
   //User data
   userData!: {
@@ -48,6 +56,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
   userNacion: string = '';
   userAge: string = '';
   userJoined: string = '';
+  //Check if the profile displayed is the current user
+  currentUserProfile!: string;
+  currentProfile: boolean = true;
   //Search another users
   searchForm!: FormGroup;
   inputError: boolean = false;
@@ -60,6 +71,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
   showModalUserDelete: boolean = false;
   settingFormInputs!: NodeListOf<Element>;
   settingsInputsTouched: boolean = false;
+  geekUsers!: {};
+  usersOnGeek!: string[];
+  //Friends features
+  friendsList: string[] | string[][] = [];
+  friendsNames!: string[];
+  friendsStates!: string[];
 
   constructor(private firebase: Firebase, private router: Router) {}
 
@@ -83,7 +100,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
 
     this.setUserData();
-
     ////////////////////////////////////////////
     // Form for SETTINGS section
     this.settingForm = new FormGroup({
@@ -120,6 +136,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.linkHome = document.querySelector('.home__nav__links__home')!;
     this.linkRoom = document.querySelector('.home__nav__links__chats')!;
     this.linkProfile = document.querySelector('.home__nav__links__profile')!;
+    this.linkFriends = document.querySelector('.home__nav__links__friends')!;
     this.linkSettings = document.querySelector('.home__nav__links__settings')!;
   }
   /////////////////////////////////////
@@ -135,6 +152,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.linkRoom.classList.remove('active-link');
       this.linkProfile.classList.remove('active-link');
       this.linkSettings.classList.remove('active-link');
+      this.linkFriends.classList.remove('active-link');
+      this.displayFriends = false;
       this.displayHome = true;
       this.displayProfile = false;
       this.displayRooms = false;
@@ -144,6 +163,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.linkHome.classList.remove('active-link');
       this.linkProfile.classList.remove('active-link');
       this.linkSettings.classList.remove('active-link');
+      this.linkFriends.classList.remove('active-link');
+      this.displayFriends = false;
       this.displayRooms = true;
       this.displayProfile = false;
       this.displayHome = false;
@@ -153,15 +174,30 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.linkHome.classList.remove('active-link');
       this.linkRoom.classList.remove('active-link');
       this.linkSettings.classList.remove('active-link');
+      this.linkFriends.classList.remove('active-link');
+      this.displayFriends = false;
       this.displayProfile = true;
       this.displayHome = false;
       this.displayRooms = false;
+      this.displaySettings = false;
+    } else if (selected === 'FRIENDS') {
+      this.linkFriends.classList.add('active-link');
+      this.linkRoom.classList.remove('active-link');
+      this.linkHome.classList.remove('active-link');
+      this.linkProfile.classList.remove('active-link');
+      this.linkSettings.classList.remove('active-link');
+      this.displayFriends = true;
+      this.displayRooms = false;
+      this.displayProfile = false;
+      this.displayHome = false;
       this.displaySettings = false;
     } else if (selected === 'SETTINGS') {
       this.linkSettings.classList.add('active-link');
       this.linkHome.classList.remove('active-link');
       this.linkRoom.classList.remove('active-link');
       this.linkProfile.classList.remove('active-link');
+      this.linkFriends.classList.remove('active-link');
+      this.displayFriends = false;
       this.displayProfile = false;
       this.displayHome = false;
       this.displayRooms = false;
@@ -206,10 +242,50 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
 
         this.userJoined = firstSlice.slice(5, 17);
-
+        this.currentUserProfile = this.userData.username;
+        this.currentProfile = true;
         this.setFormValues();
 
         this.firebase.writeStatus('online', this.userData.username);
+        this.friendsList = await this.firebase.readFriendList(
+          this.userData.username
+        );
+        this.friendsNames = <string[]>this.friendsList[0];
+        this.friendsStates = <string[]>this.friendsList[1];
+
+        onChildChanged(ref(this.firebase.database, `states`), async () => {
+          this.friendsList = await this.firebase.readFriendList(
+            this.currentUserProfile
+          );
+          this.friendsNames = <string[]>this.friendsList[0];
+          this.friendsStates = <string[]>this.friendsList[1];
+        });
+        onChildAdded(
+          ref(
+            this.firebase.database,
+            `users/${this.currentUserProfile}/friends`
+          ),
+          async () => {
+            this.friendsList = await this.firebase.readFriendList(
+              this.currentUserProfile
+            );
+            this.friendsNames = <string[]>this.friendsList[0];
+            this.friendsStates = <string[]>this.friendsList[1];
+          }
+        );
+        onChildRemoved(
+          ref(
+            this.firebase.database,
+            `users/${this.currentUserProfile}/friends`
+          ),
+          async () => {
+            this.friendsList = await this.firebase.readFriendList(
+              this.currentUserProfile
+            );
+            this.friendsNames = <string[]>this.friendsList[0];
+            this.friendsStates = <string[]>this.friendsList[1];
+          }
+        );
       } else {
         return;
       }
@@ -226,13 +302,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
       element.value = '';
       element.classList.add('ng-invalid');
       element.classList.add('ng-touched');
-
       this.setUserData();
 
       return;
     }
     //If found some match!
-    this.userName = this.userData.username;
+    if (this.currentUserProfile !== username) {
+      this.currentProfile = false;
+    } else {
+      this.currentProfile = true;
+    }
+    this.userName = this.userData.displayName;
     this.userDesc = this.userData.description;
     this.userNacion = this.userData.nacionality;
     this.userAge = this.userData.age;
@@ -264,6 +344,29 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.inputError = false;
   }
 
+  //Add friends functionality!
+  async addFriend(friendName: string, currentUser: string) {
+    currentUser = this.currentUserProfile;
+
+    let friend = friendName.replace(/\s/g, '');
+    await this.firebase.writeFriendList(currentUser, friend);
+  }
+
+  removeFriend(currentUser: string, friendName: string) {
+    currentUser = this.currentUserProfile;
+
+    let friend = friendName.replace(/\s/g, '');
+
+    this.firebase.deleteFriend(friend, currentUser);
+  }
+
+  checkStateForStyle(state: string) {
+    if (state === 'offline' || state === 'Error finding user state') {
+      return true;
+    } else {
+      return false;
+    }
+  }
   ///////////////////////////////////////////
   //Sign Out Functionality!
   signOut() {

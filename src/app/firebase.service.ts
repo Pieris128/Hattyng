@@ -116,11 +116,77 @@ export class Firebase {
   }
   //Write user status
   writeStatus(status: string, username: string) {
-    update(ref(this.database, 'users/' + username), {
-      status: status,
+    update(ref(this.database, `states/${username}`), {
+      state: status,
     });
   }
+  ////////////////////////////////////////////////////
+  //FRIENDS FUNCTIONALLITY
+  //Check user status
+  async checkUserState(username: string): Promise<string> {
+    let userState: string = await get(
+      child(ref(this.database), `states/${username}`)
+    )
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          let data = snapshot.val();
+          let state = Object.values(data);
+          return <string>state[0];
+        } else {
+          return 'Error finding user state';
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        return 'Error finding user state';
+      });
 
+    return userState;
+  }
+  //Write user friend list array
+  async writeFriendList(actualUser: string, friendName: string) {
+    let state = await this.checkUserState(friendName);
+
+    update(ref(this.database, `users/${actualUser}/friends`), {
+      [`${friendName}`]: `${state}`,
+    });
+  }
+  //Read user friend list
+  async readFriendList(actualUser: string): Promise<string[][] | string[]> {
+    let friends: string[][] | string[] = await get(
+      child(ref(this.database), `users/${actualUser}/friends`)
+    )
+      .then(async (snapshot) => {
+        if (snapshot.exists()) {
+          let data = snapshot.val();
+
+          let fullData: string[][] = [];
+          fullData.push(<string[]>Object.keys(data));
+
+          let stateArr: string[] = [];
+
+          for (let i = 0; i < fullData[0].length; i++) {
+            let state = await this.checkUserState(fullData[0][i]);
+            stateArr.push(state);
+          }
+
+          fullData.push(stateArr);
+          return fullData;
+        } else {
+          return ['Error finding friend'];
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        return ['Error finding friend'];
+      });
+
+    return friends;
+  }
+  //Remove friend
+  deleteFriend(friendName: string, currentUser: string) {
+    remove(ref(this.database, `users/${currentUser}/friends/${friendName}`));
+  }
   //////////////////////////////////
   // WRITE USING FIREBASE LISTS WITH PUSH
   async pushMsg(room: string, username: string, msg: string) {
@@ -335,6 +401,7 @@ export class Firebase {
   //DATABASE && AUTH
   async deleteUser(username: string) {
     await remove(ref(this.database, `users/${username}`));
+    await remove(ref(this.database, `states/${username}`));
     await deleteUser(this.auth.currentUser!);
     // .then(() => {
     //   console.log('Deleted!');

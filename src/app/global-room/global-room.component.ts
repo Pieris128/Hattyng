@@ -134,7 +134,7 @@ export class GlobalRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         );
         this.getRoomList();
         this.initChatRoom();
-        this.firebase.writeStatus('online-global', this.userData.username);
+        this.firebase.writeStatus('Global Room', this.userData.username);
       }
     });
   }

@@ -137,7 +137,7 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         );
         this.getRoomList();
         this.initChatRoom();
-        this.firebase.writeStatus('online-geek', this.userData.username);
+        this.firebase.writeStatus('Geek Room', this.userData.username);
 
         if (this.userData.displayName === this.usersNames[0]) {
           this.nameRed = true;

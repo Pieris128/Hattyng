@@ -61,6 +61,7 @@
       </button>
     </form>
   </div>
+
   <section class="home">
     <nav class="home__nav">
       <img
@@ -89,6 +90,13 @@
           #profileLink
         >
           Profile
+        </h2>
+        <h2
+          class="home__nav__links__friends"
+          (click)="linkClicked(friendsLink.innerHTML)"
+          #friendsLink
+        >
+          Friends
         </h2>
         <h2
           class="home__nav__links__settings"
@@ -146,6 +154,17 @@
 
     <section class="home__profile" *ngIf="displayProfile">
       <div class="home__profile__main">
+        <button
+          class="home__profile__main__addfriend"
+          *ngIf="!currentProfile"
+          (click)="addFriend(username.innerHTML, '')"
+        >
+          <img
+            src="../../assets/add-friend-icon.png"
+            alt="An icon that represents the function to add a friend"
+            class="home__profile__main__addfriend__icon"
+          />
+        </button>
         <div class="home__profile__main__user">
           <img
             src="../../assets/profile-imgs/{{ userImgSrc }}.png"
@@ -153,7 +172,7 @@
             class="home__profile__main__user__photo"
           />
           <div class="home__profile__main__user__text">
-            <h2 class="home__profile__main__user__text__name">
+            <h2 class="home__profile__main__user__text__name" #username>
               {{ userName }}
             </h2>
             <h2 class="home__profile__main__user__text__nac">
@@ -191,6 +210,35 @@
             >That user doesn't exist!</span
           >
         </form>
+      </div>
+    </section>
+
+    <section class="home__friends" *ngIf="displayFriends">
+      <h2 class="home__friends__title">Friends of {{ currentUserProfile }}</h2>
+      <p class="home__friends__error" *ngIf="friendsList.length <= 1">
+        You don't have any friends added yet!
+      </p>
+      <div *ngIf="friendsList.length >= 2" class="friends__container">
+        <div
+          class="home__friends__item"
+          *ngFor="let e of friendsNames; index as i"
+        >
+          <img
+            src="./../../assets/clear-icon.png"
+            alt="Icon to remove a friend"
+            class="home__friends__item__delete"
+            (click)="removeFriend('', friendName.innerHTML)"
+          />
+          <p class="home__friends__item__name">
+            <span #friendName>{{ friendsNames[i] }}</span> &rarr;
+            <span
+              class="home__friends__item__name__state"
+              [class.red]="checkStateForStyle(friendsStates[i])"
+              [class.green]="!checkStateForStyle(friendsStates[i])"
+              >{{ friendsStates[i] }}</span
+            >
+          </p>
+        </div>
       </div>
     </section>
 
