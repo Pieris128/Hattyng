@@ -62,6 +62,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   //Search another users
   searchForm!: FormGroup;
   inputError: boolean = false;
+  friendAdded: boolean = false;
   //Settings features
   checkBoxes!: NodeList;
   imgSelected!: string;
@@ -350,6 +351,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     let friend = friendName.replace(/\s/g, '');
     await this.firebase.writeFriendList(currentUser, friend);
+    this.friendAdded = true;
+
+    setTimeout(() => {
+      this.friendAdded = false;
+    }, 3000);
   }
 
   removeFriend(currentUser: string, friendName: string) {
