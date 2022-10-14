@@ -1,3 +1,10 @@
+//Breakpoints
+$bp-big: 1010px;
+$bp-mdm: 580px;
+$bp-mdmS: 500px;
+$bp-small: 420px;
+$bp-smallest: 380px;
+
 body {
   height: 100vh;
   background: linear-gradient(-45deg, #00306b, #0065e1, #00306b);
@@ -30,6 +37,12 @@ body {
     width: 100%;
     height: 100%;
 
+    @media screen and (max-width: $bp-mdm) {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(7, 1fr);
+      padding: 12px;
+    }
+
     &__header {
       grid-column: 1 / 3;
       grid-row: 1 /2;
@@ -40,6 +53,17 @@ body {
       letter-spacing: 1px;
       cursor: default;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.425);
+      @media screen and (max-width: $bp-mdm) {
+        width: 100%;
+        text-align: center;
+        grid-row: 1 /2;
+      }
+      @media screen and (max-width: $bp-small) {
+        font-size: 24px;
+      }
+      @media screen and (max-width: $bp-smallest) {
+        font-size: 18px;
+      }
     }
 
     &__group {
@@ -58,6 +82,9 @@ body {
         width: 100%;
         display: flex;
         justify-content: flex-start;
+        @media screen and (max-width: $bp-small) {
+          font-size: 8px;
+        }
       }
 
       &__input {
@@ -71,6 +98,9 @@ body {
         backdrop-filter: blur(8px);
         color: #ffffffde;
 
+        @media screen and (max-width: $bp-small) {
+          font-size: 10px;
+        }
         &::placeholder {
           color: #ffffff9f;
         }
@@ -89,6 +119,9 @@ body {
         width: 100%;
         display: flex;
         justify-content: flex-start;
+        @media screen and (max-width: $bp-small) {
+          font-size: 8px;
+        }
       }
     }
 
@@ -101,6 +134,14 @@ body {
       align-items: center;
       width: 70%;
       height: 100%;
+      @media screen and (max-width: $bp-big) {
+        grid-column: 1 / 3;
+      }
+      @media screen and (max-width: $bp-mdm) {
+        grid-column: 1 / 2;
+        grid-row: 6 / 7;
+        width: 80%;
+      }
 
       &__imgs {
         display: flex;
@@ -117,6 +158,13 @@ body {
             width: 46px;
             opacity: 0.35;
             cursor: pointer;
+
+            @media screen and (max-width: $bp-mdmS) {
+              width: 34px;
+            }
+            @media screen and (max-width: $bp-small) {
+              width: 26px;
+            }
           }
 
           &__pick {
@@ -145,6 +193,15 @@ body {
       cursor: pointer;
       transition: all 0.2s;
 
+      @media screen and (max-width: $bp-mdm) {
+        grid-column: 1 / 2;
+        grid-row: 7 / 8;
+        width: 50%;
+      }
+      @media screen and (max-width: $bp-small) {
+        font-size: 16px;
+      }
+
       &:hover {
         letter-spacing: 3.6px;
       }
@@ -159,18 +216,33 @@ body {
 #inputOne {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
+  @media screen and (max-width: $bp-mdm) {
+    grid-row: 2 / 3;
+  }
 }
 #inputTwo {
   grid-column: 2 / 3;
   grid-row: 3 / 4;
+  @media screen and (max-width: $bp-mdm) {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+  }
 }
 #inputThree {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
+  @media screen and (max-width: $bp-mdm) {
+    grid-column: 1 / 2;
+    grid-row: 4 / 5;
+  }
 }
 #inputFour {
   grid-column: 1 / 2;
   grid-row: 3 / 4;
+  @media screen and (max-width: $bp-mdm) {
+    grid-column: 1 / 2;
+    grid-row: 5 / 6;
+  }
 }
 
 input.ng-invalid.ng-touched,

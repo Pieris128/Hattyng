@@ -221,24 +221,24 @@
       <p class="home__friends__error" *ngIf="friendsList.length <= 1">
         You don't have any friends added yet!
       </p>
-      <div *ngIf="friendsList.length >= 2" class="friends__container">
+      <div *ngIf="friendsList.length >= 2" class="home__friends__container">
         <div
-          class="home__friends__item"
+          class="home__friends__container__item"
           *ngFor="let e of friendsNames; index as i"
         >
           <img
             src="./../../assets/clear-icon.png"
             alt="Icon to remove a friend"
-            class="home__friends__item__delete"
-            (click)="removeFriend('', friendName.innerHTML)"
+            class="home__friends__container__item__delete"
+            (click)="removeFriend('', friendName.innerText)"
           />
-          <p class="home__friends__item__name">
-            <span #friendName>{{ friendsNames[i] }}</span> &rarr;
+          <p class="home__friends__container__item__name">
+            <span #friendName>{{ friendsNames[i] }}&nbsp;</span> &rarr;
             <span
-              class="home__friends__item__name__state"
+              class="home__friends__container__item__name__state"
               [class.red]="checkStateForStyle(friendsStates[i])"
               [class.green]="!checkStateForStyle(friendsStates[i])"
-              >{{ friendsStates[i] }}</span
+              >&nbsp;{{ friendsStates[i] }}</span
             >
           </p>
         </div>
@@ -251,7 +251,6 @@
         [formGroup]="settingForm"
         (ngSubmit)="
           updateProfileData(
-            inputName.value,
             inputPwd.value,
             inputAge.value,
             inputNac.value,
@@ -260,31 +259,6 @@
         "
       >
         <h2 class="home__settings__form__head">Modify profile</h2>
-
-        <div class="home__settings__form__group" id="inputOne">
-          <label for="username" class="home__settings__form__group__label"
-            >Username</label
-          >
-          <div class="home__settings__form__group__icon">
-            <input
-              type="text"
-              class="home__settings__form__group__input"
-              autocompleteOff
-              id="username"
-              formControlName="username"
-              #inputName
-            />
-            <img
-              src="../../assets/gear-icon.png"
-              alt="A settings icon"
-              class="home__settings__form__group__icon__img"
-              (click)="modifyInput(inputName.id, inputName)"
-            />
-          </div>
-          <span *ngIf="userExists" class="home__settings__form__group__error"
-            >Username already exists!</span
-          >
-        </div>
 
         <div class="home__settings__form__group" id="inputTwo">
           <label for="password" class="home__settings__form__group__label"
@@ -376,6 +350,11 @@
         </div>
 
         <div class="home__settings__form__radiogroup" id="inputSix">
+          <label
+            for="description"
+            class="home__settings__form__radiogroup__label"
+            >Just for spacing</label
+          >
           <div class="home__settings__form__radiogroup__imgs">
             <div class="home__settings__form__radiogroup__imgs__crew">
               <input
@@ -492,6 +471,9 @@
         </div>
 
         <div class="home__settings__form__bottom">
+          <span class="home__settings__form__bottom__save">
+            changes has been saved
+          </span>
           <button
             type="submit"
             class="home__settings__form__bottom__btn"
@@ -500,9 +482,6 @@
           >
             save
           </button>
-          <span class="home__settings__form__bottom__save">
-            changes has been saved
-          </span>
         </div>
         <span class="home__settings__form__delete" (click)="onOpenDelete()">
           Delete Account

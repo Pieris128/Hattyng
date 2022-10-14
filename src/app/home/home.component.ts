@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -17,6 +18,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { every } from 'rxjs';
 import {
+  off,
   onChildAdded,
   onChildChanged,
   onChildRemoved,
@@ -28,7 +30,7 @@ import {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   linkHome!: HTMLHeadingElement;
   linkRoom!: HTMLHeadingElement;
   linkProfile!: HTMLHeadingElement;
@@ -104,11 +106,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     ////////////////////////////////////////////
     // Form for SETTINGS section
     this.settingForm = new FormGroup({
-      username: new FormControl(null, [
-        Validators.minLength(4),
-        Validators.maxLength(12),
-        Validators.pattern('^[A-Za-z0-9]+$'),
-      ]),
       password: new FormControl(null, Validators.minLength(6)),
       age: new FormControl(null, [
         Validators.minLength(2),
@@ -139,6 +136,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.linkProfile = document.querySelector('.home__nav__links__profile')!;
     this.linkFriends = document.querySelector('.home__nav__links__friends')!;
     this.linkSettings = document.querySelector('.home__nav__links__settings')!;
+  }
+
+  //Unsubscribe onChilds
+  ngOnDestroy(): void {
+    off(ref(this.firebase.database, `states`));
+    off(
+      ref(this.firebase.database, `users/${this.currentUserProfile}/friends`)
+    );
   }
   /////////////////////////////////////
   //Move between sections!
@@ -398,7 +403,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   // Default values of Settings formulary
   setFormValues() {
-    this.settingForm.controls['username'].setValue(this.userData.displayName);
     this.settingForm.controls['age'].setValue(this.userData.age);
     this.settingForm.controls['nacionality'].setValue(
       this.userData.nacionality
@@ -407,7 +411,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.userData.description
     );
 
-    this.settingForm.controls['username'].disable();
     this.settingForm.controls['password'].disable();
     this.settingForm.controls['age'].disable();
     this.settingForm.controls['nacionality'].disable();
@@ -515,7 +518,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   //////////////////////////////////////
   // Update Profile data on submit Functionality
   async updateProfileData(
-    name?: string | null,
     password?: string | null,
     age?: string | null,
     nacionality?: string | null,
@@ -545,7 +547,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     await this.firebase.updateUserData(
       this.userData.username,
-      name,
       password,
       age,
       nacionality,

@@ -267,7 +267,6 @@ export class Firebase {
   // Update user data
   async updateUserData(
     username: string,
-    name?: string | null,
     password?: string | null,
     age?: string | null,
     nacionality?: string | null,
@@ -276,16 +275,12 @@ export class Firebase {
   ) {
     // Format data
     let postData: {
-      displayName?: string;
       age?: string;
       nacionality?: string;
       description?: string;
       profile_picture?: string;
     } = {};
 
-    if (name && name !== '') {
-      postData.displayName = name;
-    }
     if (age && age !== '') {
       postData.age = age;
     }
