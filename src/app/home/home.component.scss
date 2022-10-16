@@ -25,6 +25,10 @@ $bp-home-big: 910px;
 $bp-home-mdm: 800px;
 $bp-home-small: 660px;
 $bp-home-smallest: 450px;
+//MODAL WINDOW
+$bp-big-modal: 786px;
+$bp-mdm-modal: 650px;
+$bp-small-modal: 470px;
 
 body {
   height: 100vh;
@@ -34,6 +38,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 1010px) {
+    animation: none;
+  }
 }
 
 .password__modal {
@@ -61,6 +68,18 @@ body {
     border-bottom: 1px solid #add2ff7e;
     border-top: 1px solid #add2ff7e;
     padding: 22px 0;
+    @media screen and (max-width: $bp-big-modal) {
+      width: 50%;
+      height: 20%;
+    }
+    @media screen and (max-width: $bp-mdm-modal) {
+      width: 70%;
+      height: 20%;
+    }
+    @media screen and (max-width: $bp-small-modal) {
+      width: 90%;
+      height: 20%;
+    }
 
     &__group {
       &__icon {
@@ -98,6 +117,10 @@ body {
         opacity: 0.4;
         transition: all 0.2s;
         cursor: pointer;
+
+        @media screen and (max-width: $bp-mdm-modal) {
+          right: 30px;
+        }
 
         &:hover {
           opacity: 0.7;
@@ -221,11 +244,27 @@ body {
         width: 60%;
       }
       @media screen and (max-width: $bp-nav-small) {
-        width: 65%;
-        font-size: 6px;
+        display: none;
       }
-      @media screen and (max-width: $bp-nav-smallest) {
-        font-size: 4px;
+
+      &__home,
+      &__chats,
+      &__profile,
+      &__settings,
+      &__friends {
+        cursor: pointer;
+        opacity: 0.5;
+      }
+    }
+
+    &__iconlink {
+      display: none;
+
+      @media screen and (max-width: $bp-nav-small) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
         width: 60%;
       }
 
@@ -236,6 +275,11 @@ body {
       &__friends {
         cursor: pointer;
         opacity: 0.5;
+        width: 20px;
+
+        @media screen and (max-width: $bp-nav-smallest) {
+          width: 16px;
+        }
       }
     }
 

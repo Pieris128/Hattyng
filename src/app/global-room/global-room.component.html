@@ -49,21 +49,21 @@
         </div>
       </div>
       <form
-        class="room__chat__enter"
+        class="room__chat__form"
         (ngSubmit)="submitMsg(msgInput.value, msgInput)"
       >
         <textarea
           type="text"
-          class="room__chat__enter__input"
+          class="room__chat__form__enter__input"
           placeholder="Enter here your message..."
           #msgInput
         ></textarea>
 
-        <button class="room__chat__enter__button" type="submit">
+        <button class="room__chat__form__enter__button" type="submit">
           <img
             src="../../assets/send-icon.png"
             alt="A paper plane icon"
-            class="room__chat__enter__button__icon"
+            class="room__chat__form__enter__button__icon"
           />
         </button>
       </form>

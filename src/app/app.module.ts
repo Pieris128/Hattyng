@@ -13,6 +13,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HomeComponent } from './home/home.component';
 import { GeekRoomComponent } from './geek-room/geek-room.component';
 import { GlobalRoomComponent } from './global-room/global-room.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { GlobalRoomComponent } from './global-room/global-room.component';
     HomeComponent,
     GeekRoomComponent,
     GlobalRoomComponent,
+    NotfoundComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [DatePipe],

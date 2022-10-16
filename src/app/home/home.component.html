@@ -106,6 +106,45 @@
           Settings
         </h2>
       </div>
+
+      <div class="home__nav__iconlink">
+        <img
+          src="../../assets/icon-links/home.png"
+          alt="Icon for home section"
+          class="home__nav__iconlink__home active-link"
+          (click)="linkClicked('home')"
+          #homeLink
+        />
+        <img
+          src="../../assets/icon-links/rooms.png"
+          alt="Icon for rooms section"
+          class="home__nav__iconlink__chats"
+          (click)="linkClicked('rooms')"
+          #roomLink
+        />
+        <img
+          src="../../assets/icon-links/profile.png"
+          alt="Icon for profile section"
+          class="home__nav__iconlink__profile"
+          (click)="linkClicked('profile')"
+          #profileLink
+        />
+        <img
+          src="../../assets/icon-links/friends.png"
+          alt="Icon for friends section"
+          class="home__nav__iconlink__friends"
+          (click)="linkClicked('friends')"
+          #friendsLink
+        />
+        <img
+          src="../../assets/icon-links/settings.png"
+          alt="Icon for settings section"
+          class="home__nav__iconlink__settings"
+          (click)="linkClicked('settings')"
+          #settingsLink
+        />
+      </div>
+
       <h2 class="home__nav__logout" (click)="signOut()">Sign Out</h2>
     </nav>
 

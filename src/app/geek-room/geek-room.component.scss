@@ -14,6 +14,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 1010px) {
+    animation: none;
+  }
 }
 
 .room {
@@ -240,81 +243,86 @@ body {
       }
     }
 
-    &__enter {
-      position: relative;
+    &__form {
       width: 95%;
       height: 10%;
+      position: relative;
       display: flex;
       align-items: center;
 
-      &__input {
-        height: 100%;
+      &__enter {
         width: 100%;
-        border: none;
-        outline: none;
-        background-color: rgba(255, 255, 255, 0.1);
-        padding: 12px 12px;
-        border-radius: 0 0 12px 12px;
-        border-top: 2px solid rgb(255, 255, 255, 0.4);
-        border-bottom: 2px solid rgb(255, 255, 255, 0.4);
-        border-right: 2px solid rgb(255, 255, 255, 0.4);
-        border-left: 2px solid rgb(255, 255, 255, 0.4);
-        font-size: 20px;
-        color: rgb(40, 40, 40);
-        font-weight: bold;
-        resize: none;
-        scrollbar-width: 0px;
+        height: 100%;
 
-        @media screen and (max-width: $bp-superbig) {
-          padding: 6px 6px;
-          font-family: 16px;
-          display: flex;
-          align-items: center;
-        }
-        @media screen and (max-width: $bp-mdm) {
-          font-size: 14px;
-        }
-
-        &:focus {
+        &__input {
+          height: 100%;
+          width: 100%;
+          border: none;
           outline: none;
-          background-color: rgba(255, 255, 255, 0.15);
-        }
-
-        &::placeholder {
-          color: rgba(40, 40, 40, 0.4);
-        }
-      }
-
-      &__button {
-        position: absolute;
-        right: 12px;
-        background-color: rgb(255, 255, 255);
-        border-radius: 50%;
-        border: none;
-        outline: none;
-        padding: 6px;
-        opacity: 1;
-        cursor: pointer;
-        transition: all 0.2s;
-
-        @media screen and (max-width: $bp-superbig) {
-          right: 8px;
-        }
-
-        &__icon {
-          width: 22px;
+          background-color: rgba(255, 255, 255, 0.1);
+          padding: 12px 12px;
+          border-radius: 0 0 12px 12px;
+          border-top: 2px solid rgb(255, 255, 255, 0.4);
+          border-bottom: 2px solid rgb(255, 255, 255, 0.4);
+          border-right: 2px solid rgb(255, 255, 255, 0.4);
+          border-left: 2px solid rgb(255, 255, 255, 0.4);
+          font-size: 20px;
+          color: rgb(40, 40, 40);
+          font-weight: bold;
+          resize: none;
+          scrollbar-width: 0px;
 
           @media screen and (max-width: $bp-superbig) {
-            width: 18px;
+            padding: 6px 6px;
+            font-family: 16px;
+            display: flex;
+            align-items: center;
           }
           @media screen and (max-width: $bp-mdm) {
-            width: 16px;
+            font-size: 14px;
+          }
+
+          &:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+          }
+
+          &::placeholder {
+            color: rgba(40, 40, 40, 0.4);
           }
         }
 
-        &:active {
-          filter: brightness(0.75);
-          transform: scale(0.95);
+        &__button {
+          position: absolute;
+          right: 12px;
+          background-color: rgb(255, 255, 255);
+          border-radius: 50%;
+          border: none;
+          outline: none;
+          padding: 6px;
+          opacity: 1;
+          cursor: pointer;
+          transition: all 0.2s;
+
+          @media screen and (max-width: $bp-superbig) {
+            right: 8px;
+          }
+
+          &__icon {
+            width: 20px;
+
+            // @media screen and (max-width: $bp-superbig) {
+            //   width: 18px;
+            // }
+            // @media screen and (max-width: $bp-mdm) {
+            //   width: 16px;
+            // }
+          }
+
+          &:active {
+            filter: brightness(0.75);
+            transform: scale(0.95);
+          }
         }
       }
     }

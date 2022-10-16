@@ -4,6 +4,7 @@ import { GeekRoomComponent } from './geek-room/geek-room.component';
 import { GlobalRoomComponent } from './global-room/global-room.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 import { RegistryComponent } from './registry/registry.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
@@ -15,6 +16,8 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'home/room-geek', component: GeekRoomComponent },
   { path: 'home/room-global', component: GlobalRoomComponent },
+  { path: '404', component: NotfoundComponent },
+  { path: '**', redirectTo: '/404' },
 ];
 
 @NgModule({

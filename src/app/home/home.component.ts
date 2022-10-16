@@ -36,6 +36,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   linkProfile!: HTMLHeadingElement;
   linkFriends!: HTMLHeadingElement;
   linkSettings!: HTMLHeadElement;
+  //Icon links
+  linkHomeIcon!: HTMLImageElement;
+  linkRoomIcon!: HTMLImageElement;
+  linkProfileIcon!: HTMLImageElement;
+  linkFriendsIcon!: HTMLImageElement;
+  linkSettingsIcon!: HTMLImageElement;
   //Display of each section
   displayHome: boolean = true;
   displayRooms: boolean = false;
@@ -136,6 +142,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.linkProfile = document.querySelector('.home__nav__links__profile')!;
     this.linkFriends = document.querySelector('.home__nav__links__friends')!;
     this.linkSettings = document.querySelector('.home__nav__links__settings')!;
+    this.linkHomeIcon = document.querySelector('.home__nav__iconlink__home')!;
+    this.linkRoomIcon = document.querySelector('.home__nav__iconlink__chats')!;
+    this.linkProfileIcon = document.querySelector(
+      '.home__nav__iconlink__profile'
+    )!;
+    this.linkFriendsIcon = document.querySelector(
+      '.home__nav__iconlink__friends'
+    )!;
+    this.linkSettingsIcon = document.querySelector(
+      '.home__nav__iconlink__settings'
+    )!;
   }
 
   //Unsubscribe onChilds
@@ -149,16 +166,21 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   //Move between sections!
   linkClicked(clicked: string) {
     let selected = clicked.toUpperCase().trim();
-
+    console.log(selected);
     if (selected !== 'SETTINGS') {
       this.imgSelected = '';
     }
     if (selected === 'HOME') {
       this.linkHome.classList.add('active-link');
+      this.linkHomeIcon.classList.add('active-link');
       this.linkRoom.classList.remove('active-link');
       this.linkProfile.classList.remove('active-link');
       this.linkSettings.classList.remove('active-link');
       this.linkFriends.classList.remove('active-link');
+      this.linkRoomIcon.classList.remove('active-link');
+      this.linkProfileIcon.classList.remove('active-link');
+      this.linkSettingsIcon.classList.remove('active-link');
+      this.linkFriendsIcon.classList.remove('active-link');
       this.displayFriends = false;
       this.displayHome = true;
       this.displayProfile = false;
@@ -166,10 +188,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.displaySettings = false;
     } else if (selected === 'ROOMS') {
       this.linkRoom.classList.add('active-link');
+      this.linkRoomIcon.classList.add('active-link');
       this.linkHome.classList.remove('active-link');
       this.linkProfile.classList.remove('active-link');
       this.linkSettings.classList.remove('active-link');
       this.linkFriends.classList.remove('active-link');
+      this.linkHomeIcon.classList.remove('active-link');
+      this.linkProfileIcon.classList.remove('active-link');
+      this.linkSettingsIcon.classList.remove('active-link');
+      this.linkFriendsIcon.classList.remove('active-link');
       this.displayFriends = false;
       this.displayRooms = true;
       this.displayProfile = false;
@@ -177,10 +204,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.displaySettings = false;
     } else if (selected === 'PROFILE') {
       this.linkProfile.classList.add('active-link');
+      this.linkProfileIcon.classList.add('active-link');
       this.linkHome.classList.remove('active-link');
       this.linkRoom.classList.remove('active-link');
       this.linkSettings.classList.remove('active-link');
       this.linkFriends.classList.remove('active-link');
+      this.linkHomeIcon.classList.remove('active-link');
+      this.linkRoomIcon.classList.remove('active-link');
+      this.linkSettingsIcon.classList.remove('active-link');
+      this.linkFriendsIcon.classList.remove('active-link');
       this.displayFriends = false;
       this.displayProfile = true;
       this.displayHome = false;
@@ -188,10 +220,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.displaySettings = false;
     } else if (selected === 'FRIENDS') {
       this.linkFriends.classList.add('active-link');
+      this.linkFriendsIcon.classList.add('active-link');
       this.linkRoom.classList.remove('active-link');
       this.linkHome.classList.remove('active-link');
       this.linkProfile.classList.remove('active-link');
       this.linkSettings.classList.remove('active-link');
+      this.linkRoomIcon.classList.remove('active-link');
+      this.linkHomeIcon.classList.remove('active-link');
+      this.linkProfileIcon.classList.remove('active-link');
+      this.linkSettingsIcon.classList.remove('active-link');
       this.displayFriends = true;
       this.displayRooms = false;
       this.displayProfile = false;
@@ -199,10 +236,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.displaySettings = false;
     } else if (selected === 'SETTINGS') {
       this.linkSettings.classList.add('active-link');
+      this.linkSettingsIcon.classList.add('active-link');
       this.linkHome.classList.remove('active-link');
       this.linkRoom.classList.remove('active-link');
       this.linkProfile.classList.remove('active-link');
       this.linkFriends.classList.remove('active-link');
+      this.linkHomeIcon.classList.remove('active-link');
+      this.linkRoomIcon.classList.remove('active-link');
+      this.linkProfileIcon.classList.remove('active-link');
+      this.linkFriendsIcon.classList.remove('active-link');
       this.displayFriends = false;
       this.displayProfile = false;
       this.displayHome = false;

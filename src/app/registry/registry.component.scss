@@ -10,6 +10,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 1010px) {
+    animation: none;
+  }
 }
 
 .logo {
