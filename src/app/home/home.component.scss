@@ -1,3 +1,31 @@
+//BREAKPOINTS FOR RESPONSIVE DESIGN
+//GLOBAL
+$bp-superbig: 1010px;
+//NAVBAR
+$bp-nav-big: 960px;
+$bp-nav-mdm: 640px;
+$bp-nav-small: 520px;
+$bp-nav-smallest: 390px;
+//ROOMS CARDS
+$bp-card-big: 720px;
+$bp-card-mdm: 550px;
+$bp-card-small: 400px;
+//USER PROFILE
+$bp-prof-big: 670px;
+$bp-prof-mdm: 325px;
+//FRIENDS SECTION
+$bp-friend-big: 650px;
+$bp-friend-mdm: 450px;
+//SETTINGS SECTION
+$bp-setts-big: 775px;
+$bp-setts-mdm: 640px;
+$bp-setts-small: 445px;
+//HOME MAIN SECTION
+$bp-home-big: 910px;
+$bp-home-mdm: 800px;
+$bp-home-small: 660px;
+$bp-home-smallest: 450px;
+
 body {
   height: 100vh;
   background: linear-gradient(-45deg, #00306b, #0065e1, #00306b);
@@ -126,6 +154,11 @@ body {
   align-items: center;
   overflow: hidden;
 
+  @media screen and (max-width: $bp-superbig) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 75px 1fr;
+  }
+
   &__nav {
     grid-column: 1 / 2;
     height: 100%;
@@ -137,9 +170,27 @@ body {
     z-index: 100;
     background-color: rgba(255, 255, 255, 0.05);
 
+    @media screen and (max-width: $bp-superbig) {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      flex-direction: row;
+      justify-content: space-evenly;
+    }
+
     &__logo {
       width: 96px;
       padding: 24px 0 0 0;
+
+      @media screen and (max-width: $bp-superbig) {
+        padding: 0;
+        width: 48px;
+      }
+      @media screen and (max-width: $bp-nav-big) {
+        width: 24px;
+      }
+      @media screen and (max-width: $bp-nav-smallest) {
+        width: 18px;
+      }
     }
 
     &__links {
@@ -155,6 +206,28 @@ body {
       color: #ffffff;
       letter-spacing: 0.5px;
       font-size: 12px;
+
+      @media screen and (max-width: $bp-superbig) {
+        flex-direction: row;
+        width: 50%;
+        justify-content: space-between;
+      }
+
+      @media screen and (max-width: $bp-nav-big) {
+        letter-spacing: 0px;
+        font-size: 8px;
+      }
+      @media screen and (max-width: $bp-nav-mdm) {
+        width: 60%;
+      }
+      @media screen and (max-width: $bp-nav-small) {
+        width: 65%;
+        font-size: 6px;
+      }
+      @media screen and (max-width: $bp-nav-smallest) {
+        font-size: 4px;
+        width: 60%;
+      }
 
       &__home,
       &__chats,
@@ -177,6 +250,21 @@ body {
       opacity: 0.5;
       cursor: pointer;
       transition: all 0.1s;
+
+      @media screen and (max-width: $bp-superbig) {
+        position: relative;
+        bottom: 0;
+      }
+      @media screen and (max-width: $bp-nav-big) {
+        letter-spacing: 0px;
+        font-size: 10px;
+      }
+      @media screen and (max-width: $bp-nav-small) {
+        font-size: 8px;
+      }
+      @media screen and (max-width: $bp-nav-smallest) {
+        font-size: 6px;
+      }
 
       &:hover {
         opacity: 1;
@@ -203,6 +291,16 @@ body {
     justify-content: space-evenly;
     overflow: hidden;
 
+    @media screen and (max-width: $bp-superbig) {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      height: 95%;
+    }
+    @media screen and (max-width: $bp-home-mdm) {
+      padding: 20px;
+      align-items: center;
+    }
+
     &__title {
       text-transform: uppercase;
       color: #ffffff27;
@@ -212,6 +310,17 @@ body {
       width: max-content;
       opacity: 0;
       animation: sloganOp 1s linear 0.5s 1 forwards;
+
+      @media screen and (max-width: $bp-home-big) {
+        font-size: 112px;
+        letter-spacing: 3px;
+        z-index: 3000;
+      }
+      @media screen and (max-width: $bp-home-small) {
+        font-size: 13.2vw;
+        letter-spacing: 2px;
+        z-index: 3000;
+      }
 
       &::before {
         content: attr(data-text);
@@ -223,6 +332,16 @@ body {
         text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
         position: absolute;
         animation: resize 2s linear 1.5s 1 forwards;
+
+        @media screen and (max-width: $bp-home-big) {
+          letter-spacing: 3px;
+          z-index: 3000;
+        }
+        @media screen and (max-width: $bp-home-small) {
+          font-size: 13.2vw;
+          letter-spacing: 2px;
+          z-index: 3000;
+        }
       }
     }
 
@@ -233,6 +352,21 @@ body {
       color: rgb(40, 40, 40);
       opacity: 0;
       animation: sloganOp 1.5s linear 2.8s 1 forwards;
+
+      @media screen and (max-width: $bp-home-big) {
+        font-size: 61.5px;
+        width: 45vh;
+      }
+      @media screen and (max-width: $bp-home-mdm) {
+        text-align: center;
+        z-index: 3000;
+      }
+      @media screen and (max-width: $bp-home-small) {
+        font-size: 8.4vw;
+      }
+      @media screen and (max-width: $bp-home-smallest) {
+        width: 40vw;
+      }
     }
 
     &__logo {
@@ -243,6 +377,24 @@ body {
       right: 0;
       transform: translate(26%, 16.5%);
       animation: animLogo 1.3s linear 3.2s 1 forwards;
+
+      @media screen and (max-width: $bp-superbig) {
+        animation: none;
+        width: 60%;
+        top: unset;
+        bottom: -5%;
+        right: -5%;
+        opacity: 1;
+      }
+      @media screen and (max-width: $bp-home-mdm) {
+        bottom: unset;
+        right: unset;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2000;
+        opacity: 0.25;
+      }
     }
   }
 
@@ -261,6 +413,11 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
+    @media screen and (max-width: $bp-superbig) {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      height: 95%;
+    }
 
     &__selection {
       width: 100%;
@@ -268,6 +425,9 @@ body {
       display: flex;
       justify-content: space-evenly;
       align-items: center;
+      @media screen and (max-width: $bp-card-mdm) {
+        flex-direction: column;
+      }
 
       &__card {
         position: relative;
@@ -283,13 +443,27 @@ body {
         width: 25%;
         box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
         overflow: hidden;
+        @media screen and (max-width: $bp-superbig) {
+          width: 35%;
+        }
+        @media screen and (max-width: $bp-card-big) {
+          height: 50%;
+        }
+        @media screen and (max-width: $bp-card-mdm) {
+          height: 35%;
+          width: 70%;
+        }
+        @media screen and (max-width: $bp-card-small) {
+          height: 35%;
+          width: 70%;
+        }
 
         &::before {
           content: "";
           position: absolute;
           top: 0;
           left: 0;
-          width: 160%;
+          width: 250%;
           height: 100%;
           background-size: cover;
           background: linear-gradient(
@@ -308,7 +482,12 @@ body {
           width: 20%;
           opacity: 1;
           z-index: 100;
-          transition: all 0.2s;
+          @media screen and (max-width: $bp-card-big) {
+            width: 46px;
+          }
+          @media screen and (max-width: $bp-card-small) {
+            width: 36px;
+          }
         }
         &__header {
           font-size: 20px;
@@ -318,7 +497,12 @@ body {
           cursor: default;
           opacity: 1;
           z-index: 100;
-          transition: all 0.2s;
+          @media screen and (max-width: $bp-card-big) {
+            font-size: 16px;
+          }
+          @media screen and (max-width: $bp-card-small) {
+            font-size: 14px;
+          }
         }
         &__btn {
           width: 50%;
@@ -336,6 +520,12 @@ body {
           text-transform: uppercase;
           cursor: pointer;
           transition: all 0.2s;
+          @media screen and (max-width: $bp-card-big) {
+            font-size: 12px;
+          }
+          @media screen and (max-width: $bp-card-small) {
+            font-size: 10px;
+          }
 
           &:hover {
             letter-spacing: 1.6px;
@@ -363,6 +553,12 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    @media screen and (max-width: $bp-superbig) {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      height: 95%;
+      width: 95%;
+    }
 
     &__main {
       position: relative;
@@ -394,6 +590,10 @@ body {
 
         &__icon {
           width: 24px;
+
+          @media screen and (max-width: $bp-prof-big) {
+            width: 16px;
+          }
         }
       }
 
@@ -405,6 +605,12 @@ body {
         &__photo {
           width: 100px;
           margin-right: 3px;
+          @media screen and (max-width: $bp-prof-big) {
+            width: 75px;
+          }
+          @media screen and (max-width: $bp-prof-mdm) {
+            width: 70px;
+          }
         }
 
         &__text {
@@ -419,12 +625,24 @@ body {
             color: #ffffff;
             letter-spacing: 0.75px;
             font-size: 32px;
+            @media screen and (max-width: $bp-prof-big) {
+              font-size: 24px;
+            }
+            @media screen and (max-width: $bp-prof-mdm) {
+              font-size: 22px;
+            }
           }
           &__nac {
             font-weight: bold;
             color: #ffffff;
             letter-spacing: 0.25px;
             font-size: 16px;
+            @media screen and (max-width: $bp-prof-big) {
+              font-size: 12px;
+            }
+            @media screen and (max-width: $bp-prof-mdm) {
+              font-size: 10px;
+            }
           }
         }
       }
@@ -435,6 +653,12 @@ body {
         font-size: 18px;
         text-align: center;
         opacity: 0.8;
+        @media screen and (max-width: $bp-prof-big) {
+          font-size: 13.5px;
+        }
+        @media screen and (max-width: $bp-prof-mdm) {
+          font-size: 11.5px;
+        }
       }
 
       &__join {
@@ -443,6 +667,12 @@ body {
         font-size: 16px;
         text-align: center;
         opacity: 0.6;
+        @media screen and (max-width: $bp-prof-big) {
+          font-size: 12px;
+        }
+        @media screen and (max-width: $bp-prof-mdm) {
+          font-size: 10px;
+        }
       }
 
       &__form {
@@ -452,6 +682,13 @@ body {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        @media screen and (max-width: $bp-prof-big) {
+          width: 60%;
+        }
+        @media screen and (max-width: $bp-prof-mdm) {
+          width: 80%;
+        }
+
         &__input {
           font-size: 16px;
           padding: 6px 0 6px 6px;
@@ -461,6 +698,10 @@ body {
           box-shadow: 0 0.5px 2px #add2ff7e;
           color: #ffffffde;
           width: 100%;
+          @media screen and (max-width: $bp-prof-big) {
+            font-size: 12px;
+            padding: 4px 0 4px 4px;
+          }
 
           &::placeholder {
             color: rgba(255, 255, 255, 0.62);
@@ -482,6 +723,10 @@ body {
           border: none;
           outline: none;
           transition: all 0.1s;
+          @media screen and (max-width: $bp-prof-big) {
+            top: 4px;
+            right: 4px;
+          }
 
           &:active {
             transform: scale(0.9);
@@ -492,6 +737,9 @@ body {
             transform: rotateY(180deg);
             opacity: 0.62;
             transition: all 0.1s;
+            @media screen and (max-width: $bp-prof-big) {
+              width: 15px;
+            }
 
             &:hover {
               opacity: 1;
@@ -505,6 +753,9 @@ body {
           color: #e02727b4;
           width: 100%;
           margin-top: 3px;
+          @media screen and (max-width: $bp-prof-big) {
+            font-size: 12px;
+          }
         }
 
         &__added {
@@ -513,6 +764,9 @@ body {
           color: rgb(109, 221, 109);
           width: 100%;
           margin-top: 3px;
+          @media screen and (max-width: $bp-prof-big) {
+            font-size: 12px;
+          }
         }
       }
     }
@@ -531,6 +785,18 @@ body {
     display: grid;
     row-gap: 10px;
     grid-template-rows: 38px 1fr;
+    @media screen and (max-width: $bp-superbig) {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      height: 95%;
+      width: 95%;
+    }
+    @media screen and (max-width: $bp-friend-big) {
+      padding: 12px;
+    }
+    @media screen and (max-width: $bp-friend-mdm) {
+      row-gap: 0px;
+    }
 
     &__title {
       font-weight: bold;
@@ -540,6 +806,12 @@ body {
       grid-row: 1 / 2;
       width: 100%;
       text-align: start;
+      @media screen and (max-width: $bp-friend-big) {
+        text-align: center;
+      }
+      @media screen and (max-width: $bp-friend-mdm) {
+        font-size: 18px;
+      }
     }
 
     &__error {
@@ -552,6 +824,9 @@ body {
       color: #ffffff;
       letter-spacing: 0.25px;
       font-size: 18px;
+      @media screen and (max-width: $bp-friend-mdm) {
+        font-size: 12px;
+      }
     }
 
     &__container {
@@ -560,6 +835,13 @@ body {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-auto-rows: 34px;
+      overflow-y: scroll;
+      @media screen and (max-width: $bp-friend-big) {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+      }
 
       &__item {
         width: 100%;
@@ -569,6 +851,13 @@ body {
         align-items: center;
         align-self: center;
         justify-self: center;
+        @media screen and (max-width: $bp-friend-big) {
+          height: max-content;
+
+          &:not(:first-of-type) {
+            margin-top: 8px;
+          }
+        }
 
         &__delete {
           width: 20px;
@@ -576,6 +865,9 @@ body {
           opacity: 0.5;
           transition: all 0.2s;
           cursor: pointer;
+          @media screen and (max-width: $bp-friend-mdm) {
+            width: 16px;
+          }
           &:hover {
             opacity: 1;
           }
@@ -589,6 +881,9 @@ body {
           font-weight: bold;
           color: rgba(255, 255, 255, 1);
           font-size: 16px;
+          @media screen and (max-width: $bp-friend-mdm) {
+            font-size: 12px;
+          }
 
           &__state {
             text-transform: capitalize;
@@ -607,11 +902,20 @@ body {
     border-bottom: 1px solid #add2ff7e;
     border-radius: 12px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 10px;
     padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    @media screen and (max-width: $bp-superbig) {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      height: 95%;
+      width: 95%;
+      padding: 10px 20px;
+    }
+    @media screen and (max-width: $bp-setts-mdm) {
+      padding: 30px 20px;
+    }
 
     &__form {
       position: relative;
@@ -622,6 +926,12 @@ body {
       align-items: center;
       width: 100%;
       height: 100%;
+      @media screen and (max-width: $bp-superbig) {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+      }
 
       &__delete {
         font-size: 14px;
@@ -634,10 +944,21 @@ body {
         background-color: rgb(40, 40, 40);
         padding: 4px 12px;
         border-radius: 12px;
-
         text-align: center;
         cursor: pointer;
         transition: all 0.2s;
+
+        @media screen and (max-width: $bp-setts-big) {
+          top: 2px;
+          right: 2px;
+          font-size: 10px;
+          padding: 2px 6px;
+        }
+        @media screen and (max-width: $bp-setts-mdm) {
+          position: relative;
+          font-size: 8px;
+          margin-top: 6px;
+        }
 
         &:active {
           transform: scale(0.95);
@@ -654,6 +975,12 @@ body {
         letter-spacing: 1px;
         cursor: default;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.425);
+        @media screen and (max-width: $bp-setts-mdm) {
+          font-size: 24px;
+        }
+        @media screen and (max-width: $bp-setts-small) {
+          font-size: 20px;
+        }
       }
 
       &__group {
@@ -663,6 +990,10 @@ body {
         align-items: center;
         height: 100%;
         width: 80%;
+        @media screen and (max-width: $bp-superbig) {
+          margin-top: 6px;
+          height: fit-content;
+        }
 
         &__label {
           font-size: 16px;
@@ -672,6 +1003,9 @@ body {
           width: 100%;
           display: flex;
           justify-content: flex-start;
+          @media screen and (max-width: $bp-setts-mdm) {
+            font-size: 8px;
+          }
         }
 
         &__input {
@@ -684,6 +1018,10 @@ body {
           box-shadow: 0 0.5px 2px #add2ff7e;
           backdrop-filter: blur(8px);
           color: #ffffffde;
+
+          @media screen and (max-width: $bp-setts-mdm) {
+            font-size: 12px;
+          }
 
           &::placeholder {
             color: #ffffff9f;
@@ -708,6 +1046,9 @@ body {
             opacity: 0.4;
             transition: all 0.2s;
             cursor: pointer;
+            @media screen and (max-width: $bp-setts-mdm) {
+              width: 14px;
+            }
 
             &:hover {
               opacity: 0.7;
@@ -722,6 +1063,9 @@ body {
             opacity: 0.4;
             transition: all 0.2s;
             cursor: pointer;
+            @media screen and (max-width: $bp-setts-mdm) {
+              width: 14px;
+            }
 
             &:hover {
               opacity: 0.9;
@@ -737,6 +1081,9 @@ body {
           width: 100%;
           display: flex;
           justify-content: flex-start;
+          @media screen and (max-width: $bp-setts-mdm) {
+            font-size: 8px;
+          }
         }
       }
 
@@ -749,6 +1096,10 @@ body {
         align-items: center;
         width: 70%;
         height: 100%;
+        @media screen and (max-width: $bp-superbig) {
+          margin-top: 6px;
+          height: fit-content;
+        }
 
         &__label {
           font-size: 16px;
@@ -758,6 +1109,9 @@ body {
           width: 100%;
           display: flex;
           justify-content: flex-start;
+          @media screen and (max-width: $bp-setts-mdm) {
+            display: none;
+          }
         }
 
         &__imgs {
@@ -775,6 +1129,12 @@ body {
               width: 46px;
               opacity: 0.35;
               cursor: pointer;
+              @media screen and (max-width: $bp-setts-mdm) {
+                width: 32px;
+              }
+              @media screen and (max-width: $bp-setts-small) {
+                width: 18px;
+              }
             }
 
             &__pick {
@@ -795,7 +1155,11 @@ body {
         flex-direction: column;
         justify-content: flex-end;
         align-items: center;
-
+        @media screen and (max-width: $bp-superbig) {
+          margin-top: 6px;
+          height: fit-content;
+          justify-content: center;
+        }
         &__btn {
           width: 80%;
           padding: 12px 0;
@@ -810,6 +1174,9 @@ body {
           text-transform: uppercase;
           cursor: pointer;
           transition: all 0.2s;
+          @media screen and (max-width: $bp-setts-mdm) {
+            font-size: 12px;
+          }
 
           &:hover {
             letter-spacing: 3.6px;
@@ -828,6 +1195,12 @@ body {
           text-align: center;
           margin-bottom: 4px;
           opacity: 0;
+          @media screen and (max-width: $bp-setts-mdm) {
+            font-size: 8px;
+          }
+          @media screen and (max-width: $bp-setts-mdm) {
+            font-size: 4px;
+          }
         }
       }
     }
@@ -850,6 +1223,9 @@ body {
   align-self: end;
   grid-row: 4 / 5;
   grid-column: 1 / 2;
+  @media screen and (max-width: $bp-superbig) {
+    align-self: center;
+  }
 }
 #inputSix {
   grid-row: 3 / 4;

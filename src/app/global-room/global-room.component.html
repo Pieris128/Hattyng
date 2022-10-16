@@ -35,6 +35,11 @@
           <p
             class="room__chat__msgs__message__name"
             *ngIf="msgs[id].side === 'left'"
+            [class.nameRed]="nameRed"
+            [class.nameBlue]="nameBlue"
+            [class.namePurple]="namePurple"
+            [class.nameGreen]="nameGreen"
+            [class.nameOrange]="nameOrange"
           >
             {{ msgs[id].name }}
           </p>
