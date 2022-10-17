@@ -59,7 +59,8 @@ body {
   &__form {
     background-color: #add2ff4b;
     width: 40%;
-    height: 25%;
+    height: max-content;
+    padding: 12px 0;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -69,15 +70,12 @@ body {
     border-top: 1px solid #add2ff7e;
     @media screen and (max-width: $bp-big-modal) {
       width: 50%;
-      height: 20%;
     }
     @media screen and (max-width: $bp-mdm-modal) {
       width: 70%;
-      height: 20%;
     }
     @media screen and (max-width: $bp-small-modal) {
       width: 90%;
-      height: 20%;
     }
 
     &__group {
@@ -168,6 +166,7 @@ body {
       color: #b42222f2;
       font-weight: bold;
       letter-spacing: 1.2px;
+      margin: 12px 0 12px 0;
     }
   }
 }
