@@ -67,7 +67,6 @@ body {
     border-radius: 12px;
     border-bottom: 1px solid #add2ff7e;
     border-top: 1px solid #add2ff7e;
-    padding: 22px 0;
     @media screen and (max-width: $bp-big-modal) {
       width: 50%;
       height: 20%;
@@ -94,12 +93,18 @@ body {
         font-size: 18px;
         padding: 8px 0 8px 8px;
         width: 90%;
+        height: 38px;
         border: none;
         background-color: transparent;
         border-bottom: 1px solid #add2ff7e;
         box-shadow: 0 0.5px 2px #add2ff7e;
         backdrop-filter: blur(8px);
         color: #ffffffde;
+
+        @media screen and (max-width: $bp-small-modal) {
+          font-size: 14px;
+          height: 34px;
+        }
 
         &::placeholder {
           color: #ffffff9f;
@@ -120,6 +125,10 @@ body {
 
         @media screen and (max-width: $bp-mdm-modal) {
           right: 30px;
+        }
+        @media screen and (max-width: $bp-small-modal) {
+          width: 16px;
+          right: 27px;
         }
 
         &:hover {
@@ -180,6 +189,9 @@ body {
   @media screen and (max-width: $bp-superbig) {
     grid-template-columns: 1fr;
     grid-template-rows: 75px 1fr;
+    height: 100vh;
+    width: 100%;
+    border-radius: 0;
   }
 
   &__nav {

@@ -30,6 +30,11 @@ body {
   justify-items: center;
   align-items: center;
   overflow: hidden;
+  @media screen and (max-width: 1010px) {
+    height: 100vh;
+    width: 100%;
+    border-radius: 0;
+  }
 
   &__form {
     display: grid;

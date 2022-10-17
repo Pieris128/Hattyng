@@ -48,6 +48,12 @@ body {
   justify-content: center;
   align-items: center;
   animation: opacity 0.8s linear 1.2s 1 forwards;
+
+  @media screen and (max-width: 1010px) {
+    height: 100vh;
+    width: 100%;
+    border-radius: 0px;
+  }
 }
 
 .login {

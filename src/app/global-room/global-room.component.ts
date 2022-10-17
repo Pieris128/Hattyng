@@ -72,10 +72,10 @@ export class GlobalRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(private firebase: Firebase) {
     // USERS ON ROOM READING
-    onChildAdded(ref(this.firebase.database, 'rooms/global/users'), () => {
+    onChildAdded(ref(this.firebase.database, 'rooms/geek/users'), () => {
       this.getRoomList();
     });
-    onChildRemoved(ref(this.firebase.database, 'rooms/global/users'), () => {
+    onChildRemoved(ref(this.firebase.database, 'rooms/geek/users'), () => {
       this.getRoomList();
     });
   }
@@ -85,7 +85,7 @@ export class GlobalRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     let newMsg = await this.firebase.pushMsg(
-      'global',
+      'geek',
       this.userData.displayName,
       msg
     );
@@ -98,7 +98,7 @@ export class GlobalRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.textArea = document.querySelector('.room__chat__enter__input')!;
+    this.textArea = document.querySelector('.room__chat__form__enter__input')!;
     this.focusSub = this.msgDiv.changes.subscribe(() => {
       if (this.msgDiv && this.msgDiv.last) {
         this.msgDiv.last.nativeElement.focus();
@@ -108,19 +108,17 @@ export class GlobalRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.firebase.removeRoomUsersList('global', this.user.name);
+    this.firebase.removeRoomUsersList('geek', this.user.name);
     this.focusSub.unsubscribe();
     if (this.usersNames.length === 1) {
-      this.firebase.removeRoomMsgs('global');
+      this.firebase.removeRoomMsgs('geek');
     }
-    off(
-      query(ref(this.firebase.database, 'rooms/global/msgs'), limitToLast(1))
-    );
-    off(ref(this.firebase.database, 'rooms/global/users'));
+    off(query(ref(this.firebase.database, 'rooms/geek/msgs'), limitToLast(1)));
+    off(ref(this.firebase.database, 'rooms/geek/users'));
   }
 
   async getRoomList() {
-    this.totalUsers = await this.firebase.getRoomUsersList('global');
+    this.totalUsers = await this.firebase.getRoomUsersList('geek');
 
     this.usersNames = Object.keys(this.totalUsers);
   }
@@ -133,13 +131,13 @@ export class GlobalRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         this.user.img = this.userData.profile_picture;
 
         await this.firebase.writeRoomUsersList(
-          'global',
+          'geek',
           this.user.name,
           this.user.img
         );
         this.getRoomList();
         this.initChatRoom();
-        this.firebase.writeStatus('Global Room', this.userData.username);
+        this.firebase.writeStatus('Geek Room', this.userData.username);
 
         if (this.userData.displayName === this.usersNames[0]) {
           this.nameRed = true;
@@ -160,7 +158,7 @@ export class GlobalRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   initChatRoom() {
     let doShift = true;
     onValue(
-      query(ref(this.firebase.database, 'rooms/global/msgs')),
+      query(ref(this.firebase.database, 'rooms/geek/msgs')),
       (snapshot) => {
         if (!snapshot.val()) {
           doShift = false;
@@ -170,7 +168,7 @@ export class GlobalRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     );
 
     onChildAdded(
-      query(ref(this.firebase.database, 'rooms/global/msgs'), limitToLast(1)),
+      query(ref(this.firebase.database, 'rooms/geek/msgs'), limitToLast(1)),
       (snapshot) => {
         let msgObject: { name: string; msg: string; side: string } =
           snapshot.toJSON() as {
@@ -214,7 +212,7 @@ export class GlobalRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   onCloseWindow() {
     this.firebase.writeStatus('offline', this.userData.displayName);
     if (this.usersNames.length === 1) {
-      this.firebase.removeRoomMsgs('global');
+      this.firebase.removeRoomMsgs('geek');
     }
   }
 }

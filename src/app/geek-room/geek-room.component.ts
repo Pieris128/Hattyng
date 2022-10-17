@@ -98,7 +98,7 @@ export class GeekRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.textArea = document.querySelector('.room__chat__enter__input')!;
+    this.textArea = document.querySelector('.room__chat__form__enter__input')!;
     this.focusSub = this.msgDiv.changes.subscribe(() => {
       if (this.msgDiv && this.msgDiv.last) {
         this.msgDiv.last.nativeElement.focus();
